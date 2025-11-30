@@ -1,0 +1,151 @@
+[gd_scene load_steps=24 format=3 uid="uid://bww4b82dq6g08"]
+
+[ext_resource type="Shader" uid="uid://bi2wtknn4vmp0" path="res://VFX/Shader/S_Head_Fioka.tres" id="1_l3iir"]
+[ext_resource type="ArrayMesh" uid="uid://blc7a7gsw4smb" path="res://VFX/Mesh/Mesh_Fiolka.obj" id="2_udc1m"]
+[ext_resource type="Shader" uid="uid://d1nvvo07l5vkb" path="res://VFX/Shader/S_Inside_Fiolka.tres" id="3_5bdwq"]
+[ext_resource type="Material" uid="uid://biyvq1g0lmxkj" path="res://VFX/Material/M_Trail.tres" id="4_8tawc"]
+[ext_resource type="Script" uid="uid://drliyberfyjsa" path="res://VFX/Trail3D.gd" id="5_33ltq"]
+[ext_resource type="Material" uid="uid://dmjxq2j5hx4vu" path="res://VFX/Material/M_Explosive_Cloud.tres" id="6_mbj7d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y6okl"]
+render_priority = 1
+shader = ExtResource("1_l3iir")
+shader_parameter/Projectile_Color = Color(0.56078434, 0.23921569, 0.3647059, 1)
+shader_parameter/Speed = Vector2(0.1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6pfwv"]
+render_priority = 0
+shader = ExtResource("3_5bdwq")
+shader_parameter/Inside_Color = Color(0.7435538, 0.51359266, 0.5696665, 1)
+shader_parameter/FloatParameter = 0.7010000332975
+
+[sub_resource type="QuadMesh" id="QuadMesh_qi58o"]
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_3ptjo"]
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_l3iir"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_xkokr"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_c58vg"]
+size = Vector2(10, 10)
+
+[sub_resource type="Curve" id="Curve_07ueg"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.4181035, 0), 0.0, 0.0, 0, 0, Vector2(0.898707, 1), 4.7151413, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_0wfjv"]
+texture_mode = 1
+curve = SubResource("Curve_07ueg")
+
+[sub_resource type="Gradient" id="Gradient_1jk53"]
+offsets = PackedFloat32Array(0.27230048, 0.5093897)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_o43on"]
+gradient = SubResource("Gradient_1jk53")
+
+[sub_resource type="Curve" id="Curve_5jh4u"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.3383621, 0.38603693), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ye00c"]
+curve = SubResource("Curve_5jh4u")
+
+[sub_resource type="Curve" id="Curve_hx8nk"]
+_data = [Vector2(0, 0.21586233), 0.0, 2.4631326, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_rvau7"]
+curve = SubResource("Curve_hx8nk")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lsmuu"]
+emission_shape = 1
+emission_sphere_radius = 0.2
+radial_velocity_min = 6.4999776
+radial_velocity_max = 7.4999776
+radial_velocity_curve = SubResource("CurveTexture_ye00c")
+gravity = Vector3(0, 0, 0)
+scale_min = 1.6999999
+scale_max = 1.8
+scale_curve = SubResource("CurveTexture_rvau7")
+color_ramp = SubResource("GradientTexture1D_o43on")
+alpha_curve = SubResource("CurveTexture_0wfjv")
+
+[sub_resource type="SphereMesh" id="SphereMesh_l3iir"]
+
+[node name="Scene" type="Node3D"]
+
+[node name="Potion_VFX" type="Node3D" parent="."]
+transform = Transform3D(0.99961203, 0.027851848, 0, -0.027851848, 0.99961203, 0, 0, 0, 1, 0.24251604, 0.60846376, 6.3884335)
+
+[node name="MeshFiolka" type="MeshInstance3D" parent="Potion_VFX"]
+material_override = SubResource("ShaderMaterial_y6okl")
+mesh = ExtResource("2_udc1m")
+skeleton = NodePath("../..")
+
+[node name="MeshFiolka2" type="MeshInstance3D" parent="Potion_VFX"]
+transform = Transform3D(0.93, 0, 0, 0, 0.93, 0, 0, 0, 0.93, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_6pfwv")
+mesh = ExtResource("2_udc1m")
+skeleton = NodePath("../..")
+
+[node name="Mesh_Trail" type="MeshInstance3D" parent="Potion_VFX"]
+transform = Transform3D(7.9466877, 0, 0, 0, 3.6545818, 0, 0, 0, 1, -4.716115, 0.7990947, 0)
+visible = false
+material_override = ExtResource("4_8tawc")
+mesh = SubResource("QuadMesh_qi58o")
+skeleton = NodePath("../..")
+
+[node name="Mesh_Trail2" type="MeshInstance3D" parent="Potion_VFX"]
+transform = Transform3D(7.9466877, 0, 0, 0, -1.5974685e-07, -1.0000001, 0, 3.6545818, -4.3711392e-08, -4.716115, 0.7990947, 0)
+visible = false
+material_override = ExtResource("4_8tawc")
+mesh = SubResource("QuadMesh_qi58o")
+skeleton = NodePath("../..")
+
+[node name="Trail3D" type="MeshInstance3D" parent="Potion_VFX"]
+transform = Transform3D(-4.3711385e-08, 0, -0.99999994, 0, 0.9999999, 0, 0.99999994, 0, -4.3711385e-08, -0.6390845, 0.34799027, 4.7683716e-07)
+material_override = ExtResource("4_8tawc")
+mesh = SubResource("ImmediateMesh_3ptjo")
+skeleton = NodePath("../..")
+script = ExtResource("5_33ltq")
+fromWidth = 2.0
+toWidth = 2.0
+lifespan = 0.3
+startColor = Color(0.89038974, 0.48057806, 0.6894014, 1)
+endColor = Color(0.8596341, 0.5045135, 0.43080693, 0)
+
+[node name="Trail3D2" type="MeshInstance3D" parent="Potion_VFX"]
+transform = Transform3D(0.0034906513, 4.3558803e-08, -0.9999938, 0.99999386, -4.371112e-08, 0.003490651, -4.3558803e-08, -0.9999999, -4.371112e-08, -0.6390846, 0.34799027, 4.7683716e-07)
+material_override = ExtResource("4_8tawc")
+mesh = SubResource("ImmediateMesh_l3iir")
+skeleton = NodePath("../..")
+script = ExtResource("5_33ltq")
+fromWidth = 2.0
+toWidth = 2.0
+lifespan = 0.3
+startColor = Color(0.89038974, 0.48057806, 0.6894014, 1)
+endColor = Color(0.8596341, 0.5045135, 0.43080693, 0)
+
+[node name="Explodion_VFX" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13003993, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Explodion_VFX"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7843325, 2.715567, -8.322691)
+material_override = ExtResource("6_mbj7d")
+mesh = SubResource("SphereMesh_xkokr")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Explodion_VFX"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3952016, -5.056615)
+mesh = SubResource("PlaneMesh_c58vg")
+skeleton = NodePath("../GPUParticles3D")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Explodion_VFX"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7340736, -4.9997377)
+material_override = ExtResource("6_mbj7d")
+lifetime = 0.6
+explosiveness = 0.8
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_lsmuu")
+draw_pass_1 = SubResource("SphereMesh_l3iir")
