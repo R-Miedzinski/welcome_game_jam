@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://do0mw5ytw15tt"]
+
+[ext_resource type="Script" uid="uid://h67wey6fxtj0" path="res://level/controller.gd" id="1_ktfr2"]
+[ext_resource type="PackedScene" uid="uid://bostfcayxsgij" path="res://grid/grid.tscn" id="1_vkbyq"]
+[ext_resource type="PackedScene" uid="uid://rdowjr2xkke7" path="res://tower/tower.tscn" id="2_5gx2l"]
+[ext_resource type="Script" uid="uid://bqy1elcw7p7r6" path="res://level/spawners_controller.gd" id="2_qohg2"]
+[ext_resource type="Script" uid="uid://g4t4w3ma75j8" path="res://level/enemies_controller.gd" id="5_44x8d"]
+
+[node name="Level" type="Node3D"]
+
+[node name="Controller" type="Node" parent="."]
+script = ExtResource("1_ktfr2")
+
+[node name="Grid" parent="." instance=ExtResource("1_vkbyq")]
+unique_name_in_owner = true
+grid_size = Vector2i(4, 8)
+
+[node name="Tower" parent="." instance=ExtResource("2_5gx2l")]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -1, 2.5, 0)
+
+[node name="Spawners" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0)
+script = ExtResource("2_qohg2")
+
+[node name="Enemies" type="Node3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("5_44x8d")
+
+[connection signal="is_initialized" from="Grid" to="Spawners" method="_initialize_spawners"]
+[connection signal="spawn_enemy" from="Spawners" to="Enemies" method="_on_spawners_spawn_enemy"]
