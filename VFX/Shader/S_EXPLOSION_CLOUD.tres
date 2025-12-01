@@ -29,12 +29,12 @@ linked_parent_graph_frame = 17
 texture = ExtResource("1_hacnq")
 
 [sub_resource type="VisualShaderNodeFrame" id="VisualShaderNodeFrame_14pdx"]
-size = Vector2(1029, 732)
+size = Vector2(1029, 731.99994)
 title = "Albedo"
 attached_nodes = PackedInt32Array(2, 3)
 
 [sub_resource type="VisualShaderNodeFrame" id="VisualShaderNodeFrame_0xaxo"]
-size = Vector2(1449, 1983.0002)
+size = Vector2(1449, 1983)
 title = "Emission"
 attached_nodes = PackedInt32Array(4, 11, 8, 9, 19, 6, 5)
 
@@ -42,7 +42,7 @@ attached_nodes = PackedInt32Array(4, 11, 8, 9, 19, 6, 5)
 linked_parent_graph_frame = 17
 
 [sub_resource type="VisualShaderNodeFrame" id="VisualShaderNodeFrame_vfruj"]
-size = Vector2(1191, 1016.0005)
+size = Vector2(1191, 1016)
 title = "Alpha"
 attached_nodes = PackedInt32Array(15, 19, 12, 18, 21)
 
@@ -68,7 +68,7 @@ operator = 2
 linked_parent_graph_frame = 17
 
 [sub_resource type="Gradient" id="Gradient_nx1ia"]
-offsets = PackedFloat32Array(0.14942528, 0.90804595)
+offsets = PackedFloat32Array(0.197318, 0.90804595)
 colors = PackedColorArray(0.13910261, 0.07625779, 0.04573989, 1, 0.85673445, 0.8077384, 0.7737271, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_mvfl6"]
@@ -83,7 +83,7 @@ texture = SubResource("GradientTexture1D_mvfl6")
 linked_parent_graph_frame = 14
 parameter_name = "Expolsion_Color"
 default_value_enabled = true
-default_value = Color(1, 0.3019608, 0.21568628, 1)
+default_value = Color(0.7328802, 0.07350836, 1.540184e-06, 1)
 
 [sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_vus63"]
 linked_parent_graph_frame = 14
@@ -148,7 +148,7 @@ uniform sampler2D tex_frg_2;
 uniform sampler2D tex_frg_3;
 uniform sampler2D tex_frg_12;
 uniform sampler2D depth_tex_frg_21 : hint_depth_texture;
-uniform vec4 Expolsion_Color : source_color = vec4(1.000000, 0.301961, 0.215686, 1.000000);
+uniform vec4 Expolsion_Color : source_color = vec4(0.732880, 0.073508, 0.000002, 1.000000);
 uniform sampler2D tex_frg_11 : source_color;
 
 
@@ -236,7 +236,7 @@ void fragment() {
 	float n_in21p0 = 1.00000;
 	{
 		float __depth_tex = texture(depth_tex_frg_21, SCREEN_UV).r;
-		vec4 __depth_world_pos = INV_PROJECTION_MATRIX * vec4(vec3(SCREEN_UV, __depth_tex) * 2.0 - 1.0, 1.0);
+		vec4 __depth_world_pos = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, __depth_tex, 1.0);
 		__depth_world_pos.xyz /= __depth_world_pos.w;
 		n_out21p0 = clamp(1.0 - smoothstep(__depth_world_pos.z + n_in21p0, __depth_world_pos.z, VERTEX.z), 0.0, 1.0);
 	}
