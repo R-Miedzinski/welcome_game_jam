@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bostfcayxsgij"]
+
+[ext_resource type="MeshLibrary" uid="uid://cbwfatlglcexe" path="res://grid/test_mesh_library.tres" id="1_ppiwg"]
+[ext_resource type="Script" uid="uid://ba37cno3n7hdx" path="res://grid/grid_controller.gd" id="2_y3jnv"]
+
+[node name="Grid" type="Node3D"]
+script = ExtResource("2_y3jnv")
+
+[node name="GridMap" type="GridMap" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+mesh_library = ExtResource("1_ppiwg")
+cell_size = Vector3(1, 1, 1)
