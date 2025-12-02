@@ -1,10 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://babgruja3nqya"]
+[gd_scene load_steps=6 format=3 uid="uid://babgruja3nqya"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_20y4x"]
+albedo_color = Color(0.35686275, 1, 0.2, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_20y4x"]
-size = Vector2(1, 1)
+material = SubResource("StandardMaterial3D_20y4x")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mdbjl"]
 size = Vector3(1, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mdbjl"]
+albedo_color = Color(0.4862745, 1, 0.3647059, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_td5ln"]
+material = SubResource("StandardMaterial3D_mdbjl")
 
 [node name="Node3D" type="Node3D"]
 
@@ -15,5 +24,15 @@ mesh = SubResource("PlaneMesh_20y4x")
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("BoxShape3D_mdbjl")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 0)
+mesh = SubResource("PlaneMesh_td5ln")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 shape = SubResource("BoxShape3D_mdbjl")

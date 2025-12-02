@@ -13,7 +13,8 @@ script = ExtResource("1_ktfr2")
 
 [node name="Grid" parent="." instance=ExtResource("1_vkbyq")]
 unique_name_in_owner = true
-grid_size = Vector2i(4, 8)
+grid_size = Vector2i(4, 6)
+tick_duration = 0.05
 
 [node name="Tower" parent="." instance=ExtResource("2_5gx2l")]
 unique_name_in_owner = true
@@ -28,5 +29,7 @@ script = ExtResource("2_qohg2")
 unique_name_in_owner = true
 script = ExtResource("5_44x8d")
 
-[connection signal="is_initialized" from="Grid" to="Spawners" method="_initialize_spawners"]
+[connection signal="effect_tick" from="Grid" to="Enemies" method="_on_effect_tick"]
+[connection signal="grid_is_initialized" from="Grid" to="Spawners" method="_initialize_spawners"]
+[connection signal="shoot_potion" from="Tower" to="Grid" method="_on_potion_thrown"]
 [connection signal="spawn_enemy" from="Spawners" to="Enemies" method="_on_spawners_spawn_enemy"]

@@ -26,3 +26,7 @@ mesh = SubResource("CylinderMesh_758mn")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 3, 0)
 modulate = Color(0, 0, 0, 1)
 text = "HP"
+
+[node name="ThrowOrigin" type="Marker3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, 0)

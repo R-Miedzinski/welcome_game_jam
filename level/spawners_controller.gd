@@ -10,7 +10,6 @@ signal spawn_enemy(position: Vector2i, enemy_scene: PackedScene, modifier: Dicti
 func spawn_enemy_at_random() -> void:
     var row_index = randi() % self.grid_size.x
     var enemy_scene: PackedScene = preload("res://enemies/base_enemy/base_enemy.tscn")
-    print("Spawned enemy at row %d" % row_index)
     emit_signal("spawn_enemy", Vector2i(row_index, self.grid_size.y), enemy_scene, {})
 
 func _initialize_spawners(_grid_size: Vector2i, _tile_size: float) -> void:
