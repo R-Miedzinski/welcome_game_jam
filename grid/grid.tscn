@@ -11,3 +11,8 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
 mesh_library = ExtResource("1_ppiwg")
 cell_size = Vector3(1, 1, 1)
+
+[node name="EffectsTick" type="Timer" parent="."]
+unique_name_in_owner = true
+
+[connection signal="timeout" from="EffectsTick" to="." method="_on_effect_tick"]

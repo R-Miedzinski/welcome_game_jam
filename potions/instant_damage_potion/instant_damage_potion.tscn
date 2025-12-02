@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://36jfsrrm5sth"]
+
+[ext_resource type="Script" uid="uid://bvfeagdxfxsvb" path="res://potions/instant_damage_potion/instant_damage_potion.gd" id="1_1iju0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dnv7w"]
+albedo_color = Color(0.23921569, 0.6627451, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_1iju0"]
+material = SubResource("StandardMaterial3D_dnv7w")
+radius = 0.2
+height = 0.4
+
+[node name="InstantDamagePotion" type="Node3D"]
+script = ExtResource("1_1iju0")
+duration = 0.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_1iju0")
