@@ -1,10 +1,10 @@
 extends Node
 
 @onready var level_scene: Node3D = %Level
-@onready var grid_controller: GridController = level_scene.get_node("%Grid")
-@onready var enemies_controller: EnemiesController = level_scene.get_node("%Enemies")
-@onready var tower_controller: TowerController = level_scene.get_node("%Tower")
-@onready var camera: Camera3D = level_scene.get_node("%MainCamera")
+@onready var grid_controller: GridController = self.level_scene.get_node("%Grid")
+@onready var enemies_controller: EnemiesController = self.level_scene.get_node("%Enemies")
+@onready var tower_controller: TowerController = self.level_scene.get_node("%Tower")
+@onready var camera: Camera3D = self.level_scene.get_node("%MainCamera")
 
 var last_highlighted_tile: Vector2i = Vector2i(-1, -1)
 
@@ -34,7 +34,6 @@ func handle_mouse_in_game_viewport(mouse_pos: Vector2) -> void:
     self.grid_controller.highlight_tile(tile_coords)
 
   if Input.is_action_just_pressed("grid_interact"):
-    # print("Interacted with tile at coordinates: %s" % tile_coords)
     if tile_coords.x != -1 and tile_coords.y != -1:
       self.tower_controller.shoot(tile_coords)
 
@@ -73,3 +72,10 @@ func get_tile_under_mouse(mouse_pos: Vector2) -> Vector2i:
 func handle_mouse_in_brewing_viewport(mouse_pos: Vector2) -> void:
   # print("Mouse in brewing viewport at position: %s" % mouse_pos)
   pass
+
+func _ready() -> void:
+  self.tower_controller.connect("tower_destroyed", self._on_tower_destroyed)
+
+func _on_tower_destroyed() -> void:
+  print("Game Over! The tower has been destroyed.")
+  self.get_node("%UI").get_tree().paused = true

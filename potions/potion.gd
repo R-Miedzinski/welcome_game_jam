@@ -5,8 +5,9 @@ extends Node3D
 @export var solid_components: Array = []
 @export var effects: Array[Effect] = []
 @export var size: int = 1
-@export var duration: float = 0.0
+@export var duration: float = 1.0
 
+# TODO: Needs effects check methods for displays
 func brew() -> Potion:
     var new_potion: Potion = Potion.new()
     new_potion.size = self.size

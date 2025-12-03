@@ -13,17 +13,11 @@ func apply(potion: Potion) -> void:
   if !self.is_liquid:
     potion.duration += self.duration_modifier
     potion.size += self.range_modifier
+    # TODO: potency modifiers?
     # for effect in potion.effects:
     #   effect.value *= self.potency_modifier
   else:
-    potion.effects += self.effects.duplicate(true)
-
-# func remove(potion: Potion, liquid: bool) -> void:
-#   if !liquid:
-#     potion.duration -= self.duration_modifier
-#     potion.size -= self.range_modifier
-#     for effect in potion.effects:
-#       effect.value /= self.potency_modifier
-#   else:
-#     for effect in self.effects:
-#       potion.effects.erase(effect)
+    for effect in self.effects:
+      var effect_copy = effect.duplicate_deep()
+      effect_copy.id = str(randi())
+      potion.effects.append(effect_copy)
