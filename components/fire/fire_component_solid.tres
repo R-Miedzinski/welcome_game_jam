@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Component" load_steps=4 format=3 uid="uid://bhcvasfp8atau"]
+
+[ext_resource type="Script" uid="uid://c82ufwssxooa" path="res://effects/effect.gd" id="1_08ei3"]
+[ext_resource type="Script" uid="uid://cxr60ckw2fij3" path="res://components/component.gd" id="2_1j01j"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_bvdgi"]
+size = Vector2(60, 100)
+
+[resource]
+script = ExtResource("2_1j01j")
+name = "Fire"
+texture = SubResource("PlaceholderTexture2D_bvdgi")
+is_liquid = false
+duration_modifier = 1.0
+metadata/_custom_type_script = "uid://cxr60ckw2fij3"

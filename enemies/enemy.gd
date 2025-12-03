@@ -2,7 +2,8 @@
 extends AnimatableBody3D
 
 @export var speed: int = 1
-@export var health: int = 100
+@export var max_health: int = 100
+var health: int = 100
 @export var damage: int = 10
 
 @export var dimensions: Vector3 = Vector3(1, 1, 1)
@@ -13,6 +14,7 @@ var idx_in_position: int = 0
 @export var is_moving: bool = false
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var hp_label: Label3D = %HPLabel
 
 signal deal_damage(damage: int)
 signal enemy_defeated(position_in_grid: Vector2i, idx: int)
@@ -33,6 +35,10 @@ func move(new_position: Vector2i, tile_width: float) -> void:
     tween.finished.connect(
       _move_completed
     )
+
+func _ready() -> void:
+  self.health = self.max_health
+  hp_label.text = "HP: %d / %d" % [self.health, self.max_health]
 
 func _move_completed() -> void:
   self.is_moving = false

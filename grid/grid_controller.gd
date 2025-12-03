@@ -72,7 +72,10 @@ func _on_potion_thrown(potion: Potion, tile_coord: Vector2i, origin: Vector3) ->
     )
 
     var tween = get_tree().create_tween()
-    tween.tween_property(potion_instance, "position", target_position + Vector3(0, 1.0, 0), 0.5)
+    var animation_time: float = min(0.7, 0.2 * (tile_coord.y + 1))
+    var end_point = target_position + Vector3(0, 1.0, 0)
+    # I would love for the trajectory to be more parabolic
+    tween.tween_property(potion_instance, "position", end_point, animation_time)
 
     tween.finished.connect(
       func() -> void:
