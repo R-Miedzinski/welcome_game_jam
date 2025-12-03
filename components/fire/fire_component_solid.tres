@@ -1,15 +1,23 @@
-[gd_resource type="Resource" script_class="Component" load_steps=4 format=3 uid="uid://bhcvasfp8atau"]
+[gd_resource type="Resource" script_class="Component" load_steps=5 format=3 uid="uid://bhcvasfp8atau"]
 
 [ext_resource type="Script" uid="uid://c82ufwssxooa" path="res://effects/effect.gd" id="1_08ei3"]
 [ext_resource type="Script" uid="uid://cxr60ckw2fij3" path="res://components/component.gd" id="2_1j01j"]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_bvdgi"]
-size = Vector2(60, 100)
+[sub_resource type="Gradient" id="Gradient_08ei3"]
+offsets = PackedFloat32Array(0, 0.6875, 1)
+colors = PackedColorArray(0.70980394, 0.22745098, 0, 1, 0.9254902, 0.7019608, 0.4509804, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+metadata/_snap_count = 16
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1j01j"]
+gradient = SubResource("Gradient_08ei3")
+fill = 2
+fill_from = Vector2(0.5, 0.5)
 
 [resource]
 script = ExtResource("2_1j01j")
 name = "Fire"
-texture = SubResource("PlaceholderTexture2D_bvdgi")
+texture = SubResource("GradientTexture2D_1j01j")
 is_liquid = false
-duration_modifier = 1.0
+range_modifier = 1
 metadata/_custom_type_script = "uid://cxr60ckw2fij3"

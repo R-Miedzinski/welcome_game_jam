@@ -1,17 +1,11 @@
 class_name Conveyor
 extends ColorRect
 
-@export var time_per_component: float = 3.0
-@export var capacity: int = 10
+@export var time_per_component: float = Constants.COMPONENT_SPAWN_INTERVAL
+@export var capacity: int = Constants.CONVEYOR_CAPACITY
 var is_cauldron_full: bool = false
 
 var components: Array[Component] = []
-var available_components_liquid: Array[Component] = [
-  preload("res://components/fire/fire_component_liquid.tres"),
-]
-var available_components_solid: Array[Component] = [
-  preload("res://components/fire/fire_component_solid.tres"),
-]
 var component_scene: PackedScene = preload("res://components/component.tscn")
 
 var random_number_generator: RandomNumberGenerator = RandomNumberGenerator.new()
@@ -19,7 +13,6 @@ var random_number_generator: RandomNumberGenerator = RandomNumberGenerator.new()
 @onready var conveyor_components: FlowContainer = %ConveyorComponents
 @onready var component_timer: Timer = %ComponentTimer
 @onready var till_component: Label = $Label
-
 
 signal component_added(component: Component)
 
@@ -51,16 +44,16 @@ func _on_spawn_component_timeout() -> void:
     self.component_timer.stop()
     return
 
-  var draw_solid: bool = self.random_number_generator.randi() % 3 == 0
+  var draw_solid: bool = self.random_number_generator.randi() % Constants.SOLID_FACTOR == 0
   var component_idx: int = -1
   var component: Component = null
 
-  if draw_solid and self.available_components_solid.size() > 0:
-    component_idx = self.random_number_generator.randi() % self.available_components_solid.size()
-    component = self.available_components_solid[component_idx]
-  elif self.available_components_liquid.size() > 0:
-    component_idx = self.random_number_generator.randi() % self.available_components_liquid.size()
-    component = self.available_components_liquid[component_idx]
+  if draw_solid and Preloads.AVAILABLE_SOLID_COMPONENTS.size() > 0:
+    component_idx = self.random_number_generator.randi() % Preloads.AVAILABLE_SOLID_COMPONENTS.size()
+    component = Preloads.AVAILABLE_SOLID_COMPONENTS[component_idx]
+  elif Preloads.AVAILABLE_LIQUID_COMPONENTS.size() > 0:
+    component_idx = self.random_number_generator.randi() % Preloads.AVAILABLE_LIQUID_COMPONENTS.size()
+    component = Preloads.AVAILABLE_LIQUID_COMPONENTS[component_idx]
 
   if component != null:
     self.components.append(component)

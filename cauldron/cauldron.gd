@@ -1,6 +1,6 @@
 extends ColorRect
 
-@export var max_components: int = 5
+@export var max_components: int = Constants.CAULDRON_CAPACITY
 
 var potion_scene: PackedScene = preload("res://potions/potion.tscn")
 var current_potion: Potion = null
@@ -32,6 +32,7 @@ func reset() -> void:
 func write_message(text: String, value) -> String:
     return "%s: %s" % [text, str(value)]
 
+# TODO: Update to show actual effect values
 func fill_labels(potion: Potion) -> void:
     self.dot_label.text = self.write_message("DOT", 0)
     self.dot_g_label.text = self.write_message("DOT Ground", 0)

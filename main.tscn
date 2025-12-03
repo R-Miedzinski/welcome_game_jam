@@ -75,7 +75,6 @@ size_flags_vertical = 3
 
 [node name="Conveyor" parent="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer" instance=ExtResource("4_1bvp3")]
 layout_mode = 2
-time_per_component = 3.0
 
 [node name="Cauldron" parent="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer" instance=ExtResource("5_lquwl")]
 layout_mode = 2

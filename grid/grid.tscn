@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://bostfcayxsgij"]
+[gd_scene load_steps=5 format=3 uid="uid://bostfcayxsgij"]
 
 [ext_resource type="MeshLibrary" uid="uid://cbwfatlglcexe" path="res://grid/test_mesh_library.tres" id="1_ppiwg"]
 [ext_resource type="Script" uid="uid://ba37cno3n7hdx" path="res://grid/grid_controller.gd" id="2_y3jnv"]
 [ext_resource type="PackedScene" uid="uid://cuqoj5kr8ehyq" path="res://grid/grid_grass/grid_grass_flowers.glb" id="3_y3jnv"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_y3jnv"]
 
 [node name="Grid" type="Node3D"]
 script = ExtResource("2_y3jnv")
@@ -16,7 +18,17 @@ cell_size = Vector3(1, 1, 1)
 [node name="grid_grass_flowers" parent="GridMap" instance=ExtResource("3_y3jnv")]
 transform = Transform3D(-4.371139e-09, 0, 0.1, 0, 0.1, 0, -0.1, 0, -4.371139e-09, 3.5, 0.5, 5.5)
 
+[node name="EndGridCollider" type="Area3D" parent="GridMap"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+collision_layer = 2
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GridMap/EndGridCollider"]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_y3jnv")
+
 [node name="EffectsTick" type="Timer" parent="."]
 unique_name_in_owner = true
 
+[connection signal="body_entered" from="GridMap/EndGridCollider" to="." method="_on_barrier_collided"]
 [connection signal="timeout" from="EffectsTick" to="." method="_on_effect_tick"]

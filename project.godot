@@ -15,6 +15,11 @@ run/main_scene="uid://pdaaoidt2yye"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Constants="*res://constants.gd"
+Preloads="*res://preloads.gd"
+
 [input]
 
 grid_interact={
