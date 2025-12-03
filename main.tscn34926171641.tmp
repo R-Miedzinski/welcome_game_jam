@@ -1,10 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://pdaaoidt2yye"]
+[gd_scene load_steps=5 format=3 uid="uid://pdaaoidt2yye"]
 
 [ext_resource type="PackedScene" uid="uid://cdgtrm0yilnrn" path="res://ui/ui.tscn" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://do0mw5ytw15tt" path="res://level/level.tscn" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://weu5gfxeyjxt" path="res://controller.gd" id="2_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://b4mysbhjv2bij" path="res://conveyor/conveyor.tscn" id="4_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://b6l6x8jcjo1w3" path="res://cauldron/cauldron.tscn" id="5_lquwl"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_h2yge"]
 
 [node name="Base" type="Node3D"]
 
@@ -33,35 +33,32 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="UI/VBoxContainer/GameViewport"]
 handle_input_locally = false
-size = Vector2i(1152, 429)
+size = Vector2i(1152, 515)
 render_target_update_mode = 4
 
 [node name="Level" parent="UI/VBoxContainer/GameViewport/SubViewport" instance=ExtResource("1_ig7tw")]
 unique_name_in_owner = true
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="UI/VBoxContainer/GameViewport/SubViewport"]
-transform = Transform3D(-4.371139e-08, -0.9396926, 0.34202015, 0, 0.34202015, 0.9396926, -1, 4.1075268e-08, -1.4950176e-08, 10, 30, 0)
-shadow_enabled = true
+transform = Transform3D(-4.371139e-08, -0.86602545, 0.49999997, 0, 0.49999997, 0.86602545, -1, 3.7855173e-08, -2.1855692e-08, 10, 20, 0)
 sky_mode = 1
 
 [node name="MainCamera" type="Camera3D" parent="UI/VBoxContainer/GameViewport/SubViewport"]
 unique_name_in_owner = true
-transform = Transform3D(-1, 6.6969726e-08, -5.6194278e-08, 0, 0.6427876, 0.7660444, 8.742278e-08, 0.7660444, -0.6427876, 10, 13, -11)
+transform = Transform3D(-1, 3.6946467e-08, -7.9231945e-08, 0, 0.9063078, 0.4226183, 8.742278e-08, 0.4226183, -0.9063078, 7, 5, -9)
 current = true
-fov = 50.0
 
 [node name="BrewingViewport" type="SubViewportContainer" parent="UI/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-size_flags_stretch_ratio = 2.0
 stretch = true
 metadata/_edit_use_anchors_ = true
 
 [node name="SubViewport" type="SubViewport" parent="UI/VBoxContainer/BrewingViewport"]
 handle_input_locally = false
-size = Vector2i(1152, 215)
+size = Vector2i(1152, 129)
 render_target_update_mode = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/VBoxContainer/BrewingViewport/SubViewport"]
@@ -73,13 +70,19 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Conveyor" parent="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer" instance=ExtResource("4_1bvp3")]
+[node name="Conveyor" type="ColorRect" parent="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer"]
 layout_mode = 2
-time_per_component = 3.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.0
+color = Color(0.21568628, 0.24313726, 0.2509804, 1)
 
-[node name="Cauldron" parent="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer" instance=ExtResource("5_lquwl")]
+[node name="Sprite2D" type="Sprite2D" parent="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Conveyor"]
+position = Vector2(105, 54)
+scale = Vector2(100.5, 50.5)
+texture = SubResource("PlaceholderTexture2D_h2yge")
+
+[node name="Cauldron" type="ColorRect" parent="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer"]
 layout_mode = 2
-
-[connection signal="component_added" from="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Conveyor" to="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Cauldron" method="_on_component_added"]
-[connection signal="is_cauldron_full" from="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Cauldron" to="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Conveyor" method="_on_cauldron_is_full"]
-[connection signal="potion_brewed" from="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Cauldron" to="UI/VBoxContainer/GameViewport/SubViewport/Level" method="_on_potion_brewed"]
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+color = Color(0.59717613, 0.59717613, 0.5971761, 1)

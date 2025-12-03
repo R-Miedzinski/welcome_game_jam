@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://do0mw5ytw15tt"]
+[gd_scene load_steps=7 format=3 uid="uid://do0mw5ytw15tt"]
 
+[ext_resource type="Script" uid="uid://qfgj1drrtwjo" path="res://level/level.gd" id="1_44x8d"]
 [ext_resource type="Script" uid="uid://h67wey6fxtj0" path="res://level/controller.gd" id="1_ktfr2"]
 [ext_resource type="PackedScene" uid="uid://bostfcayxsgij" path="res://grid/grid.tscn" id="1_vkbyq"]
 [ext_resource type="PackedScene" uid="uid://rdowjr2xkke7" path="res://tower/tower.tscn" id="2_5gx2l"]
@@ -7,13 +8,14 @@
 [ext_resource type="Script" uid="uid://g4t4w3ma75j8" path="res://level/enemies_controller.gd" id="5_44x8d"]
 
 [node name="Level" type="Node3D"]
+script = ExtResource("1_44x8d")
 
 [node name="Controller" type="Node" parent="."]
 script = ExtResource("1_ktfr2")
 
 [node name="Grid" parent="." instance=ExtResource("1_vkbyq")]
 unique_name_in_owner = true
-grid_size = Vector2i(4, 6)
+grid_size = Vector2i(6, 11)
 tick_duration = 0.05
 
 [node name="Tower" parent="." instance=ExtResource("2_5gx2l")]
@@ -29,6 +31,7 @@ script = ExtResource("2_qohg2")
 unique_name_in_owner = true
 script = ExtResource("5_44x8d")
 
+[connection signal="brewed_potion_received" from="." to="Tower" method="_on_potion_brewed"]
 [connection signal="effect_tick" from="Grid" to="Enemies" method="_on_effect_tick"]
 [connection signal="grid_is_initialized" from="Grid" to="Spawners" method="_initialize_spawners"]
 [connection signal="shoot_potion" from="Tower" to="Grid" method="_on_potion_thrown"]

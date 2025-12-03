@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://d3tpaqb5dyobq"]
+
+[ext_resource type="Shader" uid="uid://c2r7rmd2klxfb" path="res://components/shaders/hover_shader.gdshader" id="1_djv45"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_djv45")
+shader_parameter/overlay_color = Vector4(0.25, 0.25, 0.25, 0)

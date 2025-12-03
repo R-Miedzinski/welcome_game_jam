@@ -1,5 +1,5 @@
 @abstract class_name Effect
-extends Node
+extends Resource
 
 @export var value: float = 1.0
 var duration: float = 0.0

@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://cw4k344w3rxwn"]
+
+[ext_resource type="Material" uid="uid://d3tpaqb5dyobq" path="res://components/shaders/hover_shader.tres" id="1_1rhf5"]
+[ext_resource type="Script" uid="uid://da0jso7b5gg3n" path="res://components/component_controller.gd" id="1_e2r2v"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1rhf5"]
+font_color = Color(0, 0, 0, 1)
+outline_size = 2
+
+[node name="Component" type="Button"]
+material = ExtResource("1_1rhf5")
+custom_minimum_size = Vector2(100, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+icon_alignment = 1
+script = ExtResource("1_e2r2v")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "id"
+label_settings = SubResource("LabelSettings_1rhf5")
+vertical_alignment = 2
+uppercase = true
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

@@ -1,0 +1,14 @@
+[gd_resource type="GradientTexture2D" load_steps=2 format=3 uid="uid://cukbyjysna702"]
+
+[sub_resource type="Gradient" id="Gradient_ei54s"]
+resource_local_to_scene = true
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.5625, 0.625, 0.6875)
+colors = PackedColorArray(0.73333335, 0, 0, 1, 0.46666667, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+metadata/_snap_count = 16
+
+[resource]
+gradient = SubResource("Gradient_ei54s")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
