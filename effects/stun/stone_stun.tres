@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="StunEffect" load_steps=2 format=3 uid="uid://1oe2e0hxw1f6"]
+
+[ext_resource type="Script" uid="uid://p8b4jtx48s3w" path="res://effects/stun/stun_effect.gd" id="1_ltf4h"]
+
+[resource]
+script = ExtResource("1_ltf4h")
+target_location = 0
+metadata/_custom_type_script = "uid://p8b4jtx48s3w"

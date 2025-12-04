@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="DotGroundEffect" load_steps=2 format=3 uid="uid://n8h6xxobt2i"]
+
+[ext_resource type="Script" uid="uid://dkvjbm7ps81m4" path="res://effects/dot_ground/dot_ground_effect.gd" id="1_vdj4y"]
+
+[resource]
+script = ExtResource("1_vdj4y")
+value = 10.0
+metadata/_custom_type_script = "uid://dkvjbm7ps81m4"

@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ResetEffect" load_steps=2 format=3 uid="uid://f47q6fe1eixe"]
+
+[ext_resource type="Script" uid="uid://dy7stbacmrkpi" path="res://effects/reset/reset_effect.gd" id="1_qrg5s"]
+
+[resource]
+script = ExtResource("1_qrg5s")
+metadata/_custom_type_script = "uid://dy7stbacmrkpi"

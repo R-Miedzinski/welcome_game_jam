@@ -13,7 +13,7 @@ func take_damage(amount: float) -> void:
     animation_player.play("hurt")
 
 func move(delta: float, direction: Constants.MovementDirection) -> void:
-    if is_moving:
+    if self.is_moving or self.is_paused:
         return
     self.is_moving = true
     self.is_on_ground = false
@@ -30,8 +30,18 @@ func move(delta: float, direction: Constants.MovementDirection) -> void:
         func() -> void:
             self.is_on_ground = true
             # TODO: handle speed -> 0 case
-            self.jump_timer.start(self.jump_cooldown / self.speed)
+            self.jump_timer.start(self.jump_cooldown)
     )
+
+func pause_movement() -> void:
+    super ()
+    if !self.jump_timer.is_stopped():
+        self.jump_timer.stop()
+
+func resume_movement() -> void:
+    super ()
+    if self.is_on_ground and self.jump_timer.is_stopped():
+        self.jump_timer.start(self.jump_cooldown)
 
 func _ready() -> void:
     super ()

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="MoveEffect" load_steps=2 format=3 uid="uid://b1me4oea0iduh"]
+
+[ext_resource type="Script" uid="uid://d3g2c26ka53p6" path="res://effects/move/move_effect.gd" id="1_lgxm2"]
+
+[resource]
+script = ExtResource("1_lgxm2")
+direction = -2
+metadata/_custom_type_script = "uid://d3g2c26ka53p6"

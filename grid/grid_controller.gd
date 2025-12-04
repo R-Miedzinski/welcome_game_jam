@@ -92,10 +92,9 @@ func _on_potion_thrown(potion: Potion, tile_coord: Vector2i, origin: Vector3) ->
 
     tween.finished.connect(
       func() -> void:
-        var effects_to_apply: EffectsWithDuration = EffectsWithDuration.new(potion.effects.duplicate(true), potion_instance.duration)
-    
         for x_offset in range(-potion.size + 1, potion.size):
             for y_offset in range(-potion.size + 1, potion.size):
+                var effects_to_apply: EffectsWithDuration = EffectsWithDuration.new(potion.effects.duplicate(true), potion_instance.duration)
                 var distance = abs(x_offset) + abs(y_offset)
                 if distance < potion.size:
                     var affected_tile = Vector2i(tile_coord.x + x_offset, tile_coord.y + y_offset)
@@ -125,7 +124,6 @@ func _initialize_grid() -> void:
     self.effects_clock.start()
 
 func _on_barrier_collided(entity: Node) -> void:
-    print("Entity %s has collided with the end grid barrier." % entity.name)
     entity.attack_player()
 
 class EffectsWithDuration:

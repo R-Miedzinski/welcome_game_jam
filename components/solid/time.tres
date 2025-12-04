@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Component" load_steps=3 format=3 uid="uid://bemsqk5gfrqws"]
+
+[ext_resource type="Script" uid="uid://c82ufwssxooa" path="res://effects/effect.gd" id="1_02whd"]
+[ext_resource type="Script" uid="uid://cxr60ckw2fij3" path="res://components/component.gd" id="2_48i4n"]
+
+[resource]
+script = ExtResource("2_48i4n")
+name = "Time"
+is_liquid = false
+duration_modifier = 1.0
+metadata/_custom_type_script = "uid://cxr60ckw2fij3"

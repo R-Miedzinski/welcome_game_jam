@@ -1,8 +1,8 @@
 class_name Potion
 extends Node3D
 
-@export var liquid_components: Array = []
-@export var solid_components: Array = []
+@export var liquid_components: Array[Component] = []
+@export var solid_components: Array[Component] = []
 @export var effects: Array[Effect] = []
 @export var size: int = 1
 @export var duration: float = 1.0

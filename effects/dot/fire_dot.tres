@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="DotEffect" load_steps=2 format=3 uid="uid://d32vp8ey6y7wl"]
+
+[ext_resource type="Script" uid="uid://c3abg7bdfawwr" path="res://effects/dot/dot_effect.gd" id="1_0q6tq"]
+
+[resource]
+script = ExtResource("1_0q6tq")
+value = 5.0
+target_location = 0
+metadata/_custom_type_script = "uid://c3abg7bdfawwr"

@@ -1,7 +1,7 @@
 class_name SpawnersController
 extends Node3D
 
-@export var spawner_timer_interval: float = 3.0
+@export var spawner_timer_interval: float = Constants.ENEMY_SPAWN_INTERVAL
 var grid_size: Vector2i
 var tile_size: float
 

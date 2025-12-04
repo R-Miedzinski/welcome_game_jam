@@ -8,6 +8,7 @@ var previous_speed: float = 1
 var health: float = 100
 @export var damage: int = 10
 var is_on_ground: bool = true
+var is_paused: bool = false
 
 @export var dimensions: Vector3 = Vector3(1, 1, 1)
 var front_position_in_grid: Vector2i = Vector2i(0, 0)
@@ -30,22 +31,33 @@ func attack_player() -> void:
   self.emit_signal("deal_damage", self.damage)
   self.emit_signal("enemy_attacked_player", self.front_position_in_grid, self.idx_in_position)
 
-func force_move(new_position: Vector2i) -> void:
-  self.front_position_in_grid = new_position
-  self.back_position_in_grid = new_position
-  var target_position: Vector3 = self.position
-  target_position.x = target_position.x + (new_position.y - self.front_position_in_grid.y) * Constants.TILE_SIZE
-  self.position = target_position
+func force_move(new_position: Vector2i, move_time: float) -> void:
+  self.pause_movement()
+  self.is_on_ground = false
+
+  var tween: Tween = create_tween()
+  var normalized_new_position: Vector2i = self._normalize_target_position_to_grid(new_position)
+  var target_pos_x = self.position.x + (normalized_new_position.y - self.front_position_in_grid.y) * Constants.TILE_SIZE
+  
+  tween.tween_property(self, "position:x", target_pos_x, move_time)
+  tween.finished.connect(func() -> void:
+    self.resume_movement()
+    self.is_on_ground = true
+  )
 
 func move(delta: float, direction: Constants.MovementDirection) -> void:
   self.move_and_collide(delta * speed * Vector3(direction * Constants.TILE_SIZE, 0, 0))
 
 func pause_movement() -> void:
-  self.previous_speed = self.speed
-  self.speed = 0
+  if !self.is_paused:
+    self.previous_speed = self.speed
+    self.speed = 0
+    self.is_paused = true
 
 func resume_movement() -> void:
-  self.speed = self.previous_speed
+  if self.is_paused:
+    self.speed = self.previous_speed
+    self.is_paused = false
 
 func _ready() -> void:
   self.speed = self.max_speed
@@ -77,3 +89,8 @@ func _on_effect_tick() -> void:
         self.self_effects.erase(effect_id)
     else:
         self.self_effects[effect_id][0] = duration_left
+        
+func _normalize_target_position_to_grid(target_position: Vector2i) -> Vector2i:
+  var normalized_x: int = clamp(target_position.x, 0, Constants.GRID_SIZE.x - 1)
+  var normalized_y: int = clamp(target_position.y, 0, Constants.GRID_SIZE.y)
+  return Vector2i(normalized_x, normalized_y)

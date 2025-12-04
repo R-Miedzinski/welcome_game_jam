@@ -2,10 +2,11 @@ class_name SlowGroundEffect
 extends Effect
 
 
-func apply(target: Enemy, duration: float = Constants.EFFECT_TICK_DURATION) -> void:
+func apply(target: Enemy, duration: float = 2 * Constants.EFFECT_TICK_DURATION) -> void:
   if not target.self_effects.has(self.id):
     target.self_effects[self.id] = [duration, self]
     target.speed *= (1.0 - self.value)
+
 
 func lift(target: Enemy) -> void:
     if target.self_effects.has(self.id):
