@@ -9,14 +9,14 @@ var next_index: int = 0
 
 func spawn_enemy_at_position(pos: Vector2i, enemy_scene: PackedScene, modifier: Dictionary) -> void:
     var enemy_instance: Enemy = enemy_scene.instantiate() as Enemy
-    enemy_instance.front_position_in_grid = pos + Vector2i(0, 1)
-    enemy_instance.back_position_in_grid = pos + Vector2i(0, 1)
+    enemy_instance.front_position_in_grid = pos
+    enemy_instance.back_position_in_grid = pos
     enemy_instance.idx_in_position = self.next_index
     self.next_index += 1
 
     self._center_on_tile(enemy_instance)
-    enemy_instance.position += Vector3(- (Constants.TILE_SIZE - enemy_instance.dimensions.x - 0.05) / 2, 0, 0)
-    self.enemies_map.register_enemy_at_position(pos + Vector2i(0, 1), enemy_instance)
+    enemy_instance.position += Vector3(- (Constants.TILE_SIZE - enemy_instance.dimensions.x) / 2 + 0.05, 0, 0)
+    self.enemies_map.register_enemy_at_position(pos, enemy_instance)
 
     enemy_instance.connect("deal_damage", self.tower_controller._on_take_damage)
     enemy_instance.connect("enemy_attacked_player", self._on_enemy_dealt_damage)
@@ -32,8 +32,7 @@ func move_enemy_from_to(old_pos: Vector2i, new_pos: Vector2i, idx: int = 0) -> b
         self.enemies_map.register_enemy_at_position(new_pos, enemy_instance)
         return true
     else:
-        print("No enemy found at position %s to move" % old_pos)
-        self.get_tree().paused = true
+        push_warning("Warning: No enemy found at position %s to move" % old_pos)
         return false
       
 func _center_on_tile(enemy: Enemy) -> void:
@@ -86,15 +85,24 @@ func _on_effect_tick(tile_coord: Vector2i, effects: Array, durations: Array) -> 
                 var duration = durations[idx]
                 if effect.target_location == Effect.TargetLocation.SELF:
                     if !enemy_instance.self_effects.has(effect.id):
-                        (effect as Effect).apply(enemy_instance, duration - Constants.EFFECT_TICK_DURATION)
+                        (effect as Effect).apply(enemy_instance, duration)
                 elif effect.target_location == Effect.TargetLocation.GROUND:
                     (effect as Effect).apply(enemy_instance)
 
 func _on_enemy_defeated(position_in_grid: Vector2i, idx: int) -> void:
-    self.enemies_map.remove_enemy_at_position(position_in_grid, idx)
+    var succes = self.enemies_map.remove_enemy_at_position(position_in_grid, idx)
+    if !succes:
+        var id_success = self.enemies_map.remove_enemy_by_id(idx)
+        if !id_success:
+            push_warning("Warning: Tried to remove enemy by id %d but it was not found" % idx)
+
 
 func _on_enemy_dealt_damage(position_in_grid: Vector2i, idx: int) -> void:
-    self.enemies_map.remove_enemy_at_position(position_in_grid, idx)
+    var success = self.enemies_map.remove_enemy_at_position(position_in_grid, idx)
+    if !success:
+        var id_success = self.enemies_map.remove_enemy_by_id(idx)
+        if !id_success:
+            push_warning("Warning: Tried to remove enemy by id %d but it was not found" % idx)
 
 class EnemiesMap:
     var map: Dictionary[Vector3i, Enemy] = {}
@@ -121,22 +129,25 @@ class EnemiesMap:
             return map[pos_vec3i]
         return null
 
-    func remove_enemy_at_position(pos: Vector2i, idx: int = 0) -> void:
+    func remove_enemy_at_position(pos: Vector2i, idx: int = 0) -> bool:
         var pos_vec3i = Vector3i(pos.x, pos.y, idx)
         if map.has(pos_vec3i):
             marked_for_removal.append(pos_vec3i)
+            return true
+        return false
+
+    func remove_enemy_by_id(idx: int) -> bool:
+        for key in map.keys():
+            if key.z == idx:
+                marked_for_removal.append(key)
+                return true
+        return false
 
     func process_removals() -> void:
         while marked_for_removal.size() > 0:
             var removal: Vector3i = marked_for_removal.pop_back()
             if map.has(removal):
-                var enemy_instance: Enemy = map[removal]
                 map.erase(removal)
-
-                if enemy_instance.health > 0:
-                    enemy_instance.queue_free()
-                else:
-                    enemy_instance.animation_player.play("death")
 
     func get_enemies_at_position(pos: Vector2i) -> Array:
         var enemies: Array = []

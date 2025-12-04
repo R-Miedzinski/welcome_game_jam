@@ -10,7 +10,7 @@ var component_scene: PackedScene = preload("res://components/component.tscn")
 
 var random_number_generator: RandomNumberGenerator = RandomNumberGenerator.new()
 
-@onready var conveyor_components: FlowContainer = %ConveyorComponents
+@onready var conveyor_components: GridContainer = %ConveyorComponents
 @onready var component_timer: Timer = %ComponentTimer
 @onready var till_component: Label = $Label
 

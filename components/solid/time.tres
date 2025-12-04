@@ -7,5 +7,5 @@
 script = ExtResource("2_48i4n")
 name = "Time"
 is_liquid = false
-duration_modifier = 1.0
+duration_modifier = 1
 metadata/_custom_type_script = "uid://cxr60ckw2fij3"

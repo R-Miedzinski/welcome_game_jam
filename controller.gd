@@ -5,6 +5,7 @@ extends Node
 @onready var enemies_controller: EnemiesController = self.level_scene.get_node("%Enemies")
 @onready var tower_controller: TowerController = self.level_scene.get_node("%Tower")
 @onready var camera: Camera3D = self.level_scene.get_node("%MainCamera")
+@onready var spawner_timer_label: Label = %SpawnTimer
 
 var last_highlighted_tile: Vector2i = Vector2i(-1, -1)
 
@@ -79,3 +80,6 @@ func _ready() -> void:
 func _on_tower_destroyed() -> void:
   print("Game Over! The tower has been destroyed.")
   self.get_node("%UI").get_tree().paused = true
+
+func _on_spawner_timer_update(time_left: float) -> void:
+  self.spawner_timer_label.text = "Next Spawn In: %.1f s" % time_left
