@@ -17,8 +17,12 @@ func take_damage(amount: float) -> void:
 
 
 func move(delta: float, direction: Constants.MovementDirection) -> void:
-    if self.is_moving or self.is_paused:
+    if self.animation_player.current_animation == "attack" or self.animation_player.current_animation == "death" or self.is_paused:
         return
+
+    if self.is_moving:
+        return
+        
     self.is_moving = true
     self.is_on_ground = false
 

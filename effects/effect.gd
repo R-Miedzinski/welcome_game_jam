@@ -7,6 +7,13 @@ enum TargetLocation {
   GROUND
 }
 
+@export var duration_scaling: Dictionary[int, float] = {
+  1: 0.0,
+  2: 0.0,
+  3: 0.0,
+  4: 0.0,
+}
+
 @export var value: float = 1.0
 @export var target_location: TargetLocation = TargetLocation.GROUND
 var id: String = ""

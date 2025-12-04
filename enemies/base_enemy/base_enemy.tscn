@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bfx0rihfslwdn"]
+[gd_scene load_steps=11 format=3 uid="uid://bfx0rihfslwdn"]
 
 [ext_resource type="Script" uid="uid://75tlrxyqx1st" path="res://enemies/base_enemy/base_enemy.gd" id="1_lxi62"]
 [ext_resource type="Material" uid="uid://nghqt0ifsqwk" path="res://enemies/base_enemy/base_enemy_damage.tres" id="2_02xms"]
@@ -105,9 +105,13 @@ tracks/0/keys = {
 "values": [ExtResource("2_8sayp"), ExtResource("2_02xms")]
 }
 
+[sub_resource type="Animation" id="Animation_eb1xl"]
+resource_name = "attack"
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jc6ys"]
 _data = {
 &"RESET": SubResource("Animation_jc6ys"),
+&"attack": SubResource("Animation_eb1xl"),
 &"death": SubResource("Animation_8sayp"),
 &"hurt": SubResource("Animation_02xms")
 }
@@ -117,8 +121,8 @@ collision_layer = 8
 collision_mask = 2
 sync_to_physics = false
 script = ExtResource("1_lxi62")
-max_speed = 0.5
-max_health = 20.0
+max_speed = 0.2
+max_health = 40.0
 dimensions = Vector3(1, 2, 1)
 animation_time = 3.0
 

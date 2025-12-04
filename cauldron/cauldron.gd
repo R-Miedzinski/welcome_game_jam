@@ -5,6 +5,7 @@ extends ColorRect
 var potion_scene: PackedScene = preload("res://potions/potion.tscn")
 var current_potion: Potion = null
 
+@onready var dmg_label: Label = %DMG
 @onready var dot_label: Label = %DOT
 @onready var dot_g_label: Label = %DOTGround
 @onready var slow_label: Label = %Slow
@@ -36,6 +37,7 @@ func write_message(text: String, value) -> String:
 func fill_labels(potion: Potion) -> void:
     var summary: Dictionary = potion.get_value_summary()
 
+    self.dmg_label.text = self.write_message("DMG +", summary[Constants.EffectTypes.DMG])
     self.dot_label.text = self.write_message("DOT +", summary[Constants.EffectTypes.DOT])
     self.dot_g_label.text = self.write_message("DOT Ground +", summary[Constants.EffectTypes.DOT_GROUND])
     self.slow_label.text = self.write_message("Slow *", summary[Constants.EffectTypes.SLOW])

@@ -15,7 +15,14 @@ enum MovementDirection {
 # Potion Configuration
 @export var MAX_THROW_TIME: float = 0.5
 @export var THROW_TIME_SCALING: float = 0.1
+@export var FLAT_DAMAGE_SCALING: Dictionary[int, int] = {
+    1: 0,
+    2: 1,
+    3: 2,
+    4: 3,
+}
 enum EffectTypes {
+    DMG,
     DOT,
     DOT_GROUND,
     SLOW,
@@ -36,7 +43,7 @@ enum EffectTypes {
 # Conveyor Configuration
 @export var COMPONENT_SPAWN_INTERVAL: float = 2.0
 @export var CONVEYOR_CAPACITY: int = 10
-@export var SOLID_FACTOR: int = 4
+@export var SOLID_FACTOR: int = 4 # rand % SOLID_FACTOR == 0 -> solid component
 
 # Cauldron Configuration
-@export var CAULDRON_CAPACITY: int = 5
+@export var CAULDRON_CAPACITY: int = 4

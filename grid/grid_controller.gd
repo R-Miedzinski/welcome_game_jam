@@ -42,15 +42,15 @@ func _ready() -> void:
 
 # returns 
 # [effects, durations]
-func _accumulate_effects(effects_with_duration: Array) -> Array:
+func _accumulate_effects(effects_with_durations: Array) -> Array:
     var all_effects: Array = []
     var all_durations: Array = []
-    for ewd in effects_with_duration:
-        all_effects += ewd.effects
-        var durations: Array = []
-        durations.resize(ewd.effects.size())
-        durations.fill(ewd.duration)
-        all_durations += durations
+    for ewd in effects_with_durations:
+        all_effects.append(ewd.effect)
+        # if ewd.effect.target_location == Effect.TargetLocation.SELF:
+        #     all_durations.append(Constants.EFFECT_TICK_DURATION)
+        # else:
+        all_durations.append(ewd.duration)
     return [all_effects, all_durations]
 
 func _on_effect_tick() -> void:
@@ -94,16 +94,20 @@ func _on_potion_thrown(potion: Potion, tile_coord: Vector2i, origin: Vector3) ->
       func() -> void:
         for x_offset in range(-potion.size + 1, potion.size):
             for y_offset in range(-potion.size + 1, potion.size):
-                var effects_to_apply: EffectsWithDuration = EffectsWithDuration.new(potion.effects.duplicate(true), potion_instance.duration)
                 var distance = abs(x_offset) + abs(y_offset)
                 if distance < potion.size:
                     var affected_tile = Vector2i(tile_coord.x + x_offset, tile_coord.y + y_offset)
                     if affected_tile.x >= 0 and affected_tile.x < self.grid_size.x \
                     and affected_tile.y >= 0 and affected_tile.y < self.grid_size.y:
-                        if self.effects_map.has(affected_tile):
-                            self.effects_map[affected_tile].append(effects_to_apply)
-                        else:
-                            self.effects_map[affected_tile] = [effects_to_apply]
+                        for effect in potion.effects:
+                            var effect_duration: float = Constants.EFFECT_TICK_DURATION
+                            if effect.duration_scaling.has(potion.duration):
+                                effect_duration = effect.duration_scaling[potion.duration]
+                            var effect_to_apply = EffectWithDuration.new(effect, effect_duration)
+                            if self.effects_map.has(affected_tile):
+                                self.effects_map[affected_tile].append(effect_to_apply)
+                            else:
+                                self.effects_map[affected_tile] = [effect_to_apply]
 
         potion_instance.queue_free()
     )
@@ -126,10 +130,10 @@ func _initialize_grid() -> void:
 func _on_barrier_collided(entity: Node) -> void:
     entity.attack_player()
 
-class EffectsWithDuration:
-    var effects: Array[Effect]
+class EffectWithDuration:
+    var effect: Effect
     var duration: float
 
-    func _init(_effects: Array[Effect], _duration: float) -> void:
-        self.effects = _effects
+    func _init(_effect: Effect, _duration: float) -> void:
+        self.effect = _effect
         self.duration = _duration

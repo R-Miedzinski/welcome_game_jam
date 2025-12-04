@@ -4,6 +4,12 @@
 
 [resource]
 script = ExtResource("1_0q6tq")
-value = 5.0
+duration_scaling = Dictionary[int, float]({
+1: 2.0,
+2: 4.0,
+3: 6.0,
+4: 9.0
+})
+value = 10.0
 target_location = 0
 metadata/_custom_type_script = "uid://c3abg7bdfawwr"

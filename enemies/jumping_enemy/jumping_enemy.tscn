@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bd8hs0i08v081"]
+[gd_scene load_steps=11 format=3 uid="uid://bd8hs0i08v081"]
 
 [ext_resource type="Script" uid="uid://dsy56u3vxcw48" path="res://enemies/jumping_enemy/jumping_enemy.gd" id="1_72q3a"]
 [ext_resource type="Material" uid="uid://sirjghwctyid" path="res://enemies/base_enemy/base_enemy.tres" id="2_vye8c"]
@@ -52,6 +52,9 @@ tracks/2/keys = {
 "update": 0,
 "values": [0.5]
 }
+
+[sub_resource type="Animation" id="Animation_72q3a"]
+resource_name = "attack"
 
 [sub_resource type="Animation" id="Animation_8sayp"]
 resource_name = "death"
@@ -112,6 +115,7 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jc6ys"]
 _data = {
 &"RESET": SubResource("Animation_jc6ys"),
+&"attack": SubResource("Animation_72q3a"),
 &"death": SubResource("Animation_8sayp"),
 &"hurt": SubResource("Animation_02xms")
 }
@@ -122,8 +126,8 @@ collision_mask = 2
 sync_to_physics = false
 script = ExtResource("1_72q3a")
 jump_height = 3.0
-jump_cooldown = 3.0
-max_health = 10.0
+jump_cooldown = 6.0
+max_health = 20.0
 dimensions = Vector3(1.2, 1, 1.2)
 animation_time = 1.0
 

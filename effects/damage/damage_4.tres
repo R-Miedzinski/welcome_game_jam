@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DamageEffect" load_steps=2 format=3 uid="uid://ckaxm01kp0n0e"]
+
+[ext_resource type="Script" uid="uid://bjq4v3oqm320o" path="res://effects/damage/damage.gd" id="1_n7iyd"]
+
+[resource]
+script = ExtResource("1_n7iyd")
+duration_scaling = Dictionary[int, float]({})
+value = 60.0
+target_location = 0
+metadata/_custom_type_script = "uid://bjq4v3oqm320o"

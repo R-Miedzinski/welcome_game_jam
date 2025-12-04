@@ -4,5 +4,11 @@
 
 [resource]
 script = ExtResource("1_vdj4y")
-value = 10.0
+duration_scaling = Dictionary[int, float]({
+1: 3.0,
+2: 6.0,
+3: 8.0,
+4: 12.0
+})
+value = 8.0
 metadata/_custom_type_script = "uid://dkvjbm7ps81m4"
