@@ -50,6 +50,10 @@ transform = Transform3D(-1, 6.6969726e-08, -5.6194278e-08, 0, 0.6427876, 0.76604
 current = true
 fov = 50.0
 
+[node name="SpawnTimer" type="Label" parent="UI/VBoxContainer/GameViewport"]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="BrewingViewport" type="SubViewportContainer" parent="UI/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -79,6 +83,7 @@ layout_mode = 2
 [node name="Cauldron" parent="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer" instance=ExtResource("5_lquwl")]
 layout_mode = 2
 
+[connection signal="update_spawn_counter" from="UI/VBoxContainer/GameViewport/SubViewport/Level" to="Controller" method="_on_spawner_timer_update"]
 [connection signal="component_added" from="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Conveyor" to="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Cauldron" method="_on_component_added"]
 [connection signal="is_cauldron_full" from="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Cauldron" to="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Conveyor" method="_on_cauldron_is_full"]
 [connection signal="potion_brewed" from="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Cauldron" to="UI/VBoxContainer/GameViewport/SubViewport/Level" method="_on_potion_brewed"]

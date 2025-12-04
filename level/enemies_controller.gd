@@ -32,8 +32,7 @@ func move_enemy_from_to(old_pos: Vector2i, new_pos: Vector2i, idx: int = 0) -> b
         self.enemies_map.register_enemy_at_position(new_pos, enemy_instance)
         return true
     else:
-        print("No enemy found at position %s to move" % old_pos)
-        self.get_tree().paused = true
+        push_warning("Warning: No enemy found at position %s to move" % old_pos)
         return false
       
 func _center_on_tile(enemy: Enemy) -> void:
@@ -91,10 +90,19 @@ func _on_effect_tick(tile_coord: Vector2i, effects: Array, durations: Array) -> 
                     (effect as Effect).apply(enemy_instance)
 
 func _on_enemy_defeated(position_in_grid: Vector2i, idx: int) -> void:
-    self.enemies_map.remove_enemy_at_position(position_in_grid, idx)
+    var succes = self.enemies_map.remove_enemy_at_position(position_in_grid, idx)
+    if !succes:
+        var id_success = self.enemies_map.remove_enemy_by_id(idx)
+        if !id_success:
+            push_warning("Warning: Tried to remove enemy by id %d but it was not found" % idx)
+
 
 func _on_enemy_dealt_damage(position_in_grid: Vector2i, idx: int) -> void:
-    self.enemies_map.remove_enemy_at_position(position_in_grid, idx)
+    var success = self.enemies_map.remove_enemy_at_position(position_in_grid, idx)
+    if !success:
+        var id_success = self.enemies_map.remove_enemy_by_id(idx)
+        if !id_success:
+            push_warning("Warning: Tried to remove enemy by id %d but it was not found" % idx)
 
 class EnemiesMap:
     var map: Dictionary[Vector3i, Enemy] = {}
@@ -121,10 +129,19 @@ class EnemiesMap:
             return map[pos_vec3i]
         return null
 
-    func remove_enemy_at_position(pos: Vector2i, idx: int = 0) -> void:
+    func remove_enemy_at_position(pos: Vector2i, idx: int = 0) -> bool:
         var pos_vec3i = Vector3i(pos.x, pos.y, idx)
         if map.has(pos_vec3i):
             marked_for_removal.append(pos_vec3i)
+            return true
+        return false
+
+    func remove_enemy_by_id(idx: int) -> bool:
+        for key in map.keys():
+            if key.z == idx:
+                marked_for_removal.append(key)
+                return true
+        return false
 
     func process_removals() -> void:
         while marked_for_removal.size() > 0:

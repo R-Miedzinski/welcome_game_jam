@@ -7,10 +7,14 @@ extends Enemy
 
 @onready var jump_timer: Timer = %JumpTimer
 var is_moving: bool = false
+
 func take_damage(amount: float) -> void:
     self.health -= amount
     self.hp_label.text = "HP: %.2f / %.2f" % [self.health, self.max_health]
     animation_player.play("hurt")
+    if self.health <= 0:
+        self._on_death()
+
 
 func move(delta: float, direction: Constants.MovementDirection) -> void:
     if self.is_moving or self.is_paused:
@@ -30,7 +34,7 @@ func move(delta: float, direction: Constants.MovementDirection) -> void:
         func() -> void:
             self.is_on_ground = true
             # TODO: handle speed -> 0 case
-            self.jump_timer.start(self.jump_cooldown)
+            self.jump_timer.start(self.jump_cooldown / self.speed_modifier)
     )
 
 func pause_movement() -> void:
@@ -40,8 +44,8 @@ func pause_movement() -> void:
 
 func resume_movement() -> void:
     super ()
-    if self.is_on_ground and self.jump_timer.is_stopped():
-        self.jump_timer.start(self.jump_cooldown)
+    if self.jump_timer.is_stopped():
+        self.jump_timer.start(self.jump_cooldown / self.speed_modifier)
 
 func _ready() -> void:
     super ()

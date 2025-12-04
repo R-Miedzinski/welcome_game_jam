@@ -4,6 +4,8 @@ extends AnimatableBody3D
 @export var max_speed: float = 1
 var speed: float = 1
 var previous_speed: float = 1
+var speed_modifier: float = 1.0
+
 @export var max_health: float = 100
 var health: float = 100
 @export var damage: int = 10
@@ -41,12 +43,12 @@ func force_move(new_position: Vector2i, move_time: float) -> void:
   
   tween.tween_property(self, "position:x", target_pos_x, move_time)
   tween.finished.connect(func() -> void:
-    self.resume_movement()
     self.is_on_ground = true
+    self.resume_movement()
   )
 
 func move(delta: float, direction: Constants.MovementDirection) -> void:
-  self.move_and_collide(delta * speed * Vector3(direction * Constants.TILE_SIZE, 0, 0))
+  self.move_and_collide(delta * self.speed_modifier * self.speed * Vector3(direction * Constants.TILE_SIZE, 0, 0))
 
 func pause_movement() -> void:
   if !self.is_paused:
@@ -64,13 +66,14 @@ func _ready() -> void:
   self.previous_speed = self.max_speed
   self.health = self.max_health
   hp_label.text = "HP: %d / %d" % [self.health, self.max_health]
-  animation_player.animation_finished.connect(
+
+  self.animation_player.animation_finished.connect(
         self._process_animation
     )
 
-func _process(delta: float) -> void:
-    if self.health <= 0:
-        emit_signal("enemy_defeated", self.front_position_in_grid, self.idx_in_position)
+func _on_death() -> void:
+    self.pause_movement()
+    emit_signal("enemy_defeated", self.front_position_in_grid, self.idx_in_position)
 
 func _process_animation(anim_name: String) -> void:
     if anim_name == "hurt":

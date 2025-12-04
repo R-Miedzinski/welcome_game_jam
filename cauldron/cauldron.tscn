@@ -107,6 +107,7 @@ text = "Time x"
 
 [node name="Potency" type="Label" parent="HFlowContainer/CauldronIcon/VFlowContainer/ModifiersContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Potency x"
@@ -121,7 +122,6 @@ last_wrap_alignment = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-toggle_mode = false
 button_mask = 0
 shortcut_feedback = false
 shortcut_in_tooltip = false
@@ -131,17 +131,16 @@ text = "Stun"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-toggle_mode = false
 button_mask = 0
 shortcut_feedback = false
 shortcut_in_tooltip = false
-text = "Move To Front"
+text = "Move To Start"
 
-[node name="Move" type="Label" parent="HFlowContainer/CauldronIcon/VFlowContainer/SpecialsContainer"]
+[node name="Move" type="CheckBox" parent="HFlowContainer/CauldronIcon/VFlowContainer/SpecialsContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Move x"
+text = "Move"
 
 [node name="ButtonPanel" type="VFlowContainer" parent="HFlowContainer"]
 custom_minimum_size = Vector2(0, 300)
@@ -154,6 +153,7 @@ reverse_fill = true
 [node name="BrewPotion" type="Button" parent="HFlowContainer/ButtonPanel"]
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
 text = "BREW
 "
 icon = ExtResource("2_lb3ud")

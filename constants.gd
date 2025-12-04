@@ -15,6 +15,15 @@ enum MovementDirection {
 # Potion Configuration
 @export var MAX_THROW_TIME: float = 0.5
 @export var THROW_TIME_SCALING: float = 0.1
+enum EffectTypes {
+    DOT,
+    DOT_GROUND,
+    SLOW,
+    SLOW_GROUND,
+    RESET,
+    MOVE,
+    STUN
+}
 
 # Spawner Configuration
 @export var ENEMY_SPAWN_INTERVAL: float = 6.0

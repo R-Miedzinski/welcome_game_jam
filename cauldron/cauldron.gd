@@ -12,7 +12,7 @@ var current_potion: Potion = null
 @onready var range_label: Label = %Range
 @onready var time_label: Label = %Time
 @onready var potency_label: Label = %Potency
-@onready var move_label: Label = %Move
+@onready var move_label: CheckBox = %Move
 @onready var stun_radio: CheckBox = %Stun
 @onready var reset_radio: CheckBox = %Reset
 
@@ -34,16 +34,18 @@ func write_message(text: String, value) -> String:
 
 # TODO: Update to show actual effect values
 func fill_labels(potion: Potion) -> void:
-    self.dot_label.text = self.write_message("DOT", 0)
-    self.dot_g_label.text = self.write_message("DOT Ground", 0)
-    self.slow_label.text = self.write_message("Slow", 0)
-    self.slow_g_label.text = self.write_message("Slow Ground", 0)
-    self.range_label.text = self.write_message("Range", potion.size)
-    self.time_label.text = self.write_message("Time", potion.duration)
-    self.potency_label.text = self.write_message("Potency", 0)
-    self.move_label.text = self.write_message("Move To Front", 0)
-    self.stun_radio.button_pressed = false # self.current_potion.has_effect("StunEffect")
-    self.reset_radio.button_pressed = false # self.current_potion.has_effect("ResetEffect")
+    var summary: Dictionary = potion.get_value_summary()
+
+    self.dot_label.text = self.write_message("DOT +", summary[Constants.EffectTypes.DOT])
+    self.dot_g_label.text = self.write_message("DOT Ground +", summary[Constants.EffectTypes.DOT_GROUND])
+    self.slow_label.text = self.write_message("Slow *", summary[Constants.EffectTypes.SLOW])
+    self.slow_g_label.text = self.write_message("Slow Ground *", summary[Constants.EffectTypes.SLOW_GROUND])
+    self.range_label.text = self.write_message("Range +", potion.size)
+    self.time_label.text = self.write_message("Time +", potion.duration)
+    # self.potency_label.text = self.write_message("Potency", 0)
+    self.stun_radio.button_pressed = potion.has_effect(Constants.EffectTypes.STUN)
+    self.reset_radio.button_pressed = potion.has_effect(Constants.EffectTypes.RESET)
+    self.move_label.button_pressed = potion.has_effect(Constants.EffectTypes.MOVE)
 
 func _ready() -> void:
     self.reset()
