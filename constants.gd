@@ -7,7 +7,9 @@ extends Node
 @export var EFFECT_TICK_DURATION: float = 0.05
 enum MovementDirection {
     LEFT = 1,
-    RIGHT = -1
+    RIGHT = -1,
+    UP = 2,
+    DOWN = -2
 }
 
 # Potion Configuration
@@ -15,7 +17,7 @@ enum MovementDirection {
 @export var THROW_TIME_SCALING: float = 0.1
 
 # Spawner Configuration
-@export var ENEMY_SPAWN_INTERVAL: float = 4.0
+@export var ENEMY_SPAWN_INTERVAL: float = 6.0
 @export var ENEMY_SPAWN_PROBABILITIES: Dictionary[int, int] = {
     0: 5, # Gnome
     1: 3, # Frog

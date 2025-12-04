@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="SlowGroundEffect" load_steps=2 format=3 uid="uid://basdhcmi7155w"]
+
+[ext_resource type="Script" uid="uid://cyd4ugv7v44an" path="res://effects/slow_ground/slow_ground_effect.gd" id="1_h3dkl"]
+
+[resource]
+script = ExtResource("1_h3dkl")
+value = 0.4
+metadata/_custom_type_script = "uid://cyd4ugv7v44an"

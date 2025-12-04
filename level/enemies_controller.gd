@@ -86,7 +86,7 @@ func _on_effect_tick(tile_coord: Vector2i, effects: Array, durations: Array) -> 
                 var duration = durations[idx]
                 if effect.target_location == Effect.TargetLocation.SELF:
                     if !enemy_instance.self_effects.has(effect.id):
-                        (effect as Effect).apply(enemy_instance, duration)
+                        (effect as Effect).apply(enemy_instance, duration - Constants.EFFECT_TICK_DURATION)
                 elif effect.target_location == Effect.TargetLocation.GROUND:
                     (effect as Effect).apply(enemy_instance)
 

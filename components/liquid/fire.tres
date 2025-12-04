@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Component" load_steps=4 format=3 uid="uid://ckwtekshfmbr6"]
+
+[ext_resource type="Script" uid="uid://c82ufwssxooa" path="res://effects/effect.gd" id="1_o62dc"]
+[ext_resource type="Resource" uid="uid://d32vp8ey6y7wl" path="res://effects/dot/fire_dot.tres" id="2_gqxmf"]
+[ext_resource type="Script" uid="uid://cxr60ckw2fij3" path="res://components/component.gd" id="2_vq8ba"]
+
+[resource]
+script = ExtResource("2_vq8ba")
+name = "Fire"
+effects = Array[ExtResource("1_o62dc")]([ExtResource("2_gqxmf")])
+metadata/_custom_type_script = "uid://cxr60ckw2fij3"
