@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://pdaaoidt2yye"]
+[gd_scene load_steps=12 format=3 uid="uid://pdaaoidt2yye"]
 
 [ext_resource type="PackedScene" uid="uid://cdgtrm0yilnrn" path="res://ui/ui.tscn" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://do0mw5ytw15tt" path="res://level/level.tscn" id="1_ig7tw"]
@@ -11,6 +11,23 @@
 font_size = 100
 outline_color = Color(0, 0, 0, 1)
 
+[sub_resource type="Gradient" id="Gradient_7mycd"]
+offsets = PackedFloat32Array(0.6875, 0.875, 0.9375)
+colors = PackedColorArray(0.20392157, 0.4392157, 0.5019608, 1, 0.47058824, 1, 0.61960787, 1, 0, 0, 0, 1)
+metadata/_snap_enabled = true
+metadata/_snap_count = 16
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_272bh"]
+gradient = SubResource("Gradient_7mycd")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="LabelSettings" id="LabelSettings_272bh"]
+font_size = 100
+
+[sub_resource type="Environment" id="Environment_7mycd"]
+
 [node name="Base" type="Node3D"]
 process_mode = 3
 
@@ -22,6 +39,7 @@ unique_name_in_owner = true
 layer = 2
 
 [node name="PauseMenu" type="ColorRect" parent="Menu"]
+unique_name_in_owner = true
 z_as_relative = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -57,10 +75,57 @@ label_settings = SubResource("LabelSettings_7mycd")
 
 [node name="Unpause" type="Button" parent="Menu/PauseMenu/ButtonBox"]
 layout_mode = 2
+size_flags_vertical = 4
 text = "Unpause"
 icon_alignment = 1
 
+[node name="Menu" type="Button" parent="Menu/PauseMenu/ButtonBox"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Menu"
+icon_alignment = 1
+
 [node name="Quit" type="Button" parent="Menu/PauseMenu/ButtonBox"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Quit"
+icon_alignment = 1
+
+[node name="MainMenu" type="TextureRect" parent="Menu"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_272bh")
+
+[node name="Buttonbox" type="VBoxContainer" parent="Menu/MainMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = -46.5
+offset_right = 21.0
+offset_bottom = 46.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Menu/MainMenu/Buttonbox"]
+layout_mode = 2
+text = "MAIN MENU"
+label_settings = SubResource("LabelSettings_272bh")
+
+[node name="Play" type="Button" parent="Menu/MainMenu/Buttonbox"]
+layout_mode = 2
+text = "Play
+"
+
+[node name="Quit" type="Button" parent="Menu/MainMenu/Buttonbox"]
 layout_mode = 2
 text = "Quit"
 icon_alignment = 1
@@ -120,8 +185,9 @@ sky_mode = 1
 [node name="MainCamera" type="Camera3D" parent="UI/VBoxContainer/GameViewport/SubViewport"]
 unique_name_in_owner = true
 transform = Transform3D(-1, 7.161254e-08, -5.0143644e-08, 0, 0.5735764, 0.819152, 8.742278e-08, 0.819152, -0.5735764, 10, 16, -12)
-current = true
+environment = SubResource("Environment_7mycd")
 fov = 45.0
+size = 20.0
 
 [node name="BrewingViewport" type="SubViewportContainer" parent="UI/VBoxContainer"]
 unique_name_in_owner = true
@@ -160,7 +226,10 @@ stream = ExtResource("6_7mycd")
 bus = &"Soundtrack"
 
 [connection signal="pressed" from="Menu/PauseMenu/ButtonBox/Unpause" to="Controller" method="_on_unpause_clicked"]
+[connection signal="pressed" from="Menu/PauseMenu/ButtonBox/Menu" to="Controller" method="_on_main_menu_clicked"]
 [connection signal="pressed" from="Menu/PauseMenu/ButtonBox/Quit" to="Controller" method="_on_quit_clicked"]
+[connection signal="pressed" from="Menu/MainMenu/Buttonbox/Play" to="Controller" method="_on_play_clicked"]
+[connection signal="pressed" from="Menu/MainMenu/Buttonbox/Quit" to="Controller" method="_on_quit_clicked"]
 [connection signal="pressed" from="UI/VBoxContainer/GameViewport/SubViewport/Pause" to="Controller" method="_on_pause_clicked"]
 [connection signal="update_spawn_counter" from="UI/VBoxContainer/GameViewport/SubViewport/Level" to="Controller" method="_on_spawner_timer_update"]
 [connection signal="component_added" from="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Conveyor" to="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Cauldron" method="_on_component_added"]

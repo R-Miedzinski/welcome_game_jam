@@ -1,0 +1,50 @@
+[gd_scene load_steps=11 format=3 uid="uid://bww4b82dq6g08"]
+
+[ext_resource type="PackedScene" uid="uid://d3811adj66cw8" path="res://VFX/Sceny/Potion_Vfx.tscn" id="1_udc1m"]
+[ext_resource type="PackedScene" uid="uid://cid4ohgb7kye" path="res://VFX/Sceny/Explodion_Vfx.tscn" id="2_5bdwq"]
+[ext_resource type="PackedScene" uid="uid://54k4y5ff1koh" path="res://VFX/Sceny/Blood_Particle_Vfx.tscn" id="3_8tawc"]
+[ext_resource type="PackedScene" uid="uid://cmjnusij1tpqj" path="res://VFX/Sceny/Aim_vfx.tscn" id="4_33ltq"]
+[ext_resource type="PackedScene" uid="uid://dkp8py314rvh5" path="res://VFX/Sceny/Acid_Vfx.tscn" id="5_mbj7d"]
+[ext_resource type="PackedScene" uid="uid://bauxu5wfnctlt" path="res://VFX/Sceny/Frozen_Vfx.tscn" id="6_y6okl"]
+[ext_resource type="Shader" uid="uid://b5tybug2orjew" path="res://VFX/Shader/S_Fire.tres" id="25_hrqnv"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_x63nk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d3cf1"]
+render_priority = 0
+shader = ExtResource("25_hrqnv")
+
+[sub_resource type="QuadMesh" id="QuadMesh_uvsm8"]
+
+[node name="Scene" type="Node3D"]
+
+[node name="Potion_VFX" parent="." instance=ExtResource("1_udc1m")]
+transform = Transform3D(0.99961203, 0.027851848, 0, -0.027851848, 0.99961203, 0, 0, 0, 1, 8.386301, 0.697175, -0.0511055)
+
+[node name="Explodion_VFX" parent="." instance=ExtResource("2_5bdwq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.6735735, -1.5862217, -0.012618542)
+
+[node name="Blood_Particle_VFX" parent="." instance=ExtResource("3_8tawc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3482461, 0, 0)
+
+[node name="Aim_VFX" parent="." instance=ExtResource("4_33ltq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0794268, 0, 8.29901)
+
+[node name="Acid_VFX" parent="." instance=ExtResource("5_mbj7d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.4648933, 0, 8.56208)
+
+[node name="Frozen_VFX" parent="." instance=ExtResource("6_y6okl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.774973, -0.33575702, 8.6570835)
+
+[node name="Fire_VFX" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.752266, 0, 8.490576)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fire_VFX"]
+mesh = SubResource("PlaneMesh_x63nk")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="Fire_VFX"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5345025, 0)
+material_override = SubResource("ShaderMaterial_d3cf1")
+amount = 1
+mesh = SubResource("QuadMesh_uvsm8")
+gravity = Vector3(0, 0, 0)

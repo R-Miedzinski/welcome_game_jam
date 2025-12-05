@@ -23,8 +23,8 @@ image = SubResource("Image_g1o73")
 size = Vector3(1, 0.1, 1)
 
 [sub_resource type="Gradient" id="Gradient_g1o73"]
-offsets = PackedFloat32Array(0, 0.6875)
-colors = PackedColorArray(1, 1, 1, 0, 0.8745098, 0.8745098, 0.8745098, 0.627451)
+offsets = PackedFloat32Array(0, 0.875)
+colors = PackedColorArray(1, 1, 1, 0, 0.8745098, 0.8745098, 0.8745098, 0.50980395)
 metadata/_snap_enabled = true
 metadata/_snap_count = 16
 

@@ -27,9 +27,9 @@ func move(delta: float, direction: Constants.MovementDirection) -> void:
     self.is_on_ground = false
 
     var jump_distance: float = (1 + self.skip_tiles) * Constants.TILE_SIZE
+
     var tween = self.get_tree().create_tween()
     tween.set_parallel(true)
-
     tween.tween_property(self, "position:x", self.position.x + direction * jump_distance, animation_time)
     tween.tween_property(self, "position:y", self.position.y + jump_height, animation_time / 2)
     tween.tween_property(self, "position:y", self.position.y, animation_time / 2).set_delay(animation_time / 2)
@@ -40,6 +40,8 @@ func move(delta: float, direction: Constants.MovementDirection) -> void:
             # TODO: handle speed -> 0 case
             self.jump_timer.start(self.jump_cooldown / self.speed_modifier)
     )
+
+    self.sfx_player.get_node("Intro").get_child(self.intro_sound_id).play()
 
 func pause_movement() -> void:
     super ()

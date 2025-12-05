@@ -12,4 +12,5 @@ duration_scaling = Dictionary[int, float]({
 })
 value = 10.0
 target_location = 0
+name = "Fire"
 metadata/_custom_type_script = "uid://c3abg7bdfawwr"

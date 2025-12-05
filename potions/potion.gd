@@ -9,10 +9,18 @@ extends Node3D
 var repeated_component_counter: Dictionary[String, int] = {}
 
 @onready var sfx_player: Node = $SFX
+@onready var vfx_player: AnimationPlayer = $VFXPlayer
 
 func splash() -> void:
+    self.get_node("%VFX").get_node("Potion_VFX").visible = false
+
     self.sfx_player.get_node("GlassShatter").play()
-    self.sfx_player.get_node("GlassShatter").connect("finished", self.queue_free)
+    self.vfx_player.play("explode")
+    self.vfx_player.animation_finished.connect(
+        func(_anim_name: String) -> void:
+        self.visible = false
+        self.queue_free()
+    )
 
 func brew() -> Potion:
     var new_potion: Potion = Potion.new()

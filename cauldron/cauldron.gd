@@ -67,6 +67,7 @@ func _on_component_added(component: Component) -> void:
 
 func _on_brew_button_pressed() -> void:
    if self.current_potion != null and self.current_potion.liquid_components.size() > 0:
+        self.sfx.get_node("Mieszanie").play()
         var potion = self.current_potion.brew()
         emit_signal("potion_brewed", potion)
         self.reset()

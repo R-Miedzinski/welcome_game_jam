@@ -5,6 +5,7 @@ extends Node
 @export var tile_size: float = Constants.TILE_SIZE
 @export var tile_height: float = Constants.TILE_HEIGHT
 var effects_map: Dictionary[Vector2i, Array] = {}
+var effects_vfx_map: Dictionary[String, Array] = {} # {effect.id: [vfx_instances]}
 
 @export var tick_duration: float = Constants.EFFECT_TICK_DURATION
 
@@ -68,6 +69,12 @@ func _on_effect_tick() -> void:
         effects_to_remove.sort()
         effects_to_remove.reverse()
         for idx in effects_to_remove:
+            var effect: Effect = all_effects_with_duration[idx].effect
+            if self.effects_vfx_map.has(effect.id):
+                for vfx_instance in self.effects_vfx_map[effect.id]:
+                    vfx_instance.queue_free()
+                self.effects_vfx_map.erase(effect.id)
+            
             all_effects_with_duration.remove_at(idx)
         self.effects_map[tile_coord] = all_effects_with_duration
 
@@ -76,7 +83,6 @@ func _on_effect_tick() -> void:
 func _on_potion_thrown(potion: Potion, tile_coord: Vector2i, origin: Vector3) -> void:
     var potion_instance: Potion = potion as Potion
     potion_instance.position = origin
-    self.get_tree().get_current_scene().add_child(potion_instance)
 
     var target_position: Vector3 = coordinates_to_position(tile_coord) + Vector3(
       (self.tile_size) / 2,
@@ -84,11 +90,16 @@ func _on_potion_thrown(potion: Potion, tile_coord: Vector2i, origin: Vector3) ->
       (self.tile_size) / 2
     )
 
-    var tween = get_tree().create_tween()
+    var tween = self.get_tree().create_tween()
     var animation_time: float = min(Constants.MAX_THROW_TIME, Constants.THROW_TIME_SCALING * (tile_coord.y + 1))
     var end_point = target_position + Vector3(0, 1.0, 0)
-    # TODO: I would love for the trajectory to be more parabolic
+    # TODO: Might rempve parabolic path if performance demands it
+    # var trajectory_points: Array = self._calculate_potion_trajectory(origin, end_point, animation_time)
+    self.get_tree().get_current_scene().add_child(potion_instance)
+
     tween.tween_property(potion_instance, "position", end_point, animation_time)
+    # for idx in range(trajectory_points.size()):
+    #     tween.chain().tween_property(potion_instance, "position", trajectory_points[idx], animation_time / trajectory_points.size())
 
     tween.finished.connect(
       func() -> void:
@@ -108,6 +119,21 @@ func _on_potion_thrown(potion: Potion, tile_coord: Vector2i, origin: Vector3) ->
                                 self.effects_map[affected_tile].append(effect_to_apply)
                             else:
                                 self.effects_map[affected_tile] = [effect_to_apply]
+
+                            if Preloads.AOE_TILES.has(effect.name):
+                                var vfx_scene: PackedScene = Preloads.AOE_TILES[effect.name]
+                                var vfx_instance: Node3D = vfx_scene.instantiate()
+                                vfx_instance.position = coordinates_to_position(affected_tile) + Vector3(
+                                    (self.tile_size) / 2,
+                                    self.grid_map.position.y + self.tile_height + 0.05,
+                                    (self.tile_size) / 2
+                                )
+                                self.get_tree().get_current_scene().add_child(vfx_instance)
+
+                                if self.effects_vfx_map.has(effect.id):
+                                    self.effects_vfx_map[effect.id].append(vfx_instance)
+                                else:
+                                    self.effects_vfx_map[effect.id] = [vfx_instance]
 
         potion_instance.splash()
     )
@@ -129,6 +155,22 @@ func _initialize_grid() -> void:
 
 func _on_barrier_collided(entity: Node) -> void:
     entity.attack_player()
+
+func _calculate_potion_trajectory(origin: Vector3, target: Vector3, animation_time: float) -> Array:
+    var inital_velocity: Vector3 = Vector3(
+      (target.x - origin.x) / animation_time,
+      (target.y - origin.y - 0.5 * Constants.GRAVITY * animation_time * animation_time) / animation_time,
+      (target.z - origin.z) / animation_time
+    )
+
+    var points: Array = []
+    var steps: int = 2
+    for i in range(steps + 1):
+        var t: float = float(i) / float(steps) * animation_time
+        var point: Vector3 = origin + inital_velocity * t
+        point.y += 0.5 * Constants.GRAVITY * t * t
+        points.append(point)
+    return points
 
 class EffectWithDuration:
     var effect: Effect

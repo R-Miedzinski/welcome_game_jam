@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://bd8hs0i08v081"]
+[gd_scene load_steps=13 format=3 uid="uid://bd8hs0i08v081"]
 
 [ext_resource type="Script" uid="uid://dsy56u3vxcw48" path="res://enemies/frog/frog.gd" id="1_72q3a"]
 [ext_resource type="Material" uid="uid://sirjghwctyid" path="res://enemies/gnome/base_enemy.tres" id="2_vye8c"]
 [ext_resource type="Material" uid="uid://nghqt0ifsqwk" path="res://enemies/gnome/base_enemy_damage.tres" id="3_m5g38"]
 [ext_resource type="AudioStream" uid="uid://w1y4ou6248cc" path="res://enemies/frog/sfx/żaba.wav" id="4_nx4wd"]
+[ext_resource type="PackedScene" uid="uid://54k4y5ff1koh" path="res://VFX/Sceny/Blood_Particle_Vfx.tscn" id="5_rvg6b"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_nx4wd"]
 resource_local_to_scene = true
@@ -96,6 +97,16 @@ tracks/2/keys = {
 "update": 1,
 "values": [ExtResource("3_m5g38")]
 }
+tracks/3/type = "animation"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("VFX/Blood_Particle_VFX/Blood_Anim_Play")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": PackedStringArray("Blood_Explosion"),
+"times": PackedFloat32Array(0)
+}
 
 [sub_resource type="Animation" id="Animation_02xms"]
 resource_name = "hurt"
@@ -165,10 +176,22 @@ bus = &"VoiceLines"
 
 [node name="Death" type="Node" parent="SFX"]
 
+[node name="Żaba" type="AudioStreamPlayer" parent="SFX/Death"]
+stream = ExtResource("4_nx4wd")
+bus = &"VoiceLines"
+
 [node name="Attack" type="Node" parent="SFX"]
 
 [node name="Żaba" type="AudioStreamPlayer" parent="SFX/Attack"]
 stream = ExtResource("4_nx4wd")
 bus = &"VoiceLines"
 
+[node name="VFX" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Blood_Particle_VFX" parent="VFX" instance=ExtResource("5_rvg6b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, -0.5, 0.6)
+
 [connection signal="timeout" from="JumpTimer" to="." method="_on_jump_cooldown_reset"]
+
+[editable path="VFX/Blood_Particle_VFX"]

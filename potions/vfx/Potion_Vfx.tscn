@@ -1,0 +1,77 @@
+[gd_scene load_steps=11 format=3 uid="uid://cv0l5fd0cjgfw"]
+
+[ext_resource type="Shader" uid="uid://bi2wtknn4vmp0" path="res://potions/vfx/shaders/S_Head_Fioka.tres" id="1_v7suq"]
+[ext_resource type="ArrayMesh" uid="uid://blc7a7gsw4smb" path="res://potions/vfx/mesh/Mesh_Fiolka.obj" id="2_sc53v"]
+[ext_resource type="Shader" uid="uid://d1nvvo07l5vkb" path="res://potions/vfx/shaders/S_Inside_Fiolka.tres" id="3_yba4b"]
+[ext_resource type="Material" uid="uid://biyvq1g0lmxkj" path="res://potions/vfx/material/M_Trail.tres" id="4_rygrn"]
+[ext_resource type="Script" uid="uid://drliyberfyjsa" path="res://potions/vfx/Trail3D.gd" id="5_um04c"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y6okl"]
+render_priority = 1
+shader = ExtResource("1_v7suq")
+shader_parameter/Projectile_Color = Color(0.56078434, 0.23921569, 0.3647059, 1)
+shader_parameter/Speed = Vector2(0.1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6pfwv"]
+render_priority = 0
+shader = ExtResource("3_yba4b")
+shader_parameter/Inside_Color = Color(0.7435538, 0.51359266, 0.5696665, 1)
+shader_parameter/FloatParameter = 0.7010000332975
+
+[sub_resource type="QuadMesh" id="QuadMesh_qi58o"]
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_v7suq"]
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_yba4b"]
+
+[node name="Potion_VFX" type="Node3D"]
+transform = Transform3D(0.99961203, 0.027851848, 0, -0.027851848, 0.99961203, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="MeshFiolka" type="MeshInstance3D" parent="."]
+material_override = SubResource("ShaderMaterial_y6okl")
+mesh = ExtResource("2_sc53v")
+skeleton = NodePath("../..")
+
+[node name="MeshFiolka2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.93, 0, 0, 0, 0.93, 0, 0, 0, 0.93, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_6pfwv")
+mesh = ExtResource("2_sc53v")
+skeleton = NodePath("../..")
+
+[node name="Mesh_Trail" type="MeshInstance3D" parent="."]
+transform = Transform3D(7.9466877, 0, 0, 0, 3.6545818, 0, 0, 0, 1, -4.716115, 0.7990947, 0)
+visible = false
+material_override = ExtResource("4_rygrn")
+mesh = SubResource("QuadMesh_qi58o")
+skeleton = NodePath("../..")
+
+[node name="Mesh_Trail2" type="MeshInstance3D" parent="."]
+transform = Transform3D(7.9466877, 0, 0, 0, -1.5974685e-07, -1.0000001, 0, 3.6545818, -4.3711392e-08, -4.716115, 0.7990947, 0)
+visible = false
+material_override = ExtResource("4_rygrn")
+mesh = SubResource("QuadMesh_qi58o")
+skeleton = NodePath("../..")
+
+[node name="Trail3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.3711385e-08, 0, 0.99999994, 0, 0.9999999, 0, -0.99999994, 0, -4.3711385e-08, -0.6390845, 0.34799027, 4.7683716e-07)
+material_override = ExtResource("4_rygrn")
+mesh = SubResource("ImmediateMesh_v7suq")
+skeleton = NodePath("../..")
+script = ExtResource("5_um04c")
+fromWidth = 2.0
+toWidth = 2.0
+lifespan = 0.3
+startColor = Color(0.89038974, 0.48057806, 0.6894014, 1)
+endColor = Color(0.8596341, 0.5045135, 0.43080693, 0)
+
+[node name="Trail3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.0034906513, 4.3863967e-08, 0.9999938, 0.99999386, -4.371112e-08, 0.003490651, 4.3863967e-08, 0.9999999, -4.371112e-08, -0.6390846, 0.34799027, 4.7683716e-07)
+material_override = ExtResource("4_rygrn")
+mesh = SubResource("ImmediateMesh_yba4b")
+skeleton = NodePath("../..")
+script = ExtResource("5_um04c")
+fromWidth = 2.0
+toWidth = 2.0
+lifespan = 0.3
+startColor = Color(0.89038974, 0.48057806, 0.6894014, 1)
+endColor = Color(0.8596341, 0.5045135, 0.43080693, 0)

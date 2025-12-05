@@ -22,7 +22,9 @@ func spawn_enemy_at_position(pos: Vector2i, enemy_scene: PackedScene, modifier: 
     enemy_instance.connect("enemy_attacked_player", self._on_enemy_dealt_damage)
     enemy_instance.connect("enemy_defeated", self._on_enemy_defeated)
     self.grid_controller.effects_clock.connect("timeout", enemy_instance._on_effect_tick)
+
     add_child(enemy_instance)
+    enemy_instance.animation_player.play("walk")
 
     var spawn_sounds_count = enemy_instance.sfx_player.get_node("Intro").get_child_count()
     var spawn_sound_id = -1

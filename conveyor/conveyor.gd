@@ -40,6 +40,7 @@ func _ready() -> void:
   self.component_timer.start()
 
 func _on_spawn_component_timeout() -> void:
+  # for _id in range(2):
   if self.components.size() >= self.capacity:
     self.component_timer.stop()
     return
