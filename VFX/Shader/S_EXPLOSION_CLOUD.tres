@@ -42,7 +42,7 @@ attached_nodes = PackedInt32Array(4, 11, 8, 9, 19, 6, 5)
 linked_parent_graph_frame = 17
 
 [sub_resource type="VisualShaderNodeFrame" id="VisualShaderNodeFrame_vfruj"]
-size = Vector2(1189, 823.99994)
+size = Vector2(1189, 824.00006)
 title = "Alpha"
 attached_nodes = PackedInt32Array(15, 19, 12, 18, 21)
 

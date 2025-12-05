@@ -1,4 +1,4 @@
-[gd_scene load_steps=98 format=3 uid="uid://bww4b82dq6g08"]
+[gd_scene load_steps=107 format=3 uid="uid://bww4b82dq6g08"]
 
 [ext_resource type="Shader" uid="uid://bi2wtknn4vmp0" path="res://VFX/Shader/S_Head_Fioka.tres" id="1_l3iir"]
 [ext_resource type="ArrayMesh" uid="uid://blc7a7gsw4smb" path="res://VFX/Mesh/Mesh_Fiolka.obj" id="2_udc1m"]
@@ -24,6 +24,9 @@
 [ext_resource type="Shader" uid="uid://bg5no4ookn5ki" path="res://VFX/Shader/S_Snow.tres" id="22_ss64e"]
 [ext_resource type="Texture2D" uid="uid://cbwe2hbjpcdkh" path="res://VFX/Texture/T_Ice_area.png" id="23_2oxco"]
 [ext_resource type="Shader" uid="uid://ddspsjyt18xtf" path="res://VFX/Shader/S_SQUARE_ICE_ARE.tres" id="24_f6kmk"]
+[ext_resource type="Shader" uid="uid://b5tybug2orjew" path="res://VFX/Shader/S_Fire.tres" id="25_hrqnv"]
+[ext_resource type="Shader" uid="uid://cpgitnsqk3djv" path="res://VFX/Shader/S_Mix_Ground.tres" id="26_37upb"]
+[ext_resource type="Texture2D" uid="uid://fnjxg7lgkdvr" path="res://VFX/Texture/T_Grass_tile_2.png" id="27_msy43"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_y6okl"]
 render_priority = 1
@@ -39,9 +42,9 @@ shader_parameter/FloatParameter = 0.7010000332975
 
 [sub_resource type="QuadMesh" id="QuadMesh_qi58o"]
 
-[sub_resource type="ImmediateMesh" id="ImmediateMesh_64oc8"]
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_rs11t"]
 
-[sub_resource type="ImmediateMesh" id="ImmediateMesh_hrqnv"]
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_wcknh"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_xkokr"]
 
@@ -574,6 +577,23 @@ shader_parameter/Trail_Speed = Vector2(0.085, 0.15)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_86ql8"]
 
+[sub_resource type="PlaneMesh" id="PlaneMesh_x63nk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d3cf1"]
+render_priority = 0
+shader = ExtResource("25_hrqnv")
+
+[sub_resource type="QuadMesh" id="QuadMesh_uvsm8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kcqql"]
+render_priority = 0
+shader = ExtResource("26_37upb")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mfv3e"]
+albedo_texture = ExtResource("27_msy43")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_j5y0s"]
+
 [node name="Scene" type="Node3D"]
 
 [node name="Potion_VFX" type="Node3D" parent="."]
@@ -607,7 +627,7 @@ skeleton = NodePath("../..")
 [node name="Trail3D" type="MeshInstance3D" parent="Potion_VFX"]
 transform = Transform3D(-4.3711385e-08, 0, -0.99999994, 0, 0.9999999, 0, 0.99999994, 0, -4.3711385e-08, -0.6390845, 0.34799027, 4.7683716e-07)
 material_override = ExtResource("4_8tawc")
-mesh = SubResource("ImmediateMesh_64oc8")
+mesh = SubResource("ImmediateMesh_rs11t")
 skeleton = NodePath("../..")
 script = ExtResource("5_33ltq")
 fromWidth = 2.0
@@ -619,7 +639,7 @@ endColor = Color(0.8596341, 0.5045135, 0.43080693, 0)
 [node name="Trail3D2" type="MeshInstance3D" parent="Potion_VFX"]
 transform = Transform3D(0.0034906513, 4.3558803e-08, -0.9999938, 0.99999386, -4.371112e-08, 0.003490651, -4.3558803e-08, -0.9999999, -4.371112e-08, -0.6390846, 0.34799027, 4.7683716e-07)
 material_override = ExtResource("4_8tawc")
-mesh = SubResource("ImmediateMesh_hrqnv")
+mesh = SubResource("ImmediateMesh_wcknh")
 skeleton = NodePath("../..")
 script = ExtResource("5_33ltq")
 fromWidth = 2.0
@@ -836,3 +856,28 @@ mesh = SubResource("PlaneMesh_86ql8")
 skeleton = NodePath("../..")
 
 [node name="Fire_VFX" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.752266, 0, 8.490576)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fire_VFX"]
+mesh = SubResource("PlaneMesh_x63nk")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="Fire_VFX"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5345025, 0)
+material_override = SubResource("ShaderMaterial_d3cf1")
+amount = 1
+mesh = SubResource("QuadMesh_uvsm8")
+gravity = Vector3(0, 0, 0)
+
+[node name="Ground_Texture" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.937434, 0.5345025, 0.6176696)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground_Texture"]
+material_override = SubResource("ShaderMaterial_kcqql")
+material_overlay = SubResource("StandardMaterial3D_mfv3e")
+mesh = SubResource("PlaneMesh_j5y0s")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Ground_Texture"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9845085, 0, 0)
+material_override = SubResource("ShaderMaterial_kcqql")
+material_overlay = SubResource("StandardMaterial3D_mfv3e")
+mesh = SubResource("PlaneMesh_j5y0s")
