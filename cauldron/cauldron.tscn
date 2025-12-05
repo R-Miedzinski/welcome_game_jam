@@ -1,7 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://b6l6x8jcjo1w3"]
+[gd_scene load_steps=8 format=3 uid="uid://b6l6x8jcjo1w3"]
 
 [ext_resource type="Script" uid="uid://6jkd45gkwnpv" path="res://cauldron/cauldron.gd" id="1_posa5"]
 [ext_resource type="Texture2D" uid="uid://cukbyjysna702" path="res://cauldron/button_background.tres" id="2_lb3ud"]
+[ext_resource type="AudioStream" uid="uid://cecrrv8l1l0ok" path="res://cauldron/sfx/nalewanie.wav" id="3_lprow"]
+[ext_resource type="AudioStream" uid="uid://7gysoca4pvi1" path="res://cauldron/sfx/proszek.wav" id="4_sehdx"]
+[ext_resource type="AudioStream" uid="uid://b8nhc68p5e41g" path="res://cauldron/sfx/wylewanie.wav" id="5_28at6"]
+[ext_resource type="AudioStream" uid="uid://djk6wihf2ghnm" path="res://cauldron/sfx/mieszanie.wav" id="6_sehdx"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_lb3ud"]
 size = Vector2(300, 300)
@@ -172,6 +176,24 @@ size_flags_vertical = 3
 text = "RESET"
 icon = ExtResource("2_lb3ud")
 icon_alignment = 1
+
+[node name="SFX" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="Nalewanie" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("3_lprow")
+bus = &"SFX"
+
+[node name="Proszek" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("4_sehdx")
+bus = &"SFX"
+
+[node name="Wylewanie" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("5_28at6")
+bus = &"SFX"
+
+[node name="Mieszanie" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("6_sehdx")
 
 [connection signal="pressed" from="HFlowContainer/ButtonPanel/BrewPotion" to="." method="_on_brew_button_pressed"]
 [connection signal="pressed" from="HFlowContainer/ButtonPanel/ResetPotion" to="." method="_on_reset_button_pressed"]

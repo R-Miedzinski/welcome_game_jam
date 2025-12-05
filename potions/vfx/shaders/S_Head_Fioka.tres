@@ -1,0 +1,128 @@
+[gd_resource type="VisualShader" load_steps=13 format=3 uid="uid://bi2wtknn4vmp0"]
+
+[ext_resource type="Texture2D" uid="uid://wf25euau6tau" path="res://VFX/Texture/T_VFX_Noi55.png" id="1_x28sp"]
+
+[sub_resource type="VisualShaderNodeVec2Parameter" id="VisualShaderNodeVec2Parameter_75to6"]
+parameter_name = "Speed"
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_8o186"]
+parameter_name = "Projectile_Color"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_dy73n"]
+expanded_output_ports = [0]
+texture = ExtResource("1_x28sp")
+texture_type = 1
+
+[sub_resource type="Gradient" id="Gradient_5x0w0"]
+offsets = PackedFloat32Array(0, 0.15708812, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_uecbe"]
+gradient = SubResource("Gradient_5x0w0")
+fill_from = Vector2(1, 0.74643874)
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_ombfg"]
+expanded_output_ports = [0]
+texture = SubResource("GradientTexture2D_uecbe")
+texture_type = 1
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_26aau"]
+output_port_for_preview = 0
+operator = 1
+
+[sub_resource type="VisualShaderNodeClamp" id="VisualShaderNodeClamp_g60l4"]
+
+[sub_resource type="VisualShaderNodeUVFunc" id="VisualShaderNodeUVFunc_0d5ge"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_fugor"]
+input_name = "time"
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_j2ffk"]
+default_input_values = [0, Vector2(0, 0), 1, Vector2(0, 1)]
+op_type = 0
+operator = 2
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, depth_test_default, cull_disabled, diffuse_lambert, specular_schlick_ggx, unshaded, shadows_disabled, ambient_light_disabled;
+
+uniform vec4 Projectile_Color : source_color;
+uniform vec2 Speed;
+uniform sampler2D tex_frg_3 : source_color;
+uniform sampler2D tex_frg_4 : source_color;
+
+
+
+void fragment() {
+// ColorParameter:2
+	vec4 n_out2p0 = Projectile_Color;
+
+
+// Input:8
+	float n_out8p0 = TIME;
+
+
+// Vector2Parameter:10
+	vec2 n_out10p0 = Speed;
+
+
+// VectorOp:9
+	vec2 n_out9p0 = vec2(n_out8p0) * n_out10p0;
+
+
+// UVFunc:7
+	vec2 n_in7p1 = vec2(1.00000, 1.00000);
+	vec2 n_out7p0 = n_out9p0 * n_in7p1 + UV;
+
+
+// Texture2D:3
+	vec4 n_out3p0 = texture(tex_frg_3, n_out7p0);
+	float n_out3p1 = n_out3p0.r;
+
+
+// Texture2D:4
+	vec4 n_out4p0 = texture(tex_frg_4, UV);
+	float n_out4p1 = n_out4p0.r;
+
+
+// FloatOp:5
+	float n_out5p0 = n_out3p1 - n_out4p1;
+
+
+// Clamp:6
+	float n_in6p1 = 0.00000;
+	float n_in6p2 = 1.00000;
+	float n_out6p0 = clamp(n_out5p0, n_in6p1, n_in6p2);
+
+
+// Output:0
+	ALBEDO = vec3(n_out2p0.xyz);
+	ALPHA = n_out6p0;
+
+
+}
+"
+modes/cull = 2
+flags/unshaded = true
+flags/shadows_disabled = true
+flags/ambient_light_disabled = true
+nodes/fragment/0/position = Vector2(760, 60)
+nodes/fragment/2/node = SubResource("VisualShaderNodeColorParameter_8o186")
+nodes/fragment/2/position = Vector2(-540, 120)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_dy73n")
+nodes/fragment/3/position = Vector2(-920, 440)
+nodes/fragment/4/node = SubResource("VisualShaderNodeTexture_ombfg")
+nodes/fragment/4/position = Vector2(-920, 1060)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatOp_26aau")
+nodes/fragment/5/position = Vector2(-260, 840)
+nodes/fragment/6/node = SubResource("VisualShaderNodeClamp_g60l4")
+nodes/fragment/6/position = Vector2(180, 740)
+nodes/fragment/7/node = SubResource("VisualShaderNodeUVFunc_0d5ge")
+nodes/fragment/7/position = Vector2(-1768.418, 697.959)
+nodes/fragment/8/node = SubResource("VisualShaderNodeInput_fugor")
+nodes/fragment/8/position = Vector2(-2600, 760)
+nodes/fragment/9/node = SubResource("VisualShaderNodeVectorOp_j2ffk")
+nodes/fragment/9/position = Vector2(-2125.9512, 999.1244)
+nodes/fragment/10/node = SubResource("VisualShaderNodeVec2Parameter_75to6")
+nodes/fragment/10/position = Vector2(-2700, 1180)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0, 3, 1, 5, 0, 4, 1, 5, 1, 5, 0, 6, 0, 6, 0, 0, 1, 7, 0, 3, 0, 8, 0, 9, 0, 9, 0, 7, 2, 10, 0, 9, 1)

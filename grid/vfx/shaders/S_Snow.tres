@@ -1,0 +1,75 @@
+[gd_resource type="VisualShader" load_steps=6 format=3 uid="uid://bg5no4ookn5ki"]
+
+[ext_resource type="Texture2D" uid="uid://c45tqt12dd6e1" path="res://VFX/Texture/T_Snow.png" id="1_2dv6t"]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_xyokv"]
+expanded_output_ports = [0]
+texture = ExtResource("1_2dv6t")
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_ulnmp"]
+expanded_output_ports = [0]
+input_name = "color"
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_kwm7u"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeBillboard" id="VisualShaderNodeBillboard_uk2vb"]
+billboard_type = 2
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, depth_test_default, cull_back, diffuse_lambert, specular_schlick_ggx, unshaded;
+
+uniform sampler2D tex_frg_5;
+
+
+
+void vertex() {
+	mat4 n_out2p0;
+// GetBillboardMatrix:2
+	{
+		mat4 __mvm = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], MODEL_MATRIX[1], vec4(normalize(cross(INV_VIEW_MATRIX[0].xyz, MODEL_MATRIX[1].xyz)), 0.0), MODEL_MATRIX[3]);
+		__mvm = __mvm * mat4(vec4(1.0, 0.0, 0.0, 0.0), vec4(0.0, 1.0 / length(MODEL_MATRIX[1].xyz), 0.0, 0.0), vec4(0.0, 0.0, 1.0, 0.0), vec4(0.0, 0.0, 0.0, 1.0));
+		n_out2p0 = __mvm;
+	}
+
+
+// Output:0
+	MODELVIEW_MATRIX = n_out2p0;
+
+
+}
+
+void fragment() {
+// Input:6
+	vec4 n_out6p0 = COLOR;
+	float n_out6p4 = n_out6p0.a;
+
+
+// Texture2D:5
+	vec4 n_out5p0 = texture(tex_frg_5, UV);
+	float n_out5p1 = n_out5p0.r;
+
+
+// FloatOp:7
+	float n_out7p0 = n_out6p4 * n_out5p1;
+
+
+// Output:0
+	ALBEDO = vec3(n_out6p0.xyz);
+	ALPHA = n_out7p0;
+
+
+}
+"
+flags/unshaded = true
+nodes/vertex/2/node = SubResource("VisualShaderNodeBillboard_uk2vb")
+nodes/vertex/2/position = Vector2(-100, 660)
+nodes/vertex/connections = PackedInt32Array(2, 0, 0, 10)
+nodes/fragment/5/node = SubResource("VisualShaderNodeTexture_xyokv")
+nodes/fragment/5/position = Vector2(-640, 380)
+nodes/fragment/6/node = SubResource("VisualShaderNodeInput_ulnmp")
+nodes/fragment/6/position = Vector2(-680, -100)
+nodes/fragment/7/node = SubResource("VisualShaderNodeFloatOp_kwm7u")
+nodes/fragment/7/position = Vector2(-60, 460)
+nodes/fragment/connections = PackedInt32Array(6, 0, 0, 0, 5, 1, 7, 1, 6, 4, 7, 0, 7, 0, 0, 1)

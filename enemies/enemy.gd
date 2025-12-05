@@ -12,6 +12,7 @@ var health: float = 100
 var is_on_ground: bool = true
 var is_paused: bool = false
 var stop_processing: bool = false
+var death_processed: bool = false
 
 @export var dimensions: Vector3 = Vector3(1, 1, 1)
 var front_position_in_grid: Vector2i = Vector2i(0, 0)
@@ -24,6 +25,12 @@ var self_effects: Dictionary[String, Array] = {} # { effect.id: [duration, effec
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var hp_label: Label3D = %HPLabel
 
+@onready var sfx_player: Node = %SFX
+var registered_effects_sfx: Dictionary[String, AudioStreamPlayer] = {}
+var death_sound_id: int = 0
+var attack_sound_id: int = 0
+var intro_sound_id: int = 0
+
 signal deal_damage(damage: int)
 signal enemy_attacked_player(position_in_grid: Vector2i, idx: int)
 signal enemy_defeated(position_in_grid: Vector2i, idx: int)
@@ -33,7 +40,15 @@ signal enemy_defeated(position_in_grid: Vector2i, idx: int)
 func attack_player() -> void:
   self.emit_signal("deal_damage", self.damage)
   self.emit_signal("enemy_attacked_player", self.front_position_in_grid, self.idx_in_position)
-  self.animation_player.queue("attack")
+
+  self.animation_player.play("attack")
+  if self.attack_sound_id != -1:
+    var attack_sound_player = self.sfx_player.get_node("Attack").get_child(self.attack_sound_id)
+    attack_sound_player.play()
+    attack_sound_player.finished.connect(
+        func() -> void:
+            self.death_processed = true
+    )
 
 func force_move(new_position: Vector2i, move_time: float) -> void:
   self.pause_movement()
@@ -50,6 +65,10 @@ func force_move(new_position: Vector2i, move_time: float) -> void:
   )
 
 func move(delta: float, direction: Constants.MovementDirection) -> void:
+  if !self.visible and self.death_processed:
+    self.queue_free()
+    return
+
   if self.animation_player.current_animation == "attack" or self.animation_player.current_animation == "death" or self.is_paused:
     return
   self.move_and_collide(delta * self.speed_modifier * self.speed * Vector3(direction * Constants.TILE_SIZE, 0, 0))
@@ -59,11 +78,29 @@ func pause_movement() -> void:
     self.previous_speed = self.speed
     self.speed = 0
     self.is_paused = true
+    self.animation_player.pause()
 
 func resume_movement() -> void:
   if self.is_paused:
     self.speed = self.previous_speed
     self.is_paused = false
+    self.animation_player.play("walk")
+
+func play_effect_sound(effect_name: String) -> void:
+  if Preloads.EFFECT_SFX.has(effect_name):
+    var sfx_sound: AudioStream = Preloads.EFFECT_SFX[effect_name]
+    var sfx_instance: AudioStreamPlayer = AudioStreamPlayer.new()
+    sfx_instance.stream = sfx_sound
+    sfx_instance.bus = Constants.SFX_BUS_NAME
+
+    if not self.registered_effects_sfx.has(effect_name):
+      self.registered_effects_sfx[effect_name] = sfx_instance
+      self.get_tree().get_current_scene().add_child(sfx_instance)
+      sfx_instance.play()
+      sfx_instance.finished.connect(
+          func() -> void:
+              sfx_instance.queue_free()
+      )
 
 func _ready() -> void:
   self.speed = self.max_speed
@@ -79,15 +116,24 @@ func _on_death() -> void:
     self.stop_processing = true
     self.pause_movement()
     emit_signal("enemy_defeated", self.front_position_in_grid, self.idx_in_position)
-    self.animation_player.queue("death")
+
+    self.animation_player.play("death")
+
+    if self.death_sound_id != -1:
+        var death_sound_player = self.sfx_player.get_node("Death").get_child(self.death_sound_id)
+        death_sound_player.play()
+        death_sound_player.finished.connect(
+            func() -> void:
+                self.death_processed = true
+        )
 
 func _process_animation(anim_name: String) -> void:
     if anim_name == "hurt":
-            self.animation_player.queue("RESET")
+      self.animation_player.queue("walk")
     if anim_name == "death":
-            self.queue_free()
+      self.visible = false
     if anim_name == "attack":
-            self.queue_free()
+      self.visible = false
 
 func _on_effect_tick() -> void:
   for effect_id in self.self_effects.keys():

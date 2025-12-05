@@ -1,15 +1,134 @@
-[gd_scene load_steps=6 format=3 uid="uid://pdaaoidt2yye"]
+[gd_scene load_steps=12 format=3 uid="uid://pdaaoidt2yye"]
 
 [ext_resource type="PackedScene" uid="uid://cdgtrm0yilnrn" path="res://ui/ui.tscn" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://do0mw5ytw15tt" path="res://level/level.tscn" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://weu5gfxeyjxt" path="res://controller.gd" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://b4mysbhjv2bij" path="res://conveyor/conveyor.tscn" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://b6l6x8jcjo1w3" path="res://cauldron/cauldron.tscn" id="5_lquwl"]
+[ext_resource type="AudioStream" uid="uid://co4etvyads6d5" path="res://sfx/muzyka_do_mordowania_gnomów.wav" id="6_7mycd"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7mycd"]
+font_size = 100
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_7mycd"]
+offsets = PackedFloat32Array(0.6875, 0.875, 0.9375)
+colors = PackedColorArray(0.20392157, 0.4392157, 0.5019608, 1, 0.47058824, 1, 0.61960787, 1, 0, 0, 0, 1)
+metadata/_snap_enabled = true
+metadata/_snap_count = 16
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_272bh"]
+gradient = SubResource("Gradient_7mycd")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="LabelSettings" id="LabelSettings_272bh"]
+font_size = 100
+
+[sub_resource type="Environment" id="Environment_7mycd"]
 
 [node name="Base" type="Node3D"]
+process_mode = 3
 
 [node name="Controller" type="Node" parent="."]
 script = ExtResource("2_0xm2m")
+
+[node name="Menu" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+layer = 2
+
+[node name="PauseMenu" type="ColorRect" parent="Menu"]
+unique_name_in_owner = true
+z_as_relative = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 0, 0, 0.27058825)
+
+[node name="ButtonBox" type="VBoxContainer" parent="Menu/PauseMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+
+[node name="Label" type="Label" parent="Menu/PauseMenu/ButtonBox"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Game Paused"
+label_settings = SubResource("LabelSettings_7mycd")
+
+[node name="Unpause" type="Button" parent="Menu/PauseMenu/ButtonBox"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Unpause"
+icon_alignment = 1
+
+[node name="Menu" type="Button" parent="Menu/PauseMenu/ButtonBox"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Menu"
+icon_alignment = 1
+
+[node name="Quit" type="Button" parent="Menu/PauseMenu/ButtonBox"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Quit"
+icon_alignment = 1
+
+[node name="MainMenu" type="TextureRect" parent="Menu"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_272bh")
+
+[node name="Buttonbox" type="VBoxContainer" parent="Menu/MainMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = -46.5
+offset_right = 21.0
+offset_bottom = 46.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Menu/MainMenu/Buttonbox"]
+layout_mode = 2
+text = "MAIN MENU"
+label_settings = SubResource("LabelSettings_272bh")
+
+[node name="Play" type="Button" parent="Menu/MainMenu/Buttonbox"]
+layout_mode = 2
+text = "Play
+"
+
+[node name="Quit" type="Button" parent="Menu/MainMenu/Buttonbox"]
+layout_mode = 2
+text = "Quit"
+icon_alignment = 1
 
 [node name="UI" parent="." instance=ExtResource("1_h2yge")]
 unique_name_in_owner = true
@@ -36,6 +155,25 @@ handle_input_locally = false
 size = Vector2i(1152, 429)
 render_target_update_mode = 4
 
+[node name="Pause" type="Button" parent="UI/VBoxContainer/GameViewport/SubViewport"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_mode = 0
+focus_behavior_recursive = 1
+text = "||"
+icon_alignment = 1
+
+[node name="SpawnTimer" type="Label" parent="UI/VBoxContainer/GameViewport/SubViewport"]
+unique_name_in_owner = true
+offset_right = 1.0
+offset_bottom = 23.0
+
 [node name="Level" parent="UI/VBoxContainer/GameViewport/SubViewport" instance=ExtResource("1_ig7tw")]
 unique_name_in_owner = true
 
@@ -46,13 +184,10 @@ sky_mode = 1
 
 [node name="MainCamera" type="Camera3D" parent="UI/VBoxContainer/GameViewport/SubViewport"]
 unique_name_in_owner = true
-transform = Transform3D(-1, 6.6969726e-08, -5.6194278e-08, 0, 0.6427876, 0.7660444, 8.742278e-08, 0.7660444, -0.6427876, 10, 13, -11)
-current = true
-fov = 50.0
-
-[node name="SpawnTimer" type="Label" parent="UI/VBoxContainer/GameViewport"]
-unique_name_in_owner = true
-layout_mode = 2
+transform = Transform3D(-1, 7.161254e-08, -5.0143644e-08, 0, 0.5735764, 0.819152, 8.742278e-08, 0.819152, -0.5735764, 10, 16, -12)
+environment = SubResource("Environment_7mycd")
+fov = 45.0
+size = 20.0
 
 [node name="BrewingViewport" type="SubViewportContainer" parent="UI/VBoxContainer"]
 unique_name_in_owner = true
@@ -83,6 +218,19 @@ layout_mode = 2
 [node name="Cauldron" parent="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer" instance=ExtResource("5_lquwl")]
 layout_mode = 2
 
+[node name="SFX" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="MuzykaDoMordowaniaGnomów" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("6_7mycd")
+bus = &"Soundtrack"
+
+[connection signal="pressed" from="Menu/PauseMenu/ButtonBox/Unpause" to="Controller" method="_on_unpause_clicked"]
+[connection signal="pressed" from="Menu/PauseMenu/ButtonBox/Menu" to="Controller" method="_on_main_menu_clicked"]
+[connection signal="pressed" from="Menu/PauseMenu/ButtonBox/Quit" to="Controller" method="_on_quit_clicked"]
+[connection signal="pressed" from="Menu/MainMenu/Buttonbox/Play" to="Controller" method="_on_play_clicked"]
+[connection signal="pressed" from="Menu/MainMenu/Buttonbox/Quit" to="Controller" method="_on_quit_clicked"]
+[connection signal="pressed" from="UI/VBoxContainer/GameViewport/SubViewport/Pause" to="Controller" method="_on_pause_clicked"]
 [connection signal="update_spawn_counter" from="UI/VBoxContainer/GameViewport/SubViewport/Level" to="Controller" method="_on_spawner_timer_update"]
 [connection signal="component_added" from="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Conveyor" to="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Cauldron" method="_on_component_added"]
 [connection signal="is_cauldron_full" from="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Cauldron" to="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Conveyor" method="_on_cauldron_is_full"]

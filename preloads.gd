@@ -2,9 +2,9 @@ extends Node
 
 # Enemy Scenes
 @export var AVAILABLE_ENEMIES = [
-    preload("res://enemies/base_enemy/base_enemy.tscn"),
-    preload("res://enemies/jumping_enemy/jumping_enemy.tscn"),
-    # preload("res://enemies/mushroom/mushroom.tscn"),
+    preload("res://enemies/gnome/gnome.tscn"),
+    preload("res://enemies/frog/frog.tscn"),
+    preload("res://enemies/mushroom/mushroom.tscn"),
 ]
 
 # Components
@@ -30,3 +30,17 @@ extends Node
     preload("res://effects/damage/damage_3.tres"),
     preload("res://effects/damage/damage_4.tres"),
 ]
+
+# Effects
+@export var TARGET = preload("res://grid/vfx/Aim_VFX.tscn")
+@export var AOE_TILES: Dictionary = {
+    "Ice": preload("res://grid/vfx/Frozen_Vfx.tscn"),
+    "Acid": preload("res://grid/vfx/Acid_Vfx.tscn"),
+}
+@export var EFFECT_SFX: Dictionary = {
+    "Fire": preload("res://effects/dot/ogień.wav"),
+    "Water": preload("res://effects/slow/woda.wav"),
+    "Ice": preload("res://effects/slow_ground/lód.wav"),
+    "Acid": preload("res://effects/dot_ground/kwas.wav"),
+    "Stone": preload("res://effects/stun/pertyfikacja.wav"),
+}

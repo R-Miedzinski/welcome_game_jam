@@ -11,4 +11,5 @@ duration_scaling = Dictionary[int, float]({
 4: 12.0
 })
 value = 8.0
+name = "Acid"
 metadata/_custom_type_script = "uid://dkvjbm7ps81m4"

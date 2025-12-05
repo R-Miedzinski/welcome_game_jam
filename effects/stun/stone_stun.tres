@@ -11,4 +11,5 @@ duration_scaling = Dictionary[int, float]({
 4: 2.0
 })
 target_location = 0
+name = "Stone"
 metadata/_custom_type_script = "uid://p8b4jtx48s3w"

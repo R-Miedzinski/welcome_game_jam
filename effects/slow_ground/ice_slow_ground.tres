@@ -10,5 +10,6 @@ duration_scaling = Dictionary[int, float]({
 3: 6.0,
 4: 8.0
 })
-value = 0.4
+value = 0.5
+name = "Ice"
 metadata/_custom_type_script = "uid://cyd4ugv7v44an"

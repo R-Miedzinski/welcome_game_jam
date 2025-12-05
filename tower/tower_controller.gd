@@ -9,6 +9,8 @@ var potion_scene: PackedScene = preload("res://potions/potion.tscn")
 
 @onready var shoot_origin: Marker3D = %ThrowOrigin
 @onready var tower_health: Label3D = %HPLabel
+@onready var sfx_player: Node = %SFX
+@onready var vfx_player: AnimationPlayer = %VFXPlayer
 
 signal shoot_potion(potion: Potion, target_tile: Vector2i, origin: Vector3)
 signal tower_destroyed()
@@ -24,12 +26,14 @@ func update_health() -> void:
   self.tower_health.text = "HP: %d / %d" % [self.health, self.max_health]
 
 func take_damage(amount: int) -> void:
+  self.sfx_player.get_node("CarDamage").play()
   self.health -= amount
   if self.health <= 0:
       self.health = 0
   self.update_health()
 
 func _ready() -> void:
+  self.process_mode = Node.ProcessMode.PROCESS_MODE_ALWAYS
   self.update_health()
 
 func _on_take_damage(damage: int) -> void:
@@ -37,7 +41,10 @@ func _on_take_damage(damage: int) -> void:
   self.take_damage(damage)
   if self.health <= 0:
       print("Tower has been destroyed!")
+      self.vfx_player.play("explode")
+      self.sfx_player.get_node("CarDeath").play()
       self.emit_signal("tower_destroyed")
+          
 
 func _on_potion_brewed(potion: Potion) -> void:
   self.selected_potion = potion_scene.instantiate() as Potion

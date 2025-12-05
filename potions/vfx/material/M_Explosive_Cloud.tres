@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dmjxq2j5hx4vu"]
+
+[ext_resource type="Shader" uid="uid://ct65i3ddiln8p" path="res://potions/vfx/shaders/S_EXPLOSION_CLOUD.tres" id="1_ggj38"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_ggj38")
+shader_parameter/Cloud_Speed = Vector2(0.09, 0.415)
+shader_parameter/Cloud_Intensity = 0.57
+shader_parameter/Expolsion_Color = Color(0.63523614, 0.17854264, 1.92523e-07, 1)

@@ -16,6 +16,7 @@ enum TargetLocation {
 
 @export var value: float = 1.0
 @export var target_location: TargetLocation = TargetLocation.GROUND
+@export var name: String = ""
 var id: String = ""
 
 @abstract func apply(target: Enemy, duration: float = 0.0) -> void

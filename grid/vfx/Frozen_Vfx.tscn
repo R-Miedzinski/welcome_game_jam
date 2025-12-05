@@ -1,0 +1,66 @@
+[gd_scene load_steps=11 format=3 uid="uid://bauxu5wfnctlt"]
+
+[ext_resource type="Shader" uid="uid://x8yxdk63x0vx" path="res://VFX/Shader/S_Square_Area_Frozen.tres" id="1_igcsk"]
+[ext_resource type="ArrayMesh" uid="uid://d2qxv7bt4nr1a" path="res://VFX/Mesh/Mesh_SQUARE_Area.obj" id="2_plr2v"]
+[ext_resource type="Shader" uid="uid://bg5no4ookn5ki" path="res://VFX/Shader/S_Snow.tres" id="3_jtbcr"]
+[ext_resource type="Shader" uid="uid://ddspsjyt18xtf" path="res://VFX/Shader/S_SQUARE_ICE_ARE.tres" id="4_15xec"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_178u8"]
+render_priority = 0
+shader = ExtResource("1_igcsk")
+shader_parameter/Circle_Color = Color(0.54054683, 0.8200593, 0.99169976, 1)
+shader_parameter/Opacity = 0.73200003477
+shader_parameter/SPEED = Vector2(0, -0.24)
+shader_parameter/Circle_Emiision = Color(0.071977876, 0.18774748, 0.30059406, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oxske"]
+render_priority = 0
+shader = ExtResource("3_jtbcr")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2oxco"]
+lifetime_randomness = 0.5
+emission_shape = 6
+emission_ring_axis = Vector3(0, 90, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.099999994
+scale_max = 0.29999998
+color = Color(0.59970444, 0.92844844, 0.9890278, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_f6kmk"]
+size = Vector2(0.38, 0.38)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wcknh"]
+render_priority = 0
+shader = ExtResource("4_15xec")
+shader_parameter/Trail_Speed = Vector2(0.085, 0.15)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_86ql8"]
+
+[node name="Frozen_VFX" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.2190044, 0)
+material_override = SubResource("ShaderMaterial_178u8")
+mesh = ExtResource("2_plr2v")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.61053616, 0)
+material_override = SubResource("ShaderMaterial_oxske")
+amount = 10
+lifetime = 1.5
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_2oxco")
+draw_pass_1 = SubResource("QuadMesh_f6kmk")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.79, 0, 0, 0, 0.79, 0, 0, 0, 0.79, 0.045, 0.219, 0)
+material_override = SubResource("ShaderMaterial_wcknh")
+mesh = SubResource("PlaneMesh_86ql8")
+skeleton = NodePath("../..")

@@ -1,0 +1,218 @@
+[gd_scene load_steps=20 format=3 uid="uid://dxqjcm7r023bt"]
+
+[ext_resource type="Script" uid="uid://75tlrxyqx1st" path="res://enemies/gnome/gnome.gd" id="1_n3n6f"]
+[ext_resource type="Material" uid="uid://sirjghwctyid" path="res://enemies/gnome/base_enemy.tres" id="2_tl2ai"]
+[ext_resource type="Material" uid="uid://nghqt0ifsqwk" path="res://enemies/gnome/base_enemy_damage.tres" id="3_jy0jn"]
+[ext_resource type="AudioStream" uid="uid://cjcbk6hqsea8" path="res://enemies/mushroom/sfx/intro_grzyb1.wav" id="4_n3apw"]
+[ext_resource type="AudioStream" uid="uid://cosq88cvsfq6e" path="res://enemies/mushroom/sfx/intro_grzyb2.wav" id="5_ssx7o"]
+[ext_resource type="AudioStream" uid="uid://jrn5mk61uykk" path="res://enemies/mushroom/sfx/intro_grzyb3.wav" id="6_kjwgq"]
+[ext_resource type="AudioStream" uid="uid://ccaeerheplpbx" path="res://enemies/mushroom/sfx/death_grzyb1.wav" id="7_kc6td"]
+[ext_resource type="AudioStream" uid="uid://1vedkwjgips1" path="res://enemies/mushroom/sfx/death_grzyb2.wav" id="8_wmfb2"]
+[ext_resource type="AudioStream" uid="uid://bcwo481b1kc6n" path="res://enemies/mushroom/sfx/death_grzyb3.wav" id="9_j6muv"]
+[ext_resource type="AudioStream" uid="uid://dphw7dq1xi6yx" path="res://enemies/mushroom/sfx/attack_grzyb1.wav" id="10_kjwgq"]
+[ext_resource type="AudioStream" uid="uid://56jvr5yxepvs" path="res://enemies/mushroom/sfx/attack_grzyb2.wav" id="11_kc6td"]
+[ext_resource type="PackedScene" uid="uid://54k4y5ff1koh" path="res://VFX/Sceny/Blood_Particle_Vfx.tscn" id="12_kc6td"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cnhrr"]
+resource_local_to_scene = true
+material = ExtResource("2_tl2ai")
+radius = 0.9
+height = 3.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cnhrr"]
+radius = 0.9
+height = 3.0
+
+[sub_resource type="Animation" id="Animation_jc6ys"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:mesh:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_tl2ai")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:mesh:height")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [3.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeshInstance3D:mesh:radius")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.9]
+}
+
+[sub_resource type="Animation" id="Animation_eb1xl"]
+resource_name = "attack"
+
+[sub_resource type="Animation" id="Animation_8sayp"]
+resource_name = "death"
+length = 0.333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:mesh:height")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [2.0, 1.0, 0.2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:mesh:radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.16666667, 0.333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.5, 0.1]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeshInstance3D:mesh:material")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_jy0jn")]
+}
+tracks/3/type = "animation"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("VFX/Blood_Particle_VFX/Blood_Anim_Play")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": PackedStringArray("Blood_Explosion"),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_02xms"]
+resource_name = "hurt"
+length = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:mesh:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [ExtResource("2_tl2ai"), ExtResource("3_jy0jn")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jc6ys"]
+_data = {
+&"RESET": SubResource("Animation_jc6ys"),
+&"attack": SubResource("Animation_eb1xl"),
+&"death": SubResource("Animation_8sayp"),
+&"hurt": SubResource("Animation_02xms")
+}
+
+[node name="Mushroom" type="AnimatableBody3D"]
+collision_layer = 8
+collision_mask = 2
+sync_to_physics = false
+script = ExtResource("1_n3n6f")
+max_speed = 0.05
+max_health = 80.0
+dimensions = Vector3(2, 3, 1.9)
+animation_time = 3.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0, 0.9)
+mesh = SubResource("CapsuleMesh_cnhrr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0, 0.9)
+shape = SubResource("CapsuleShape3D_cnhrr")
+
+[node name="HPLabel" type="Label3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-1, -7.571034e-08, 4.371138e-08, 0, 0.49999994, 0.8660254, -8.742278e-08, 0.8660254, -0.49999994, 0.5, 1.7, 0.5)
+text = "HP"
+font_size = 72
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_jc6ys")
+}
+
+[node name="SFX" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="Intro" type="Node" parent="SFX"]
+
+[node name="IntroGrzyb1" type="AudioStreamPlayer" parent="SFX/Intro"]
+stream = ExtResource("4_n3apw")
+bus = &"VoiceLines"
+
+[node name="IntroGrzyb2" type="AudioStreamPlayer" parent="SFX/Intro"]
+stream = ExtResource("5_ssx7o")
+bus = &"VoiceLines"
+
+[node name="IntroGrzyb3" type="AudioStreamPlayer" parent="SFX/Intro"]
+stream = ExtResource("6_kjwgq")
+bus = &"VoiceLines"
+
+[node name="Death" type="Node" parent="SFX"]
+
+[node name="DeathGrzyb1" type="AudioStreamPlayer" parent="SFX/Death"]
+stream = ExtResource("7_kc6td")
+bus = &"VoiceLines"
+
+[node name="DeathGrzyb2" type="AudioStreamPlayer" parent="SFX/Death"]
+stream = ExtResource("8_wmfb2")
+bus = &"VoiceLines"
+
+[node name="DeathGrzyb3" type="AudioStreamPlayer" parent="SFX/Death"]
+stream = ExtResource("9_j6muv")
+bus = &"VoiceLines"
+
+[node name="Attack" type="Node" parent="SFX"]
+
+[node name="AttackGrzyb1" type="AudioStreamPlayer" parent="SFX/Attack"]
+stream = ExtResource("10_kjwgq")
+bus = &"VoiceLines"
+
+[node name="AttackGrzyb2" type="AudioStreamPlayer" parent="SFX/Attack"]
+stream = ExtResource("11_kc6td")
+bus = &"VoiceLines"
+
+[node name="VFX" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Blood_Particle_VFX" parent="VFX" instance=ExtResource("12_kc6td")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, -1.5, 0.9)
+
+[editable path="VFX/Blood_Particle_VFX"]

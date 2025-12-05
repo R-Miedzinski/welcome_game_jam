@@ -8,7 +8,20 @@ extends Node3D
 @export var duration: int = 1
 var repeated_component_counter: Dictionary[String, int] = {}
 
-# TODO: Needs effects check methods for displays
+@onready var sfx_player: Node = $SFX
+@onready var vfx_player: AnimationPlayer = $VFXPlayer
+
+func splash() -> void:
+    self.get_node("%VFX").get_node("Potion_VFX").visible = false
+
+    self.sfx_player.get_node("GlassShatter").play()
+    self.vfx_player.play("explode")
+    self.vfx_player.animation_finished.connect(
+        func(_anim_name: String) -> void:
+        self.visible = false
+        self.queue_free()
+    )
+
 func brew() -> Potion:
     var new_potion: Potion = Potion.new()
     new_potion.size = self.size

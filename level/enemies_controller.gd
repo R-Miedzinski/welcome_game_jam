@@ -22,7 +22,31 @@ func spawn_enemy_at_position(pos: Vector2i, enemy_scene: PackedScene, modifier: 
     enemy_instance.connect("enemy_attacked_player", self._on_enemy_dealt_damage)
     enemy_instance.connect("enemy_defeated", self._on_enemy_defeated)
     self.grid_controller.effects_clock.connect("timeout", enemy_instance._on_effect_tick)
+
     add_child(enemy_instance)
+    enemy_instance.animation_player.play("walk")
+
+    var spawn_sounds_count = enemy_instance.sfx_player.get_node("Intro").get_child_count()
+    var spawn_sound_id = -1
+    if spawn_sounds_count > 0:
+        spawn_sound_id = randi() % spawn_sounds_count
+
+    var death_sounds_count = enemy_instance.sfx_player.get_node("Death").get_child_count()
+    var death_sound_id = -1
+    if death_sounds_count > 0:
+        death_sound_id = randi() % death_sounds_count
+    
+    var attack_sounds_count = enemy_instance.sfx_player.get_node("Attack").get_child_count()
+    var attack_sound_id = -1
+    if attack_sounds_count > 0:
+        attack_sound_id = randi() % attack_sounds_count
+
+    enemy_instance.intro_sound_id = spawn_sound_id
+    enemy_instance.death_sound_id = death_sound_id
+    enemy_instance.attack_sound_id = attack_sound_id
+
+    if spawn_sound_id != -1:
+        enemy_instance.sfx_player.get_node("Intro").get_child(enemy_instance.intro_sound_id).play()
 
 func move_enemy_from_to(old_pos: Vector2i, new_pos: Vector2i, idx: int = 0) -> bool:
     if self.enemies_map.has(old_pos, idx):

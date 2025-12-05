@@ -1,6 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cseswscqe4juf"]
+[gd_scene load_steps=9 format=3 uid="uid://cseswscqe4juf"]
 
 [ext_resource type="Script" uid="uid://bsll1umcseofd" path="res://potions/potion.gd" id="1_0ow0d"]
+[ext_resource type="AudioStream" uid="uid://duhqv788i73yh" path="res://potions/sfx/glass_shatter.wav" id="2_xjxog"]
+[ext_resource type="PackedScene" uid="uid://cv0l5fd0cjgfw" path="res://potions/vfx/Potion_Vfx.tscn" id="3_xocot"]
+[ext_resource type="PackedScene" path="res://potions/vfx/Explodion_Vfx.tscn" id="4_51xa8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dnv7w"]
 albedo_color = Color(0.23921569, 0.6627451, 1, 1)
@@ -10,8 +13,53 @@ material = SubResource("StandardMaterial3D_dnv7w")
 radius = 0.2
 height = 0.4
 
+[sub_resource type="Animation" id="Animation_51xa8"]
+resource_name = "explode"
+length = 1.5
+tracks/0/type = "animation"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Explodion_VFX/AnimationPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": PackedStringArray("Explodion"),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5e22e"]
+_data = {
+&"explode": SubResource("Animation_51xa8")
+}
+
 [node name="Potion" type="Node3D"]
 script = ExtResource("1_0ow0d")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("SphereMesh_1iju0")
+
+[node name="SFX" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="GlassShatter" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("2_xjxog")
+bus = &"SFX"
+
+[node name="VFXPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+root_node = NodePath("../VFX")
+libraries = {
+&"": SubResource("AnimationLibrary_5e22e")
+}
+
+[node name="VFX" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Potion_VFX" parent="VFX" instance=ExtResource("3_xocot")]
+transform = Transform3D(0.09996121, 0.002785185, 0, -0.002785185, 0.09996121, 0, 0, 0, 0.1, 0, 0, 0)
+
+[node name="Explodion_VFX" parent="VFX" instance=ExtResource("4_51xa8")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[editable path="VFX/Explodion_VFX"]
