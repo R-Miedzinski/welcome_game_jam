@@ -1,6 +1,7 @@
-[gd_resource type="MeshLibrary" load_steps=10 format=3 uid="uid://cbwfatlglcexe"]
+[gd_resource type="MeshLibrary" load_steps=12 format=3 uid="uid://cbwfatlglcexe"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_20y4x"]
+transparency = 1
 albedo_color = Color(0.35686275, 1, 0.2, 0)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_g1o73"]
@@ -21,8 +22,22 @@ image = SubResource("Image_g1o73")
 [sub_resource type="BoxShape3D" id="BoxShape3D_mdbjl"]
 size = Vector3(1, 0.1, 1)
 
+[sub_resource type="Gradient" id="Gradient_g1o73"]
+offsets = PackedFloat32Array(0, 0.6875)
+colors = PackedColorArray(1, 1, 1, 0, 0.8745098, 0.8745098, 0.8745098, 0.627451)
+metadata/_snap_enabled = true
+metadata/_snap_count = 16
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_n4fer"]
+gradient = SubResource("Gradient_g1o73")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+metadata/_snap_count = 16
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mdbjl"]
-albedo_color = Color(0.4862745, 1, 0.3647059, 1)
+transparency = 1
+albedo_texture = SubResource("GradientTexture2D_n4fer")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_2jmbf"]
 material = SubResource("StandardMaterial3D_mdbjl")

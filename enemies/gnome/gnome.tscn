@@ -1,0 +1,220 @@
+[gd_scene load_steps=24 format=3 uid="uid://bfx0rihfslwdn"]
+
+[ext_resource type="Script" uid="uid://75tlrxyqx1st" path="res://enemies/gnome/gnome.gd" id="1_lxi62"]
+[ext_resource type="Material" uid="uid://nghqt0ifsqwk" path="res://enemies/gnome/base_enemy_damage.tres" id="2_02xms"]
+[ext_resource type="Material" uid="uid://sirjghwctyid" path="res://enemies/gnome/base_enemy.tres" id="2_8sayp"]
+[ext_resource type="AudioStream" uid="uid://bhi5en4oi3sov" path="res://enemies/gnome/sfx/intro_gnom1.wav" id="4_jpjub"]
+[ext_resource type="AudioStream" uid="uid://emabc5cv3816" path="res://enemies/gnome/sfx/intro_gnom2.wav" id="5_kahdj"]
+[ext_resource type="AudioStream" uid="uid://b83wftctlurd5" path="res://enemies/gnome/sfx/intro_gnom3.wav" id="6_381xk"]
+[ext_resource type="AudioStream" uid="uid://dl56hap5d23l3" path="res://enemies/gnome/sfx/intro_gnom4.wav" id="7_8kybt"]
+[ext_resource type="AudioStream" uid="uid://dnwhhnsyohb4w" path="res://enemies/gnome/sfx/death_gnom1.wav" id="8_oynvo"]
+[ext_resource type="AudioStream" uid="uid://dtdrv3jve0qh2" path="res://enemies/gnome/sfx/death_gnom2.wav" id="9_8vl1r"]
+[ext_resource type="AudioStream" uid="uid://dc7jkfmv6kuny" path="res://enemies/gnome/sfx/death_gnom3.wav" id="10_pcn0l"]
+[ext_resource type="AudioStream" uid="uid://dipnedkl10e5b" path="res://enemies/gnome/sfx/death_gnom4.wav" id="11_1vmud"]
+[ext_resource type="AudioStream" uid="uid://coohdpt0xfjia" path="res://enemies/gnome/sfx/death_gnom5.wav" id="12_d35lr"]
+[ext_resource type="AudioStream" uid="uid://bphwlrl1tcxc7" path="res://enemies/gnome/sfx/death_gnom6.wav" id="13_fh1dx"]
+[ext_resource type="AudioStream" uid="uid://bkjltkl1pdu12" path="res://enemies/gnome/sfx/death_gnom7.wav" id="14_meaio"]
+[ext_resource type="AudioStream" uid="uid://bnkirr61dyvj2" path="res://enemies/gnome/sfx/death_gnom8.wav" id="15_m6pc4"]
+[ext_resource type="AudioStream" uid="uid://c6nkgm5jbjr5b" path="res://enemies/gnome/sfx/death_gnom9.wav" id="16_1f25q"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cnhrr"]
+resource_local_to_scene = true
+material = ExtResource("2_8sayp")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cnhrr"]
+
+[sub_resource type="Animation" id="Animation_jc6ys"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:mesh:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_8sayp")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:mesh:height")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeshInstance3D:mesh:radius")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.5]
+}
+
+[sub_resource type="Animation" id="Animation_eb1xl"]
+resource_name = "attack"
+
+[sub_resource type="Animation" id="Animation_8sayp"]
+resource_name = "death"
+length = 0.333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:mesh:height")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [2.0, 1.0, 0.2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:mesh:radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.16666667, 0.333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.5, 0.1]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeshInstance3D:mesh:material")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_02xms")]
+}
+
+[sub_resource type="Animation" id="Animation_02xms"]
+resource_name = "hurt"
+length = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:mesh:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [ExtResource("2_8sayp"), ExtResource("2_02xms")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jc6ys"]
+_data = {
+&"RESET": SubResource("Animation_jc6ys"),
+&"attack": SubResource("Animation_eb1xl"),
+&"death": SubResource("Animation_8sayp"),
+&"hurt": SubResource("Animation_02xms")
+}
+
+[node name="Gnome" type="AnimatableBody3D"]
+collision_layer = 8
+collision_mask = 2
+sync_to_physics = false
+script = ExtResource("1_lxi62")
+max_speed = 0.2
+max_health = 40.0
+dimensions = Vector3(1, 2, 1)
+animation_time = 3.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
+mesh = SubResource("CapsuleMesh_cnhrr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
+shape = SubResource("CapsuleShape3D_cnhrr")
+
+[node name="HPLabel" type="Label3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-1, -7.571034e-08, 4.371138e-08, 0, 0.49999994, 0.8660254, -8.742278e-08, 0.8660254, -0.49999994, 0.5, 1.3, 0.5)
+text = "HP"
+font_size = 72
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_jc6ys")
+}
+
+[node name="SFX" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="Intro" type="Node" parent="SFX"]
+
+[node name="IntroGnom1" type="AudioStreamPlayer" parent="SFX/Intro"]
+stream = ExtResource("4_jpjub")
+bus = &"VoiceLines"
+
+[node name="IntroGnom2" type="AudioStreamPlayer" parent="SFX/Intro"]
+stream = ExtResource("5_kahdj")
+bus = &"VoiceLines"
+
+[node name="IntroGnom3" type="AudioStreamPlayer" parent="SFX/Intro"]
+stream = ExtResource("6_381xk")
+bus = &"VoiceLines"
+
+[node name="IntroGnom4" type="AudioStreamPlayer" parent="SFX/Intro"]
+stream = ExtResource("7_8kybt")
+bus = &"VoiceLines"
+
+[node name="Death" type="Node" parent="SFX"]
+
+[node name="DeathGnom1" type="AudioStreamPlayer" parent="SFX/Death"]
+stream = ExtResource("8_oynvo")
+bus = &"VoiceLines"
+
+[node name="DeathGnom2" type="AudioStreamPlayer" parent="SFX/Death"]
+stream = ExtResource("9_8vl1r")
+bus = &"VoiceLines"
+
+[node name="DeathGnom3" type="AudioStreamPlayer" parent="SFX/Death"]
+stream = ExtResource("10_pcn0l")
+bus = &"VoiceLines"
+
+[node name="DeathGnom4" type="AudioStreamPlayer" parent="SFX/Death"]
+stream = ExtResource("11_1vmud")
+bus = &"VoiceLines"
+
+[node name="DeathGnom5" type="AudioStreamPlayer" parent="SFX/Death"]
+stream = ExtResource("12_d35lr")
+bus = &"VoiceLines"
+
+[node name="DeathGnom6" type="AudioStreamPlayer" parent="SFX/Death"]
+stream = ExtResource("13_fh1dx")
+bus = &"VoiceLines"
+
+[node name="DeathGnom7" type="AudioStreamPlayer" parent="SFX/Death"]
+stream = ExtResource("14_meaio")
+bus = &"VoiceLines"
+
+[node name="DeathGnom8" type="AudioStreamPlayer" parent="SFX/Death"]
+stream = ExtResource("15_m6pc4")
+bus = &"VoiceLines"
+
+[node name="DeathGnom9" type="AudioStreamPlayer" parent="SFX/Death"]
+stream = ExtResource("16_1f25q")
+bus = &"VoiceLines"
+
+[node name="Attack" type="Node" parent="SFX"]

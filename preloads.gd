@@ -2,9 +2,9 @@ extends Node
 
 # Enemy Scenes
 @export var AVAILABLE_ENEMIES = [
-    preload("res://enemies/base_enemy/base_enemy.tscn"),
-    preload("res://enemies/jumping_enemy/jumping_enemy.tscn"),
-    # preload("res://enemies/mushroom/mushroom.tscn"),
+    preload("res://enemies/gnome/gnome.tscn"),
+    preload("res://enemies/frog/frog.tscn"),
+    preload("res://enemies/mushroom/mushroom.tscn"),
 ]
 
 # Components

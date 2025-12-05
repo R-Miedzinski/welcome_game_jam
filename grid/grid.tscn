@@ -1,8 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://bostfcayxsgij"]
+[gd_scene load_steps=8 format=3 uid="uid://bostfcayxsgij"]
 
 [ext_resource type="MeshLibrary" uid="uid://cbwfatlglcexe" path="res://grid/test_mesh_library.tres" id="1_ppiwg"]
 [ext_resource type="Script" uid="uid://ba37cno3n7hdx" path="res://grid/grid_controller.gd" id="2_y3jnv"]
-[ext_resource type="PackedScene" uid="uid://cuqoj5kr8ehyq" path="res://grid/grid_grass/grid_grass_flowers.glb" id="3_y3jnv"]
+[ext_resource type="PackedScene" uid="uid://cowx2eta450ll" path="res://grid/grid_grass_new/grid_grass_flowers.glb" id="3_p060q"]
+[ext_resource type="Shader" uid="uid://3gksx3ivqmne" path="res://grid/grid_grass_new/grass_transition.gdshader" id="4_p060q"]
+[ext_resource type="Texture2D" uid="uid://bxk5dmqviashc" path="res://grid/grid_grass_new/grid_grass_flowers_Grass_tile_2.png" id="5_jqrfh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y3jnv"]
+render_priority = -1
+shader = ExtResource("4_p060q")
+shader_parameter/TEXTURE = ExtResource("5_jqrfh")
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_y3jnv"]
 
@@ -15,8 +22,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
 mesh_library = ExtResource("1_ppiwg")
 cell_size = Vector3(1, 1, 1)
 
-[node name="grid_grass_flowers" parent="GridMap" instance=ExtResource("3_y3jnv")]
-transform = Transform3D(-4.371139e-09, 0, 0.1, 0, 0.1, 0, -0.1, 0, -4.371139e-09, 3.5, 0.5, 5.5)
+[node name="grid_grass_flowers" parent="GridMap" instance=ExtResource("3_p060q")]
+transform = Transform3D(-4.371139e-09, 0, 0.1, 0, 0.1, 0, -0.1, 0, -4.371139e-09, 3.5, 0.39, 5.5)
+
+[node name="grass_transition" parent="GridMap/grid_grass_flowers" index="5"]
+material_override = SubResource("ShaderMaterial_y3jnv")
 
 [node name="EndGridCollider" type="Area3D" parent="GridMap"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
@@ -32,3 +42,5 @@ unique_name_in_owner = true
 
 [connection signal="body_entered" from="GridMap/EndGridCollider" to="." method="_on_barrier_collided"]
 [connection signal="timeout" from="EffectsTick" to="." method="_on_effect_tick"]
+
+[editable path="GridMap/grid_grass_flowers"]

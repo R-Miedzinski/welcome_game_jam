@@ -1,6 +1,8 @@
 extends Node
 
 @onready var level_scene: Node3D = %Level
+@onready var ui_scene: CanvasLayer = %UI
+@onready var menu_scene: CanvasLayer = %Menu
 @onready var grid_controller: GridController = self.level_scene.get_node("%Grid")
 @onready var enemies_controller: EnemiesController = self.level_scene.get_node("%Enemies")
 @onready var tower_controller: TowerController = self.level_scene.get_node("%Tower")
@@ -12,9 +14,18 @@ var last_highlighted_tile: Vector2i = Vector2i(-1, -1)
 @onready var game_viewport: SubViewportContainer = %GameViewport
 @onready var brewing_viewport: SubViewportContainer = %BrewingViewport
 
-var debug_sphere: MeshInstance3D = null
+@onready var sfx: Node = %SFX
+
+# var debug_sphere: MeshInstance3D = null
 
 func _process(delta: float) -> void:
+  if Input.is_action_just_pressed("pause"):
+    self.get_tree().paused = !self.get_tree().paused
+    self.menu_scene.visible = self.get_tree().paused
+
+  if self.get_tree().paused:
+    return
+
   if Input.is_action_just_pressed("ui_select"):
     self.level_scene.get_node("%Spawners").spawn_enemy_at_random()
 
@@ -55,18 +66,18 @@ func get_tile_under_mouse(mouse_pos: Vector2) -> Vector2i:
     or coordinates.y < 0 or coordinates.y >= self.grid_controller.grid_size.y:
         return Vector2i(-1, -1)
 
-    if self.debug_sphere == null:
-      self.debug_sphere = MeshInstance3D.new()
-      self.debug_sphere.mesh = SphereMesh.new()
-      self.debug_sphere.mesh.radius = 0.3
-      var mat = StandardMaterial3D.new()
-      mat.albedo_color = Color(1, 0, 0, 0.5)
-      self.debug_sphere.mesh.material = mat
+    # if self.debug_sphere == null:
+    #   self.debug_sphere = MeshInstance3D.new()
+    #   self.debug_sphere.mesh = SphereMesh.new()
+    #   self.debug_sphere.mesh.radius = 0.3
+    #   var mat = StandardMaterial3D.new()
+    #   mat.albedo_color = Color(1, 0, 0, 0.5)
+    #   self.debug_sphere.mesh.material = mat
 
-      self.debug_sphere.position = intersection
-      self.level_scene.add_child(self.debug_sphere)
-    else:
-      self.debug_sphere.position = intersection
+    #   self.debug_sphere.position = intersection
+    #   self.level_scene.add_child(self.debug_sphere)
+    # else:
+    #   self.debug_sphere.position = intersection
       
     return coordinates
 
@@ -76,6 +87,15 @@ func handle_mouse_in_brewing_viewport(mouse_pos: Vector2) -> void:
 
 func _ready() -> void:
   self.tower_controller.connect("tower_destroyed", self._on_tower_destroyed)
+  self.ui_scene.process_mode = Node.ProcessMode.PROCESS_MODE_PAUSABLE
+  self.menu_scene.process_mode = Node.ProcessMode.PROCESS_MODE_WHEN_PAUSED
+  self.menu_scene.visible = false
+
+  self.sfx.get_node("MuzykaDoMordowaniaGnomów").play()
+  self.sfx.get_node("MuzykaDoMordowaniaGnomów").connect("finished", self._on_soundtrack_finished)
+
+func _on_soundtrack_finished() -> void:
+  self.sfx.get_node("MuzykaDoMordowaniaGnomów").play()
 
 func _on_tower_destroyed() -> void:
   print("Game Over! The tower has been destroyed.")
@@ -83,3 +103,14 @@ func _on_tower_destroyed() -> void:
 
 func _on_spawner_timer_update(time_left: float) -> void:
   self.spawner_timer_label.text = "Next Spawn In: %.1f s" % time_left
+
+func _on_pause_clicked() -> void:
+  self.menu_scene.visible = true
+  self.get_tree().paused = true
+
+func _on_unpause_clicked() -> void:
+  self.menu_scene.visible = false
+  self.get_tree().paused = false
+
+func _on_quit_clicked() -> void:
+  self.get_tree().quit()

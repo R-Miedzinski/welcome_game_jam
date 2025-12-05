@@ -17,6 +17,8 @@ var current_potion: Potion = null
 @onready var stun_radio: CheckBox = %Stun
 @onready var reset_radio: CheckBox = %Reset
 
+@onready var sfx: Node = %SFX
+
 
 signal potion_brewed(potion: Potion)
 signal is_cauldron_full(is_full: bool)
@@ -33,7 +35,6 @@ func reset() -> void:
 func write_message(text: String, value) -> String:
     return "%s: %s" % [text, str(value)]
 
-# TODO: Update to show actual effect values
 func fill_labels(potion: Potion) -> void:
     var summary: Dictionary = potion.get_value_summary()
 
@@ -53,6 +54,11 @@ func _ready() -> void:
     self.reset()
 
 func _on_component_added(component: Component) -> void:
+    if component.is_liquid:
+        self.sfx.get_node("Nalewanie").play()
+    else:
+        self.sfx.get_node("Proszek").play()
+
     current_potion.add_component(component)
     var is_full: bool = current_potion.liquid_components.size() + current_potion.solid_components.size() >= max_components
     emit_signal("is_cauldron_full", is_full)
@@ -66,4 +72,5 @@ func _on_brew_button_pressed() -> void:
         self.reset()
 
 func _on_reset_button_pressed() -> void:
+    self.sfx.get_node("Wylewanie").play()
     self.reset()

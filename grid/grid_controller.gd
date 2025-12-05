@@ -109,7 +109,7 @@ func _on_potion_thrown(potion: Potion, tile_coord: Vector2i, origin: Vector3) ->
                             else:
                                 self.effects_map[affected_tile] = [effect_to_apply]
 
-        potion_instance.queue_free()
+        potion_instance.splash()
     )
 
 func _initialize_grid() -> void:

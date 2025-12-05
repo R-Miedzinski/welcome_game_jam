@@ -24,6 +24,11 @@ var self_effects: Dictionary[String, Array] = {} # { effect.id: [duration, effec
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var hp_label: Label3D = %HPLabel
 
+@onready var sfx_player: Node = %SFX
+var death_sound_id: int = 0
+var attack_sound_id: int = 0
+var intro_sound_id: int = 0
+
 signal deal_damage(damage: int)
 signal enemy_attacked_player(position_in_grid: Vector2i, idx: int)
 signal enemy_defeated(position_in_grid: Vector2i, idx: int)
@@ -33,7 +38,12 @@ signal enemy_defeated(position_in_grid: Vector2i, idx: int)
 func attack_player() -> void:
   self.emit_signal("deal_damage", self.damage)
   self.emit_signal("enemy_attacked_player", self.front_position_in_grid, self.idx_in_position)
+
   self.animation_player.queue("attack")
+  if self.attack_sound_id != -1:
+    var attack_sound_player = self.sfx_player.get_node("Attack").get_child(self.attack_sound_id)
+    attack_sound_player.play()
+    attack_sound_player.connect("finished", self.queue_free)
 
 func force_move(new_position: Vector2i, move_time: float) -> void:
   self.pause_movement()
@@ -79,14 +89,20 @@ func _on_death() -> void:
     self.stop_processing = true
     self.pause_movement()
     emit_signal("enemy_defeated", self.front_position_in_grid, self.idx_in_position)
+
     self.animation_player.queue("death")
+
+    if self.death_sound_id != -1:
+        var death_sound_player = self.sfx_player.get_node("Death").get_child(self.death_sound_id)
+        death_sound_player.play()
+        death_sound_player.connect("finished", self.queue_free)
 
 func _process_animation(anim_name: String) -> void:
     if anim_name == "hurt":
             self.animation_player.queue("RESET")
-    if anim_name == "death":
+    if anim_name == "death" and self.death_sound_id == -1:
             self.queue_free()
-    if anim_name == "attack":
+    if anim_name == "attack" and self.attack_sound_id == -1:
             self.queue_free()
 
 func _on_effect_tick() -> void:

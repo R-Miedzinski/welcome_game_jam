@@ -35,13 +35,13 @@ enum EffectTypes {
 # Spawner Configuration
 @export var ENEMY_SPAWN_INTERVAL: float = 6.0
 @export var ENEMY_SPAWN_PROBABILITIES: Dictionary[int, int] = {
-    0: 5, # Gnome
+    0: 6, # Gnome
     1: 3, # Frog
-    # 2: 0.2 # Mushroom
+    2: 2 # Mushroom
 }
 
 # Conveyor Configuration
-@export var COMPONENT_SPAWN_INTERVAL: float = 2.0
+@export var COMPONENT_SPAWN_INTERVAL: float = 3.0
 @export var CONVEYOR_CAPACITY: int = 10
 @export var SOLID_FACTOR: int = 4 # rand % SOLID_FACTOR == 0 -> solid component
 
