@@ -256,9 +256,9 @@ sky_mode = 1
 
 [node name="MainCamera" type="Camera3D" parent="UI/VBoxContainer/GameViewport/SubViewport"]
 unique_name_in_owner = true
-transform = Transform3D(-1, 7.161254e-08, -5.0143644e-08, 0, 0.5735764, 0.819152, 8.742278e-08, 0.819152, -0.5735764, 10, 16, -12)
+transform = Transform3D(-1, -7.161254e-08, 5.0143644e-08, 0, 0.5735764, 0.819152, -8.742278e-08, 0.819152, -0.5735764, 10, 16, -12)
 environment = SubResource("Environment_7mycd")
-fov = 45.0
+fov = 40.0
 size = 20.0
 
 [node name="BrewingViewport" type="SubViewportContainer" parent="UI/VBoxContainer"]
