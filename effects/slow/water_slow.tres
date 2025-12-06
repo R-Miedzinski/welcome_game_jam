@@ -10,7 +10,7 @@ duration_scaling = Dictionary[int, float]({
 3: 4.0,
 4: 6.0
 })
-value = 0.6
+value = 0.9
 target_location = 0
 name = "Water"
 metadata/_custom_type_script = "uid://bw215j6y7b712"
