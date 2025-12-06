@@ -7,20 +7,21 @@
 font_color = Color(0, 0, 0, 1)
 outline_size = 2
 
-[node name="Component" type="Button"]
-material = ExtResource("1_1rhf5")
-custom_minimum_size = Vector2(100, 0)
+[node name="Component" type="ColorRect"]
+custom_minimum_size = Vector2(150, 150)
+layout_direction = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
-icon_alignment = 1
+size_flags_vertical = 4
+color = Color(1, 1, 1, 0)
 script = ExtResource("1_e2r2v")
 
 [node name="Label" type="Label" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -35,6 +36,14 @@ text = "id"
 label_settings = SubResource("LabelSettings_1rhf5")
 vertical_alignment = 2
 uppercase = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = ExtResource("1_1rhf5")
+layout_mode = 1
+offset_left = 38.0
+offset_right = 78.0
+offset_bottom = 40.0
+expand_mode = 1
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

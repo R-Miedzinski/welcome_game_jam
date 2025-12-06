@@ -1,4 +1,5 @@
-extends Button
+class_name ComponentCard
+extends ColorRect
 
 var idx_in_conveyor: int = -1
 var _is_hovered: bool = false
@@ -6,16 +7,20 @@ var _is_hovered: bool = false
 signal component_clicked(component: int)
 
 func set_overlay_color(color: Color) -> void:
-    var _material = self.material as ShaderMaterial
+    var _material = self.get_node("TextureRect").material as ShaderMaterial
     if _material:
         _material.set_shader_parameter("overlay_color", color)
 
+func set_component_texture(texture: Texture2D) -> void:
+    self.get_node("TextureRect").texture = texture
+    self.get_node("TextureRect").size = Vector2(150, 150)
+
 func _on_mouse_entered() -> void:
-    self.set_overlay_color(Color(1, 1, 1, 0.7))
+    self.set_overlay_color(Color(1, 1, 1, 0.4))
     self._is_hovered = true
 
 func _on_mouse_exited() -> void:
-    self.set_overlay_color(Color(1, 1, 1, 0))
+    self.set_overlay_color(Color(0, 0, 0, 0))
     self._is_hovered = false
 
 func _process(delta: float) -> void:

@@ -173,4 +173,3 @@ cull_mask = 1048571
 libraries = {
 &"": SubResource("AnimationLibrary_y6okl")
 }
-autoplay = "Blood_Explosion"

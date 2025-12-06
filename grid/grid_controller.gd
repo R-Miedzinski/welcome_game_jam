@@ -12,6 +12,8 @@ var effects_vfx_map: Dictionary[String, Array] = {} # {effect.id: [vfx_instances
 @onready var grid_map: GridMap = %GridMap
 @onready var effects_clock: Timer = %EffectsTick
 
+var survival_time: float = 0.0
+
 signal grid_is_initialized(grid_size: Vector2i, tile_size: float)
 signal effect_tick(tile_coord: Vector2i, effects: Array, durations: Array)
 
@@ -28,14 +30,38 @@ func position_to_coordinates(pos: Vector3) -> Vector2i:
 
     return Vector2i(floor(x), floor(y))
 
-func highlight_tile(coord: Vector2i) -> void:
-    self.grid_map.set_cell_item(Vector3i(coord.y * self.tile_size, 0, coord.x * self.tile_size), 1)
+func highlight_tile(coord: Vector2i, range: int) -> void:
+    for x_offset in range(-range + 1, range):
+        for y_offset in range(-range + 1, range):
+            var distance = abs(x_offset) + abs(y_offset)
+            if distance < range:
+                var affected_tile = Vector2i(coord.x + x_offset, coord.y + y_offset)
+                if affected_tile.x >= 0 and affected_tile.x < self.grid_size.x \
+                and affected_tile.y >= 0 and affected_tile.y < self.grid_size.y:
+                    self.grid_map.set_cell_item(Vector3i(affected_tile.y * self.tile_size, 0, affected_tile.x * self.tile_size), 1)
 
-func unhighlight_tile(coord: Vector2i) -> void:
-    self.grid_map.set_cell_item(Vector3i(coord.y * self.tile_size, 0, coord.x * self.tile_size), 0)
+func unhighlight_tile(coord: Vector2i, range: int) -> void:
+    for x_offset in range(-range + 1, range):
+        for y_offset in range(-range + 1, range):
+            var distance = abs(x_offset) + abs(y_offset)
+            if distance < range:
+                var affected_tile = Vector2i(coord.x + x_offset, coord.y + y_offset)
+                if affected_tile.x >= 0 and affected_tile.x < self.grid_size.x \
+                and affected_tile.y >= 0 and affected_tile.y < self.grid_size.y:
+                    self.grid_map.set_cell_item(Vector3i(affected_tile.y * self.tile_size, 0, affected_tile.x * self.tile_size), 0)
 
 func get_effects_for_tile(coord: Vector2i):
     return self.effects_map.get(coord)
+
+func get_survival_time() -> String:
+    var total_seconds: int = int(self.survival_time)
+    var minutes: int = total_seconds / 60
+    var seconds: int = total_seconds % 60
+    var miliseconds: int = int((self.survival_time - float(total_seconds)) * 100)
+    return "%02d:%02d.%02d" % [minutes, seconds, miliseconds]
+
+func _process(delta: float) -> void:
+    self.survival_time += delta
 
 func _ready() -> void:
     self._initialize_grid()
@@ -57,8 +83,6 @@ func _accumulate_effects(effects_with_durations: Array) -> Array:
 func _on_effect_tick() -> void:
     for tile_coord in self.effects_map.keys():
         var all_effects_with_duration: Array = self.effects_map[tile_coord]
-        var accumulated_effects: Array = self._accumulate_effects(all_effects_with_duration)
-        emit_signal("effect_tick", tile_coord, accumulated_effects[0], accumulated_effects[1])
 
         var effects_to_remove: Array = []
         for idx in range(all_effects_with_duration.size()):
@@ -76,9 +100,46 @@ func _on_effect_tick() -> void:
                 self.effects_vfx_map.erase(effect.id)
             
             all_effects_with_duration.remove_at(idx)
-        self.effects_map[tile_coord] = all_effects_with_duration
 
+        var accumulated_effects: Array = self._accumulate_effects(all_effects_with_duration)
+        emit_signal("effect_tick", tile_coord, accumulated_effects[0], accumulated_effects[1])
+        self.effects_map[tile_coord] = all_effects_with_duration
     self.effects_clock.start()
+
+func _on_potion_thrown_callback(potion: Potion, tile_coord: Vector2i) -> void:
+    for x_offset in range(-potion.size + 1, potion.size):
+        for y_offset in range(-potion.size + 1, potion.size):
+            var distance = abs(x_offset) + abs(y_offset)
+            if distance < potion.size:
+                var affected_tile = Vector2i(tile_coord.x + x_offset, tile_coord.y + y_offset)
+                if affected_tile.x >= 0 and affected_tile.x < self.grid_size.x \
+                and affected_tile.y >= 0 and affected_tile.y < self.grid_size.y:
+                    for effect in potion.effects:
+                        var effect_duration: float = 2 * Constants.EFFECT_TICK_DURATION
+                        if effect.duration_scaling.has(potion.duration):
+                            effect_duration = effect.duration_scaling[potion.duration]
+                        var effect_to_apply = EffectWithDuration.new(effect, effect_duration)
+                        if self.effects_map.has(affected_tile):
+                            self.effects_map[affected_tile].append(effect_to_apply)
+                        else:
+                            self.effects_map[affected_tile] = [effect_to_apply]
+
+                        if Preloads.AOE_TILES.has(effect.name):
+                            var vfx_scene: PackedScene = Preloads.AOE_TILES[effect.name]
+                            var vfx_instance: Node3D = vfx_scene.instantiate()
+                            vfx_instance.position = coordinates_to_position(affected_tile) + Vector3(
+                                (self.tile_size) / 2,
+                                self.grid_map.position.y + self.tile_height + 0.05,
+                                (self.tile_size) / 2
+                            )
+                            self.get_tree().get_current_scene().add_child(vfx_instance)
+
+                            if self.effects_vfx_map.has(effect.id):
+                                self.effects_vfx_map[effect.id].append(vfx_instance)
+                            else:
+                                self.effects_vfx_map[effect.id] = [vfx_instance]
+
+    potion.splash()
 
 func _on_potion_thrown(potion: Potion, tile_coord: Vector2i, origin: Vector3) -> void:
     var potion_instance: Potion = potion as Potion
@@ -93,50 +154,50 @@ func _on_potion_thrown(potion: Potion, tile_coord: Vector2i, origin: Vector3) ->
     var tween = self.get_tree().create_tween()
     var animation_time: float = min(Constants.MAX_THROW_TIME, Constants.THROW_TIME_SCALING * (tile_coord.y + 1))
     var end_point = target_position + Vector3(0, 1.0, 0)
-    # TODO: Might rempve parabolic path if performance demands it
-    # var trajectory_points: Array = self._calculate_potion_trajectory(origin, end_point, animation_time)
     self.get_tree().get_current_scene().add_child(potion_instance)
 
     tween.tween_property(potion_instance, "position", end_point, animation_time)
-    # for idx in range(trajectory_points.size()):
-    #     tween.chain().tween_property(potion_instance, "position", trajectory_points[idx], animation_time / trajectory_points.size())
 
-    tween.finished.connect(
-      func() -> void:
-        for x_offset in range(-potion.size + 1, potion.size):
-            for y_offset in range(-potion.size + 1, potion.size):
-                var distance = abs(x_offset) + abs(y_offset)
-                if distance < potion.size:
-                    var affected_tile = Vector2i(tile_coord.x + x_offset, tile_coord.y + y_offset)
-                    if affected_tile.x >= 0 and affected_tile.x < self.grid_size.x \
-                    and affected_tile.y >= 0 and affected_tile.y < self.grid_size.y:
-                        for effect in potion.effects:
-                            var effect_duration: float = Constants.EFFECT_TICK_DURATION
-                            if effect.duration_scaling.has(potion.duration):
-                                effect_duration = effect.duration_scaling[potion.duration]
-                            var effect_to_apply = EffectWithDuration.new(effect, effect_duration)
-                            if self.effects_map.has(affected_tile):
-                                self.effects_map[affected_tile].append(effect_to_apply)
+    tween.finished.connect(self._on_potion_thrown_callback.bind(potion_instance, tile_coord))
+
+func _on_potion_splash_wrapped(potion: Potion, tile_coord: Vector2i):
+    return func() -> void:
+        self._on_potion_splash(potion, tile_coord)
+
+func _on_potion_splash(potion: Potion, tile_coord: Vector2i) -> void:
+    for x_offset in range(-potion.size + 1, potion.size):
+        for y_offset in range(-potion.size + 1, potion.size):
+            var distance = abs(x_offset) + abs(y_offset)
+            if distance < potion.size:
+                var affected_tile = Vector2i(tile_coord.x + x_offset, tile_coord.y + y_offset)
+                if affected_tile.x >= 0 and affected_tile.x < self.grid_size.x \
+                and affected_tile.y >= 0 and affected_tile.y < self.grid_size.y:
+                    for effect in potion.effects:
+                        var effect_duration: float = Constants.EFFECT_TICK_DURATION
+                        if effect.duration_scaling.has(potion.duration):
+                            effect_duration = effect.duration_scaling[potion.duration]
+                        var effect_to_apply = EffectWithDuration.new(effect, effect_duration)
+                        if self.effects_map.has(affected_tile):
+                            self.effects_map[affected_tile].append(effect_to_apply)
+                        else:
+                            self.effects_map[affected_tile] = [effect_to_apply]
+
+                        if Preloads.AOE_TILES.has(effect.name):
+                            var vfx_scene: PackedScene = Preloads.AOE_TILES[effect.name]
+                            var vfx_instance: Node3D = vfx_scene.instantiate()
+                            vfx_instance.position = coordinates_to_position(affected_tile) + Vector3(
+                                (self.tile_size) / 2,
+                                self.grid_map.position.y + self.tile_height + 0.05,
+                                (self.tile_size) / 2
+                            )
+                            self.get_tree().get_current_scene().add_child(vfx_instance)
+
+                            if self.effects_vfx_map.has(effect.id):
+                                self.effects_vfx_map[effect.id].append(vfx_instance)
                             else:
-                                self.effects_map[affected_tile] = [effect_to_apply]
+                                self.effects_vfx_map[effect.id] = [vfx_instance]
 
-                            if Preloads.AOE_TILES.has(effect.name):
-                                var vfx_scene: PackedScene = Preloads.AOE_TILES[effect.name]
-                                var vfx_instance: Node3D = vfx_scene.instantiate()
-                                vfx_instance.position = coordinates_to_position(affected_tile) + Vector3(
-                                    (self.tile_size) / 2,
-                                    self.grid_map.position.y + self.tile_height + 0.05,
-                                    (self.tile_size) / 2
-                                )
-                                self.get_tree().get_current_scene().add_child(vfx_instance)
-
-                                if self.effects_vfx_map.has(effect.id):
-                                    self.effects_vfx_map[effect.id].append(vfx_instance)
-                                else:
-                                    self.effects_vfx_map[effect.id] = [vfx_instance]
-
-        potion_instance.splash()
-    )
+    potion.splash()
 
 func _initialize_grid() -> void:
     self.grid_map.position = Vector3(

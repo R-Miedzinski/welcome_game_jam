@@ -118,6 +118,7 @@ func _on_death() -> void:
     emit_signal("enemy_defeated", self.front_position_in_grid, self.idx_in_position)
 
     self.animation_player.play("death")
+    self.animation_player.advance(0)
 
     if self.death_sound_id != -1:
         var death_sound_player = self.sfx_player.get_node("Death").get_child(self.death_sound_id)
