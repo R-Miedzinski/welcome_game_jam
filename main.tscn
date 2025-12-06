@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://pdaaoidt2yye"]
+[gd_scene load_steps=14 format=3 uid="uid://pdaaoidt2yye"]
 
 [ext_resource type="PackedScene" uid="uid://cdgtrm0yilnrn" path="res://ui/ui.tscn" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://do0mw5ytw15tt" path="res://level/level.tscn" id="1_ig7tw"]
@@ -6,10 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://b4mysbhjv2bij" path="res://conveyor/conveyor.tscn" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://b6l6x8jcjo1w3" path="res://cauldron/cauldron.tscn" id="5_lquwl"]
 [ext_resource type="AudioStream" uid="uid://co4etvyads6d5" path="res://sfx/muzyka_do_mordowania_gnomów.wav" id="6_7mycd"]
+[ext_resource type="AudioStream" uid="uid://br3j7370lbllk" path="res://sfx/menu_click.wav" id="6_272bh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7mycd"]
 font_size = 100
 outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5vw27"]
+font_size = 50
+font_color = Color(0.80049086, 0.80049074, 0.80049074, 1)
 
 [sub_resource type="Gradient" id="Gradient_7mycd"]
 offsets = PackedFloat32Array(0.6875, 0.875, 0.9375)
@@ -73,6 +78,12 @@ size_flags_vertical = 0
 text = "Game Paused"
 label_settings = SubResource("LabelSettings_7mycd")
 
+[node name="Score" type="Label" parent="Menu/PauseMenu/ButtonBox"]
+visible = false
+layout_mode = 2
+text = "You survived: x.xx.xx"
+label_settings = SubResource("LabelSettings_5vw27")
+
 [node name="Unpause" type="Button" parent="Menu/PauseMenu/ButtonBox"]
 layout_mode = 2
 size_flags_vertical = 4
@@ -100,7 +111,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_272bh")
 
-[node name="Buttonbox" type="VBoxContainer" parent="Menu/MainMenu"]
+[node name="ButtonBox" type="VBoxContainer" parent="Menu/MainMenu"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -115,17 +126,17 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Menu/MainMenu/Buttonbox"]
+[node name="Label" type="Label" parent="Menu/MainMenu/ButtonBox"]
 layout_mode = 2
 text = "MAIN MENU"
 label_settings = SubResource("LabelSettings_272bh")
 
-[node name="Play" type="Button" parent="Menu/MainMenu/Buttonbox"]
+[node name="Play" type="Button" parent="Menu/MainMenu/ButtonBox"]
 layout_mode = 2
 text = "Play
 "
 
-[node name="Quit" type="Button" parent="Menu/MainMenu/Buttonbox"]
+[node name="Quit" type="Button" parent="Menu/MainMenu/ButtonBox"]
 layout_mode = 2
 text = "Quit"
 icon_alignment = 1
@@ -174,6 +185,17 @@ unique_name_in_owner = true
 offset_right = 1.0
 offset_bottom = 23.0
 
+[node name="Score" type="Label" parent="UI/VBoxContainer/GameViewport/SubViewport"]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+
 [node name="Level" parent="UI/VBoxContainer/GameViewport/SubViewport" instance=ExtResource("1_ig7tw")]
 unique_name_in_owner = true
 
@@ -221,6 +243,9 @@ layout_mode = 2
 [node name="SFX" type="Node" parent="."]
 unique_name_in_owner = true
 
+[node name="MenuClick" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("6_272bh")
+
 [node name="MuzykaDoMordowaniaGnomów" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource("6_7mycd")
 bus = &"Soundtrack"
@@ -228,8 +253,8 @@ bus = &"Soundtrack"
 [connection signal="pressed" from="Menu/PauseMenu/ButtonBox/Unpause" to="Controller" method="_on_unpause_clicked"]
 [connection signal="pressed" from="Menu/PauseMenu/ButtonBox/Menu" to="Controller" method="_on_main_menu_clicked"]
 [connection signal="pressed" from="Menu/PauseMenu/ButtonBox/Quit" to="Controller" method="_on_quit_clicked"]
-[connection signal="pressed" from="Menu/MainMenu/Buttonbox/Play" to="Controller" method="_on_play_clicked"]
-[connection signal="pressed" from="Menu/MainMenu/Buttonbox/Quit" to="Controller" method="_on_quit_clicked"]
+[connection signal="pressed" from="Menu/MainMenu/ButtonBox/Play" to="Controller" method="_on_play_clicked"]
+[connection signal="pressed" from="Menu/MainMenu/ButtonBox/Quit" to="Controller" method="_on_quit_clicked"]
 [connection signal="pressed" from="UI/VBoxContainer/GameViewport/SubViewport/Pause" to="Controller" method="_on_pause_clicked"]
 [connection signal="update_spawn_counter" from="UI/VBoxContainer/GameViewport/SubViewport/Level" to="Controller" method="_on_spawner_timer_update"]
 [connection signal="component_added" from="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Conveyor" to="UI/VBoxContainer/BrewingViewport/SubViewport/HBoxContainer/Cauldron" method="_on_component_added"]

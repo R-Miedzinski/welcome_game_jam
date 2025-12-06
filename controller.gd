@@ -12,8 +12,10 @@ var is_game_active: bool = true
 @onready var tower_controller: TowerController = self.level_scene.get_node("%Tower")
 @onready var camera: Camera3D = self.level_scene.get_node("%MainCamera")
 @onready var spawner_timer_label: Label = %SpawnTimer
+@onready var score_label: Label = %Score
 
 var last_highlighted_tile: Vector2i = Vector2i(-1, -1)
+var last_highlight_range: int = 1
 
 @onready var game_viewport: SubViewportContainer = %GameViewport
 @onready var brewing_viewport: SubViewportContainer = %BrewingViewport
@@ -33,21 +35,24 @@ func _process(delta: float) -> void:
   if self.get_tree().paused:
     return
 
+  self.score_label.text = Constants.SCORE_LABEL_TEXT + self.grid_controller.get_survival_time()
+
   var mouse_pos: Vector2 = self.get_viewport().get_mouse_position()
-  if mouse_pos.y > self.game_viewport.get_node("SubViewport").size.y:
-    self.handle_mouse_in_brewing_viewport(mouse_pos)
-  else:
+  if mouse_pos.y <= self.game_viewport.get_node("SubViewport").size.y:
     self.handle_mouse_in_game_viewport(mouse_pos)
+  # else:
+  #   self.handle_mouse_in_brewing_viewport(mouse_pos)
 
 func handle_mouse_in_game_viewport(mouse_pos: Vector2) -> void:
   var tile_coords: Vector2i = self.get_tile_under_mouse(mouse_pos)
   if tile_coords != self.last_highlighted_tile:
     if self.last_highlighted_tile.x != -1 and self.last_highlighted_tile.y != -1:
-      self.grid_controller.unhighlight_tile(self.last_highlighted_tile)
+      self.grid_controller.unhighlight_tile(self.last_highlighted_tile, last_highlight_range)
     self.last_highlighted_tile = tile_coords
+    self.last_highlight_range = self.tower_controller.selected_potion.size if self.tower_controller.selected_potion != null else 1
 
   if tile_coords.x != -1 and tile_coords.y != -1:
-    self.grid_controller.highlight_tile(tile_coords)
+    self.grid_controller.highlight_tile(tile_coords, self.last_highlight_range)
   elif self.aim_marker != null:
     self.aim_marker.queue_free()
     self.aim_marker = null
@@ -82,9 +87,9 @@ func get_tile_under_mouse(mouse_pos: Vector2) -> Vector2i:
       
     return coordinates
 
-func handle_mouse_in_brewing_viewport(mouse_pos: Vector2) -> void:
-  # print("Mouse in brewing viewport at position: %s" % mouse_pos)
-  pass
+# func handle_mouse_in_brewing_viewport(mouse_pos: Vector2) -> void:
+#   # print("Mouse in brewing viewport at position: %s" % mouse_pos)
+#   pass
 
 func _ready() -> void:
   self.sfx.get_node("MuzykaDoMordowaniaGnomów").play()
@@ -93,46 +98,90 @@ func _ready() -> void:
   # Setup UI and Menu screens
   self.ui_scene.process_mode = Node.ProcessMode.PROCESS_MODE_PAUSABLE
   self.menu_scene.process_mode = Node.ProcessMode.PROCESS_MODE_WHEN_PAUSED
-  self.pause_menu.visible = false
-  self.main_menu.visible = true
-  self.is_game_active = false
-  self.get_tree().paused = true
+  self._first_menu_load()
 
   self.tower_controller.connect("tower_destroyed", self._on_tower_destroyed)
 
 func _on_soundtrack_finished() -> void:
   self.sfx.get_node("MuzykaDoMordowaniaGnomów").play()
 
-func _on_tower_destroyed() -> void:
-  print("Game Over! The tower has been destroyed.")
-  self.is_game_active = false
-  self.pause_menu.visible = false
-  self.main_menu.visible = true
-  self.get_tree().paused = true
-  self.get_tree().reload_current_scene()
-
 func _on_spawner_timer_update(time_left: float) -> void:
   self.spawner_timer_label.text = "Next Spawn In: %.1f s" % time_left
 
-func _on_pause_clicked() -> void:
-  self.pause_menu.visible = true
+func _first_menu_load() -> void:
+  var menu_button_box = self.main_menu.get_node("ButtonBox")
+  menu_button_box.get_node("Label").text = Constants.MAIN_MENU_TITLE
+  menu_button_box.get_node("Play").text = Constants.MAIN_MENU_START_BUTTON
+  menu_button_box.get_node("Quit").text = Constants.MAIN_MENU_EXIT_BUTTON
+
+  var pause_button_box = self.pause_menu.get_node("ButtonBox")
+  pause_button_box.get_node("Label").text = Constants.PAUSE_MENU_TITLE
+  pause_button_box.get_node("Unpause").text = Constants.PAUSE_MENU_RESUME_BUTTON
+  pause_button_box.get_node("Menu").text = Constants.PAUSE_MENU_MAIN_MENU_BUTTON
+  pause_button_box.get_node("Quit").text = Constants.PAUSE_MENU_EXIT_BUTTON
+
+  self.is_game_active = false
+  self.main_menu.visible = true
+  self.pause_menu.visible = false
   self.get_tree().paused = true
 
-func _on_unpause_clicked() -> void:
-  self.pause_menu.visible = false
-  self.get_tree().paused = false
-
-func _on_main_menu_clicked() -> void:
-  self.pause_menu.visible = false
-  self.main_menu.visible = true
+func _open_main_menu() -> void:
   self.is_game_active = false
+  self.main_menu.visible = true
+  self.pause_menu.visible = false
   self.get_tree().paused = true
   self.get_tree().reload_current_scene()
 
-func _on_quit_clicked() -> void:
-  self.get_tree().quit()
-
-func _on_play_clicked() -> void:
+func _pause_game() -> void:
+  self.is_game_active = false
   self.main_menu.visible = false
+  self.pause_menu.visible = true
+  self.get_tree().paused = true
+
+func _unpause_game() -> void:
   self.is_game_active = true
+  self.main_menu.visible = false
+  self.pause_menu.visible = false
   self.get_tree().paused = false
+
+func _start_game() -> void:
+  self.is_game_active = true
+  self.main_menu.visible = false
+  self.pause_menu.visible = false
+  self.get_tree().paused = false
+
+func _game_over() -> void:
+  var pause_button_box = self.pause_menu.get_node("ButtonBox")
+  pause_button_box.get_node("Label").text = Constants.GAME_OVER_TITLE
+  pause_button_box.get_node("Unpause").visible = false
+  pause_button_box.get_node("Score").text = Constants.FINAL_SCORE_TEXT + self.grid_controller.get_survival_time()
+  pause_button_box.get_node("Score").visible = true
+
+  self.is_game_active = false
+  self.pause_menu.visible = true
+  self.main_menu.visible = false
+  self.get_tree().paused = true
+
+func _on_tower_destroyed() -> void:
+  print("Game Over! The tower has been destroyed.")
+  self._game_over()
+
+func _on_pause_clicked() -> void:
+  self.sfx.get_node("MenuClick").play()
+  self._pause_game()
+
+func _on_unpause_clicked() -> void:
+  self.sfx.get_node("MenuClick").play()
+  self._unpause_game()
+
+func _on_main_menu_clicked() -> void:
+  self.sfx.get_node("MenuClick").play()
+  self._open_main_menu()
+  
+func _on_play_clicked() -> void:
+  self.sfx.get_node("MenuClick").play()
+  self._start_game()
+
+func _on_quit_clicked() -> void:
+  self.sfx.get_node("MenuClick").play()
+  self.sfx.get_node("MenuClick").finished.connect(self.get_tree().quit)

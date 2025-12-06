@@ -37,7 +37,6 @@ func move(delta: float, direction: Constants.MovementDirection) -> void:
     tween.finished.connect(
         func() -> void:
             self.is_on_ground = true
-            # TODO: handle speed -> 0 case
             self.jump_timer.start(self.jump_cooldown / self.speed_modifier)
     )
 

@@ -1,8 +1,8 @@
 class_name TowerController
 extends Node3D
 
-@export var max_health: int = 100
-var health: int = 100
+@export var max_health: int = Constants.TOWER_MAX_HEALTH
+var health: int = Constants.TOWER_MAX_HEALTH
 var selected_potion: Potion = null
 
 var potion_scene: PackedScene = preload("res://potions/potion.tscn")

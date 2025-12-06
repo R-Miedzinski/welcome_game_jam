@@ -1,11 +1,13 @@
 extends Node
 
 # Menu Texts
-@export var MAIN_MENU_TITLE: String = "Potion Defense"
+@export var MAIN_MENU_TITLE: String = "Feynocide"
 @export var MAIN_MENU_START_BUTTON: String = "Start Game"
 @export var MAIN_MENU_EXIT_BUTTON: String = "Exit Game"
 @export var PAUSE_MENU_TITLE: String = "Game Paused"
 @export var GAME_OVER_TITLE: String = "Game Over"
+@export var SCORE_LABEL_TEXT: String = "Time: "
+@export var FINAL_SCORE_TEXT: String = "You survived: "
 @export var PAUSE_MENU_RESUME_BUTTON: String = "Resume"
 @export var PAUSE_MENU_MAIN_MENU_BUTTON: String = "Main Menu"
 @export var PAUSE_MENU_EXIT_BUTTON: String = "Exit Game"
@@ -28,6 +30,9 @@ enum MovementDirection {
     UP = 2,
     DOWN = -2
 }
+
+# Tower Configuration
+@export var TOWER_MAX_HEALTH: int = 10
 
 # Potion Configuration
 @export var MAX_THROW_TIME: float = 0.5

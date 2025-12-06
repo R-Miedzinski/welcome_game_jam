@@ -2,7 +2,7 @@ class_name ResetEffect
 extends Effect
 
 func apply(target: Enemy, duration: float = 1.0) -> void:
-  if !target.is_on_ground:
+  if not target.is_on_ground:
     return
 
   var target_position: Vector2i = Vector2i(target.front_position_in_grid.x, Constants.GRID_SIZE.y)
