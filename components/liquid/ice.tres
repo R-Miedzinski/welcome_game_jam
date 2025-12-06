@@ -1,11 +1,13 @@
-[gd_resource type="Resource" script_class="Component" load_steps=4 format=3 uid="uid://cn02it5h6y4jv"]
+[gd_resource type="Resource" script_class="Component" load_steps=5 format=3 uid="uid://cn02it5h6y4jv"]
 
 [ext_resource type="Script" uid="uid://c82ufwssxooa" path="res://effects/effect.gd" id="1_bqnn1"]
 [ext_resource type="Resource" uid="uid://basdhcmi7155w" path="res://effects/slow_ground/ice_slow_ground.tres" id="2_ok6iy"]
 [ext_resource type="Script" uid="uid://cxr60ckw2fij3" path="res://components/component.gd" id="2_y6wo4"]
+[ext_resource type="Texture2D" uid="uid://6jetrbpd4r1o" path="res://components/liquid/textures/ice.png" id="4_ok6iy"]
 
 [resource]
 script = ExtResource("2_y6wo4")
 name = "Ice"
+texture = ExtResource("4_ok6iy")
 effects = Array[ExtResource("1_bqnn1")]([ExtResource("2_ok6iy")])
 metadata/_custom_type_script = "uid://cxr60ckw2fij3"

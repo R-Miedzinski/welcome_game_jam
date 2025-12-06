@@ -4,6 +4,7 @@ extends Node
 @onready var menu_scene: CanvasLayer = %Menu
 @onready var main_menu: Control = self.menu_scene.get_node("%MainMenu")
 @onready var pause_menu: Control = self.menu_scene.get_node("%PauseMenu")
+@onready var how_to_play_overlay: ColorRect = self.menu_scene.get_node("%HowToPlayOverlay")
 var is_game_active: bool = true
 
 @onready var level_scene: Node3D = %Level
@@ -26,7 +27,9 @@ var aim_marker: Node3D = null
 
 func _process(delta: float) -> void:
   if Input.is_action_just_pressed("pause"):
-    if self.is_game_active:
+    if self.how_to_play_overlay.visible:
+      self._hide_how_to_play()
+    elif self.is_game_active:
       if self.get_tree().paused:
         self._on_unpause_clicked()
       else:
@@ -133,7 +136,7 @@ func _open_main_menu() -> void:
   self.get_tree().reload_current_scene()
 
 func _pause_game() -> void:
-  self.is_game_active = false
+  self.is_game_active = true
   self.main_menu.visible = false
   self.pause_menu.visible = true
   self.get_tree().paused = true
@@ -154,6 +157,7 @@ func _game_over() -> void:
   var pause_button_box = self.pause_menu.get_node("ButtonBox")
   pause_button_box.get_node("Label").text = Constants.GAME_OVER_TITLE
   pause_button_box.get_node("Unpause").visible = false
+  pause_button_box.get_node("HowToPlay").visible = false
   pause_button_box.get_node("Score").text = Constants.FINAL_SCORE_TEXT + self.grid_controller.get_survival_time()
   pause_button_box.get_node("Score").visible = true
 
@@ -185,3 +189,9 @@ func _on_play_clicked() -> void:
 func _on_quit_clicked() -> void:
   self.sfx.get_node("MenuClick").play()
   self.sfx.get_node("MenuClick").finished.connect(self.get_tree().quit)
+
+func _show_how_to_play() -> void:
+  self.how_to_play_overlay.visible = true
+
+func _hide_how_to_play() -> void:
+  self.how_to_play_overlay.visible = false

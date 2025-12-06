@@ -3,6 +3,7 @@ extends Node
 # Menu Texts
 @export var MAIN_MENU_TITLE: String = "Feynocide"
 @export var MAIN_MENU_START_BUTTON: String = "Start Game"
+@export var HOW_TO_PLAY_TEXT: String = "How to Play"
 @export var MAIN_MENU_EXIT_BUTTON: String = "Exit Game"
 @export var PAUSE_MENU_TITLE: String = "Game Paused"
 @export var GAME_OVER_TITLE: String = "Game Over"

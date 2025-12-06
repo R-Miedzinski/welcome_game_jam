@@ -23,9 +23,9 @@ func remove_from_conveyor(idx: int) -> Component:
   var removed_component = self.components.pop_at(idx).duplicate(true)
   self.conveyor_components.get_child(idx).queue_free()
   for i in range(idx, self.conveyor_components.get_child_count()):
-    var component_node: Button = self.conveyor_components.get_child(i)
+    var component_node: ComponentCard = self.conveyor_components.get_child(i)
     component_node.idx_in_conveyor = i - 1
-    component_node.text = str(i)
+    # component_node.text = str(i)
 
   if self.components.size() < self.capacity and self.component_timer.is_stopped():
     self._on_spawn_component_timeout()
@@ -58,11 +58,12 @@ func _on_spawn_component_timeout() -> void:
 
   if component != null:
     self.components.append(component)
-    var component_instance: Button = self.component_scene.instantiate()
-    component_instance.icon = component.texture
+    var component_instance: ComponentCard = self.component_scene.instantiate()
+    component_instance.set_component_texture(component.texture)
+    # component_instance.size = Vector2(150, 150)
     component_instance.idx_in_conveyor = self.components.size() - 1
     component_instance.get_node("Label").text = component.name + " L" if component.is_liquid else component.name + " S"
-    component_instance.text = str(self.components.size())
+    # component_instance.text = str(self.components.size())
     component_instance.connect(
       "component_clicked",
       self._on_component_clicked
