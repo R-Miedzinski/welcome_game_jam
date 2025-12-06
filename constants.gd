@@ -58,7 +58,7 @@ enum EffectTypes {
 }
 
 # Conveyor Configuration
-@export var COMPONENT_SPAWN_INTERVAL: float = 3.0
+@export var COMPONENT_SPAWN_INTERVAL: float = 2.0
 @export var CONVEYOR_CAPACITY: int = 10
 @export var SOLID_FACTOR: int = 4 # rand % SOLID_FACTOR == 0 -> solid component
 
