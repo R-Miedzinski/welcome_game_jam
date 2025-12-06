@@ -74,9 +74,6 @@ func _accumulate_effects(effects_with_durations: Array) -> Array:
     var all_durations: Array = []
     for ewd in effects_with_durations:
         all_effects.append(ewd.effect)
-        # if ewd.effect.target_location == Effect.TargetLocation.SELF:
-        #     all_durations.append(Constants.EFFECT_TICK_DURATION)
-        # else:
         all_durations.append(ewd.duration)
     return [all_effects, all_durations]
 
@@ -217,21 +214,21 @@ func _initialize_grid() -> void:
 func _on_barrier_collided(entity: Node) -> void:
     entity.attack_player()
 
-func _calculate_potion_trajectory(origin: Vector3, target: Vector3, animation_time: float) -> Array:
-    var inital_velocity: Vector3 = Vector3(
-      (target.x - origin.x) / animation_time,
-      (target.y - origin.y - 0.5 * Constants.GRAVITY * animation_time * animation_time) / animation_time,
-      (target.z - origin.z) / animation_time
-    )
+# func _calculate_potion_trajectory(origin: Vector3, target: Vector3, animation_time: float) -> Array:
+#     var inital_velocity: Vector3 = Vector3(
+#       (target.x - origin.x) / animation_time,
+#       (target.y - origin.y - 0.5 * Constants.GRAVITY * animation_time * animation_time) / animation_time,
+#       (target.z - origin.z) / animation_time
+#     )
 
-    var points: Array = []
-    var steps: int = 2
-    for i in range(steps + 1):
-        var t: float = float(i) / float(steps) * animation_time
-        var point: Vector3 = origin + inital_velocity * t
-        point.y += 0.5 * Constants.GRAVITY * t * t
-        points.append(point)
-    return points
+#     var points: Array = []
+#     var steps: int = 2
+#     for i in range(steps + 1):
+#         var t: float = float(i) / float(steps) * animation_time
+#         var point: Vector3 = origin + inital_velocity * t
+#         point.y += 0.5 * Constants.GRAVITY * t * t
+#         points.append(point)
+#     return points
 
 class EffectWithDuration:
     var effect: Effect

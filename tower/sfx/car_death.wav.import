@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://c5mrttdf6prb0"
-path="res://.godot/imported/car_death.wav-466d135325336d552408139486d543c9.sample"
+path="res://.godot/imported/car_death.wav-faf56192b24208ae8115db5e560d1844.sample"
 
 [deps]
 
-source_file="res://tower/car_death.wav"
-dest_files=["res://.godot/imported/car_death.wav-466d135325336d552408139486d543c9.sample"]
+source_file="res://tower/sfx/car_death.wav"
+dest_files=["res://.godot/imported/car_death.wav-faf56192b24208ae8115db5e560d1844.sample"]
 
 [params]
 
