@@ -33,7 +33,7 @@ enum MovementDirection {
 }
 
 # Tower Configuration
-@export var TOWER_MAX_HEALTH: int = 10
+@export var TOWER_MAX_HEALTH: int = 30
 
 # Potion Configuration
 @export var MAX_THROW_TIME: float = 0.5

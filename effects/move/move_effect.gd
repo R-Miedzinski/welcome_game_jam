@@ -23,4 +23,5 @@ func apply(target: Enemy, duration: float = Constants.EFFECT_TICK_DURATION) -> v
     target.force_move(displacement_vector, self.displacement_time)
 
 func lift(target: Enemy) -> void:
-    pass
+  if target.health <= 0:
+    target._on_death()

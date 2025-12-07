@@ -151,6 +151,8 @@ func _start_game() -> void:
   self.is_game_active = true
   self.main_menu.visible = false
   self.pause_menu.visible = false
+  self.sfx.get_node("MuzykaDoMordowaniaGnomów").stop()
+  self.sfx.get_node("MuzykaDoMordowaniaGnomów").play()
   self.get_tree().paused = false
 
 func _game_over() -> void:

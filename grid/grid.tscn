@@ -24,12 +24,19 @@ mesh_library = ExtResource("1_ppiwg")
 cell_size = Vector3(1, 1, 1)
 
 [node name="BACKGROUND" parent="GridMap" instance=ExtResource("3_yo7jq")]
-transform = Transform3D(-4.371139e-09, 0, 0.1, 0, 0.1, 0, -0.1, 0, -4.371139e-09, 3.5, 0, 5.5)
+transform = Transform3D(-4.371139e-09, 0, 0.1, 0, 0.1, 0, -0.1, 0, -4.371139e-09, 3.5, 0.4, 5.5)
 
 [node name="grid_grass_flowers" parent="GridMap" instance=ExtResource("3_p060q")]
 transform = Transform3D(-4.371139e-09, 0, 0.1, 0, 0.1, 0, -0.1, 0, -4.371139e-09, 3.5, 0.39, 5.5)
 
+[node name="grass_dirt" parent="GridMap/grid_grass_flowers" index="3"]
+visible = false
+
+[node name="grass_grass" parent="GridMap/grid_grass_flowers" index="4"]
+visible = false
+
 [node name="grass_transition" parent="GridMap/grid_grass_flowers" index="5"]
+visible = false
 material_override = SubResource("ShaderMaterial_y3jnv")
 
 [node name="EndGridCollider" type="Area3D" parent="GridMap"]

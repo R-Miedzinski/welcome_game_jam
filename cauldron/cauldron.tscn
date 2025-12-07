@@ -1,14 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://b6l6x8jcjo1w3"]
+[gd_scene load_steps=9 format=3 uid="uid://b6l6x8jcjo1w3"]
 
 [ext_resource type="Script" uid="uid://6jkd45gkwnpv" path="res://cauldron/cauldron.gd" id="1_posa5"]
+[ext_resource type="Texture2D" uid="uid://lkx4wrmx7lm2" path="res://cauldron/textures/Cauldron.png" id="2_28at6"]
 [ext_resource type="Texture2D" uid="uid://cukbyjysna702" path="res://cauldron/button_background.tres" id="2_lb3ud"]
 [ext_resource type="AudioStream" uid="uid://cecrrv8l1l0ok" path="res://cauldron/sfx/nalewanie.wav" id="3_lprow"]
+[ext_resource type="Texture2D" uid="uid://bp0kjoaqb7p17" path="res://cauldron/textures/stats_v2.png" id="3_vwv4p"]
 [ext_resource type="AudioStream" uid="uid://7gysoca4pvi1" path="res://cauldron/sfx/proszek.wav" id="4_sehdx"]
 [ext_resource type="AudioStream" uid="uid://b8nhc68p5e41g" path="res://cauldron/sfx/wylewanie.wav" id="5_28at6"]
 [ext_resource type="AudioStream" uid="uid://djk6wihf2ghnm" path="res://cauldron/sfx/mieszanie.wav" id="6_sehdx"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_lb3ud"]
-size = Vector2(300, 300)
 
 [node name="Cauldron" type="ColorRect"]
 anchors_preset = 15
@@ -40,118 +39,130 @@ last_wrap_alignment = 2
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
-size_flags_stretch_ratio = 3.0
-texture = SubResource("PlaceholderTexture2D_lb3ud")
+size_flags_stretch_ratio = 2.0
+texture = ExtResource("2_28at6")
 
-[node name="VFlowContainer" type="VFlowContainer" parent="HFlowContainer/CauldronIcon"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-alignment = 1
-last_wrap_alignment = 2
-
-[node name="DamageContainer" type="HFlowContainer" parent="HFlowContainer/CauldronIcon/VFlowContainer"]
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-size_flags_vertical = 3
-alignment = 1
-last_wrap_alignment = 2
-
-[node name="DMG" type="Label" parent="HFlowContainer/CauldronIcon/VFlowContainer/DamageContainer"]
+[node name="DOT" type="Label" parent="HFlowContainer/CauldronIcon"]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 0
+offset_left = 112.0
+offset_top = 37.0
+offset_right = 150.0
+offset_bottom = 60.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
-text = "DMG x"
+text = "XX"
 
-[node name="DOT" type="Label" parent="HFlowContainer/CauldronIcon/VFlowContainer/DamageContainer"]
+[node name="DOTGround" type="Label" parent="HFlowContainer/CauldronIcon"]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 0
+offset_left = 256.0
+offset_top = 115.0
+offset_right = 319.0
+offset_bottom = 138.0
 size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "DOT x"
+text = "XX"
 
-[node name="DOTGround" type="Label" parent="HFlowContainer/CauldronIcon/VFlowContainer/DamageContainer"]
+[node name="Slow" type="Label" parent="HFlowContainer/CauldronIcon"]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 0
+offset_left = 256.0
+offset_top = 37.0
+offset_right = 314.0
+offset_bottom = 60.0
 size_flags_horizontal = 3
-text = "DOT G x"
+text = "XX"
 
-[node name="SlowContainer" type="HFlowContainer" parent="HFlowContainer/CauldronIcon/VFlowContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-alignment = 1
-last_wrap_alignment = 2
-
-[node name="Slow" type="Label" parent="HFlowContainer/CauldronIcon/VFlowContainer/SlowContainer"]
+[node name="SlowGround" type="Label" parent="HFlowContainer/CauldronIcon"]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 0
+offset_left = 112.0
+offset_top = 115.0
+offset_right = 248.0
+offset_bottom = 138.0
 size_flags_horizontal = 3
-text = "Slow x"
+text = "XX"
 
-[node name="SlowGround" type="Label" parent="HFlowContainer/CauldronIcon/VFlowContainer/SlowContainer"]
+[node name="Range" type="Label" parent="HFlowContainer/CauldronIcon"]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 0
+offset_left = 112.0
+offset_top = 200.0
+offset_right = 174.0
+offset_bottom = 223.0
 size_flags_horizontal = 3
-text = "Slow G x"
+text = "XX"
 
-[node name="ModifiersContainer" type="HFlowContainer" parent="HFlowContainer/CauldronIcon/VFlowContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-alignment = 1
-last_wrap_alignment = 2
-
-[node name="Range" type="Label" parent="HFlowContainer/CauldronIcon/VFlowContainer/ModifiersContainer"]
+[node name="Time" type="Label" parent="HFlowContainer/CauldronIcon"]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 0
+offset_left = 256.0
+offset_top = 200.0
+offset_right = 392.0
+offset_bottom = 223.0
 size_flags_horizontal = 3
-text = "Size x"
+text = "XX"
 
-[node name="Time" type="Label" parent="HFlowContainer/CauldronIcon/VFlowContainer/ModifiersContainer"]
+[node name="Stun" type="CheckBox" parent="HFlowContainer/CauldronIcon"]
 unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Time x"
-
-[node name="Potency" type="Label" parent="HFlowContainer/CauldronIcon/VFlowContainer/ModifiersContainer"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Potency x"
-
-[node name="SpecialsContainer" type="HFlowContainer" parent="HFlowContainer/CauldronIcon/VFlowContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-alignment = 1
-last_wrap_alignment = 2
-
-[node name="Stun" type="CheckBox" parent="HFlowContainer/CauldronIcon/VFlowContainer/SpecialsContainer"]
-unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 0
+offset_left = 15.0
+offset_top = 255.0
+offset_right = 151.0
+offset_bottom = 286.0
 size_flags_horizontal = 3
 button_mask = 0
 shortcut_feedback = false
 shortcut_in_tooltip = false
-text = "Stun"
+text = "
+"
 
-[node name="Reset" type="CheckBox" parent="HFlowContainer/CauldronIcon/VFlowContainer/SpecialsContainer"]
+[node name="Reset" type="CheckBox" parent="HFlowContainer/CauldronIcon"]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 0
+offset_left = 109.0
+offset_top = 255.0
+offset_right = 245.0
+offset_bottom = 286.0
 size_flags_horizontal = 3
 button_mask = 0
 shortcut_feedback = false
 shortcut_in_tooltip = false
-text = "Move To Start"
 
-[node name="Move" type="CheckBox" parent="HFlowContainer/CauldronIcon/VFlowContainer/SpecialsContainer"]
+[node name="Move" type="CheckBox" parent="HFlowContainer/CauldronIcon"]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 0
+offset_left = 205.0
+offset_top = 255.0
+offset_right = 341.0
+offset_bottom = 286.0
 size_flags_horizontal = 3
-text = "Move"
+
+[node name="TextureRect" type="TextureRect" parent="HFlowContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("3_vwv4p")
+
+[node name="DMG" type="Label" parent="HFlowContainer/TextureRect"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 16.0
+offset_top = 60.0
+offset_right = 68.0
+offset_bottom = 120.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "XX.X"
+horizontal_alignment = 2
+
+[node name="ComponentsCount" type="Label" parent="HFlowContainer/TextureRect"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 30.0
+offset_top = 190.0
+offset_right = 70.0
+offset_bottom = 213.0
+text = " X / X"
 
 [node name="ButtonPanel" type="VFlowContainer" parent="HFlowContainer"]
 custom_minimum_size = Vector2(0, 300)
@@ -162,6 +173,7 @@ last_wrap_alignment = 2
 reverse_fill = true
 
 [node name="BrewPotion" type="Button" parent="HFlowContainer/ButtonPanel"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0

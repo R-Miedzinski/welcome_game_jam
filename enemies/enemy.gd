@@ -74,14 +74,15 @@ func move(delta: float, direction: Constants.MovementDirection) -> void:
   self.move_and_collide(delta * self.speed_modifier * self.speed * Vector3(direction * Constants.TILE_SIZE, 0, 0))
 
 func pause_movement() -> void:
-  if !self.is_paused:
+  if !self.is_paused and not self.stop_processing:
     self.previous_speed = self.speed
     self.speed = 0
     self.is_paused = true
-    self.animation_player.pause()
+    if not self.animation_player.assigned_animation == "death":
+      self.animation_player.pause()
 
 func resume_movement() -> void:
-  if self.is_paused:
+  if self.is_paused and not self.stop_processing:
     self.speed = self.previous_speed
     self.is_paused = false
     self.animation_player.play("walk")
@@ -113,8 +114,8 @@ func _ready() -> void:
     )
 
 func _on_death() -> void:
-    self.stop_processing = true
     self.pause_movement()
+    self.stop_processing = true
     emit_signal("enemy_defeated", self.front_position_in_grid, self.idx_in_position)
 
     self.animation_player.play("death")

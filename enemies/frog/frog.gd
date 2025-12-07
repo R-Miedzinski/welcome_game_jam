@@ -7,6 +7,9 @@ extends Enemy
 
 @onready var jump_timer: Timer = %JumpTimer
 var is_moving: bool = false
+var just_spawned: bool = true
+
+@export var jump_anim_offset: float = 1.5
 
 func take_damage(amount: float) -> void:
     self.health -= amount
@@ -19,6 +22,13 @@ func take_damage(amount: float) -> void:
 func move(delta: float, direction: Constants.MovementDirection) -> void:
     if self.animation_player.current_animation == "attack" or self.animation_player.current_animation == "death" or self.is_paused:
         return
+
+    if self.jump_timer.time_left <= self.jump_anim_offset and not self.just_spawned:
+        self.animation_player.play("walk")
+        self.animation_player.advance(0)
+    elif self.just_spawned:
+        self.animation_player.play("jump_land")
+        self.animation_player.advance(0)
 
     if self.is_moving:
         return
@@ -37,7 +47,7 @@ func move(delta: float, direction: Constants.MovementDirection) -> void:
     tween.finished.connect(
         func() -> void:
             self.is_on_ground = true
-            self.jump_timer.start(self.jump_cooldown / self.speed_modifier)
+            self.jump_timer.start(self.jump_cooldown)
     )
 
     self.sfx_player.get_node("Intro").get_child(self.intro_sound_id).play()
@@ -51,6 +61,14 @@ func resume_movement() -> void:
     super ()
     if self.jump_timer.is_stopped():
         self.jump_timer.start(self.jump_cooldown / self.speed_modifier)
+
+func _process_animation(anim_name: String) -> void:
+    super (anim_name)
+    if anim_name == "walk":
+        self.animation_player.play("idle")
+    elif anim_name == "jump_land" and self.just_spawned:
+        self.just_spawned = false
+        self.animation_player.play("idle")
 
 func _ready() -> void:
     super ()
