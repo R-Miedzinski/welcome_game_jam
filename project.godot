@@ -19,6 +19,7 @@ Efekty mieszaj dowolnie, zobacz jaka mikstura będzie zabijać gnomy najskuteczn
 
 
 Firma XXXXX nie jest odpowiedzialna za użycie tworzonych przez nią środków chemiczny w sposób niewskazany na opakowaniu, w przypadku wystąpienia objawów takich jak: ból głowy, osłabienie, wymioty, biegunka, palpitacje serca, myśli xxxxxxxxxx czy łysienie należy niezwłocznie skontaktować się z lekarzem."
+config/version="1.0.0"
 run/main_scene="uid://pdaaoidt2yye"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="uid://bkjor2pmnd24u"
