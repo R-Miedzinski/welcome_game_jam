@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://k3mblgqyhcoa" path="res://enemies/frog/asset/A_FrogKnoight.glb" id="6_s2lbv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1wfab"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_6i1ca")
 shader_parameter/is_visible = false
@@ -62,20 +63,6 @@ tracks/1/keys = {
 resource_name = "hurt"
 length = 0.15
 
-[sub_resource type="Animation" id="Animation_s2lbv"]
-resource_name = "walk"
-length = 3.3333
-tracks/0/type = "animation"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("A_FrogKnoight/AnimationPlayer")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"clips": PackedStringArray("Jump_Connect_Frog"),
-"times": PackedFloat32Array(0)
-}
-
 [sub_resource type="Animation" id="Animation_6i1ca"]
 resource_name = "idle"
 length = 1.03
@@ -115,6 +102,20 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "clips": PackedStringArray("jump_land"),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_s2lbv"]
+resource_name = "walk"
+length = 3.3333
+tracks/0/type = "animation"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("A_FrogKnoight/AnimationPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": PackedStringArray("Jump_Connect_Frog"),
 "times": PackedFloat32Array(0)
 }
 

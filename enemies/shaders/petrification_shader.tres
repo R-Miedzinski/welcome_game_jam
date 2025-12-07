@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://jji1o12fa76v" path="res://enemies/shaders/textures/T_VFX_Noi55.png" id="1_g53vp"]
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_q41i5"]
-output_port_for_preview = 1
+output_port_for_preview = 5
 expanded_output_ports = [0]
 texture = ExtResource("1_g53vp")
 texture_type = 1
@@ -59,11 +59,11 @@ flags/unshaded = true
 nodes/vertex/0/position = Vector2(400, 140)
 nodes/fragment/0/position = Vector2(520, 80)
 nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_q41i5")
-nodes/fragment/2/position = Vector2(-100, 240)
+nodes/fragment/2/position = Vector2(-80, 180)
 nodes/fragment/3/node = SubResource("VisualShaderNodeColorParameter_5bpc5")
-nodes/fragment/3/position = Vector2(-100, -20)
+nodes/fragment/3/position = Vector2(-100, -40)
 nodes/fragment/4/node = SubResource("VisualShaderNodeBooleanParameter_g53vp")
 nodes/fragment/4/position = Vector2(-100, -220)
 nodes/fragment/5/node = SubResource("VisualShaderNodeSwitch_q41i5")
 nodes/fragment/5/position = Vector2(220, -100)
-nodes/fragment/connections = PackedInt32Array(2, 1, 0, 1, 5, 0, 0, 0, 3, 0, 5, 1, 4, 0, 5, 0)
+nodes/fragment/connections = PackedInt32Array(5, 0, 0, 0, 3, 0, 5, 1, 4, 0, 5, 0, 2, 1, 0, 1)

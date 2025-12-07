@@ -1,9 +1,10 @@
-[gd_resource type="VisualShader" load_steps=7 format=3 uid="uid://bv5q32ntpeufu"]
+[gd_resource type="VisualShader" load_steps=7 format=3 uid="uid://b6jl4noj0sflu"]
 
 [ext_resource type="Texture2D" uid="uid://f6e24tw0jbx3" path="res://VFX/Texture/T_Bar.png" id="1_a2mjb"]
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_2lwb1"]
 output_port_for_preview = 0
+expanded_output_ports = [0]
 texture = ExtResource("1_a2mjb")
 
 [sub_resource type="VisualShaderNodeUVFunc" id="VisualShaderNodeUVFunc_kk8ld"]
@@ -13,11 +14,11 @@ default_input_values = [1, Vector2(0, 0), 2, Vector2(0, 0)]
 [sub_resource type="VisualShaderNodeUVFunc" id="VisualShaderNodeUVFunc_af0ui"]
 
 [sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_rcrw6"]
-default_input_values = [0, Vector2(0, 0), 1, Vector2(0, 1)]
+default_input_values = [0, Vector2(4.235, 0.6), 1, Vector2(1, 1)]
 op_type = 0
 operator = 2
 
-[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_4xp3o"]
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_a2mjb"]
 input_name = "time"
 
 [resource]
@@ -29,13 +30,13 @@ uniform sampler2D tex_frg_2;
 
 
 void fragment() {
-// Input:6
-	float n_out6p0 = TIME;
+// Input:7
+	float n_out7p0 = TIME;
 
 
 // VectorOp:5
-	vec2 n_in5p1 = vec2(0.00000, 1.00000);
-	vec2 n_out5p0 = vec2(n_out6p0) * n_in5p1;
+	vec2 n_in5p1 = vec2(1.00000, 1.00000);
+	vec2 n_out5p0 = vec2(n_out7p0) * n_in5p1;
 
 
 // UVFunc:4
@@ -68,6 +69,6 @@ nodes/fragment/4/node = SubResource("VisualShaderNodeUVFunc_af0ui")
 nodes/fragment/4/position = Vector2(-1303.1626, 470.00345)
 nodes/fragment/5/node = SubResource("VisualShaderNodeVectorOp_rcrw6")
 nodes/fragment/5/position = Vector2(-1743.1626, 730.0034)
-nodes/fragment/6/node = SubResource("VisualShaderNodeInput_4xp3o")
-nodes/fragment/6/position = Vector2(-2300, 700)
-nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0, 3, 0, 2, 0, 5, 0, 4, 2, 4, 0, 3, 2, 6, 0, 5, 0)
+nodes/fragment/7/node = SubResource("VisualShaderNodeInput_a2mjb")
+nodes/fragment/7/position = Vector2(-2200, 660)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0, 5, 0, 4, 2, 4, 0, 3, 2, 3, 0, 2, 0, 7, 0, 5, 0)

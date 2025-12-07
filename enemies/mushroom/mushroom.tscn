@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://daie42vxcib3q" path="res://VFX/Sceny/Fire-VFX.tscn" id="14_4q1wg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wmfb2"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("3_kc6td")
 shader_parameter/is_visible = false

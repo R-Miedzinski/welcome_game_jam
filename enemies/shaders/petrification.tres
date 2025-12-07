@@ -3,6 +3,7 @@
 [ext_resource type="Shader" uid="uid://bo56pivbcritw" path="res://enemies/shaders/petrification_shader.tres" id="1_ex5ri"]
 
 [resource]
+resource_local_to_scene = true
 render_priority = 1
 shader = ExtResource("1_ex5ri")
 shader_parameter/is_visible = false

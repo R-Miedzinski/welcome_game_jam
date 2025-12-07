@@ -10,10 +10,19 @@ config_version=5
 
 [application]
 
-config/name="WelcomeGameJam"
+config/name="Gnomo-Destruktor"
+config/description="Jesteś szeregowym pracownikiem znanej firmy zajmującej się niszczeniem środowisk naturalnych pod inwestycje korporacyjne.
+Twoje zadanie?
+Obrona twojej ukochanej firmy przed paskudnymi potworami z lasu, które tylko czekają, aby zniszczyć cywilizację ludzką
+Do dyspozycji masz wyprodukowane przez twojego pracodawcę chemikalia, mieszając je i rzucając w paskudne kreatury możesz je wysłać z powrotem do lasu, z którego przybyły.
+Efekty mieszaj dowolnie, zobacz jaka mikstura będzie zabijać gnomy najskuteczniej!
+
+
+Firma XXXXX nie jest odpowiedzialna za użycie tworzonych przez nią środków chemiczny w sposób niewskazany na opakowaniu, w przypadku wystąpienia objawów takich jak: ból głowy, osłabienie, wymioty, biegunka, palpitacje serca, myśli xxxxxxxxxx czy łysienie należy niezwłocznie skontaktować się z lekarzem."
 run/main_scene="uid://pdaaoidt2yye"
 config/features=PackedStringArray("4.5", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://bkjor2pmnd24u"
+config/windows_native_icon="res://icon.ico"
 
 [autoload]
 

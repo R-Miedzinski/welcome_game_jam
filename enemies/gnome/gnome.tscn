@@ -21,8 +21,8 @@
 [ext_resource type="AudioStream" uid="uid://dmlvvy5aae57x" path="res://enemies/gnome/sfx/attack_gnom2.wav" id="19_q7yq0"]
 [ext_resource type="AudioStream" uid="uid://64xtj6tpw2u5" path="res://enemies/gnome/sfx/attack_gnom3.wav" id="20_j783w"]
 [ext_resource type="PackedScene" uid="uid://54k4y5ff1koh" path="res://VFX/Sceny/Blood_Particle_Vfx.tscn" id="21_q7yq0"]
-[ext_resource type="PackedScene" path="res://VFX/Sceny/Water_Vfx.tscn" id="22_2saaf"]
-[ext_resource type="PackedScene" path="res://VFX/Sceny/Fire-VFX.tscn" id="23_q7bgo"]
+[ext_resource type="PackedScene" uid="uid://xt6173awwvf4" path="res://VFX/Sceny/Water_Vfx.tscn" id="22_2saaf"]
+[ext_resource type="PackedScene" uid="uid://daie42vxcib3q" path="res://VFX/Sceny/Fire-VFX.tscn" id="23_q7bgo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cnhrr"]
 height = 1.0

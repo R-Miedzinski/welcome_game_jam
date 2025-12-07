@@ -43,15 +43,11 @@ func _ready() -> void:
   self.update_health()
 
 func _on_take_damage(damage: int) -> void:
-  print("Tower took %d damage!" % damage)
   self.take_damage(damage)
   if self.health <= 0:
-      print("Tower has been destroyed!")
-      
       if self.animation_player.is_playing():
           self.animation_player.stop()
 
-      self.vfx_player.play("explode")
       self.animation_player.play("death")
       self.animation_player.advance(0)
       self.sfx_player.get_node("CarDeath").play()
