@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://daie42vxcib3q"]
+
+[ext_resource type="Shader" uid="uid://jq8r51n4hnnp" path="res://VFX/Shader/S_Fire_Particle.tres" id="2_4nw6h"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1po3a"]
+render_priority = 0
+shader = ExtResource("2_4nw6h")
+shader_parameter/ColorParameter = Color(0.9870793, 0.5827661, 0.5383084, 1)
+
+[sub_resource type="Curve" id="Curve_4nw6h"]
+_data = [Vector2(0, 0.17248452), 0.0, 0.0, 0, 0, Vector2(1e-05, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.44276178), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_016mk"]
+curve = SubResource("Curve_4nw6h")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5ungr"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 90, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+gravity = Vector3(0, 2, 0)
+scale_min = 0.29999998
+scale_max = 0.59999996
+scale_curve = SubResource("CurveTexture_016mk")
+
+[sub_resource type="QuadMesh" id="QuadMesh_cy83m"]
+
+[node name="FireVfx" type="Node3D"]
+
+[node name="Flara_Particle" type="GPUParticles3D" parent="."]
+material_override = SubResource("ShaderMaterial_1po3a")
+amount = 13
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_5ungr")
+draw_pass_1 = SubResource("QuadMesh_cy83m")

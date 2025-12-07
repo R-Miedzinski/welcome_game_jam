@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bs5dmughmvayo"]
+
+[ext_resource type="Shader" uid="uid://bo56pivbcritw" path="res://enemies/shaders/petrification_shader.tres" id="1_ex5ri"]
+
+[resource]
+resource_local_to_scene = true
+render_priority = 1
+shader = ExtResource("1_ex5ri")
+shader_parameter/is_visible = false
+shader_parameter/PetrificationColor = Color(0.629532, 0.6245985, 0.40079543, 1)

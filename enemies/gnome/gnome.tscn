@@ -1,6 +1,7 @@
 [gd_scene load_steps=28 format=3 uid="uid://bfx0rihfslwdn"]
 
 [ext_resource type="Script" uid="uid://75tlrxyqx1st" path="res://enemies/gnome/gnome.gd" id="1_lxi62"]
+[ext_resource type="Material" uid="uid://bs5dmughmvayo" path="res://enemies/shaders/petrification.tres" id="3_q7yq0"]
 [ext_resource type="AudioStream" uid="uid://bhi5en4oi3sov" path="res://enemies/gnome/sfx/intro_gnom1.wav" id="4_jpjub"]
 [ext_resource type="AudioStream" uid="uid://emabc5cv3816" path="res://enemies/gnome/sfx/intro_gnom2.wav" id="5_kahdj"]
 [ext_resource type="AudioStream" uid="uid://b83wftctlurd5" path="res://enemies/gnome/sfx/intro_gnom3.wav" id="6_381xk"]
@@ -20,6 +21,8 @@
 [ext_resource type="AudioStream" uid="uid://dmlvvy5aae57x" path="res://enemies/gnome/sfx/attack_gnom2.wav" id="19_q7yq0"]
 [ext_resource type="AudioStream" uid="uid://64xtj6tpw2u5" path="res://enemies/gnome/sfx/attack_gnom3.wav" id="20_j783w"]
 [ext_resource type="PackedScene" uid="uid://54k4y5ff1koh" path="res://VFX/Sceny/Blood_Particle_Vfx.tscn" id="21_q7yq0"]
+[ext_resource type="PackedScene" uid="uid://xt6173awwvf4" path="res://VFX/Sceny/Water_Vfx.tscn" id="22_2saaf"]
+[ext_resource type="PackedScene" uid="uid://daie42vxcib3q" path="res://VFX/Sceny/Fire-VFX.tscn" id="23_q7bgo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cnhrr"]
 height = 1.0
@@ -176,6 +179,9 @@ bones/63/rotation = Quaternion(0.3604931, -0.29413602, 0.86676276, -0.179586)
 bones/64/position = Vector3(3.820748, -1.4135113, 8.036697)
 bones/64/rotation = Quaternion(0.40729737, 0.094321616, 0.32099572, 0.8498082)
 
+[node name="Gnome" parent="A_Gnome_Torch/Armature_Gnome_Rig/Skeleton3D" index="0"]
+material_overlay = ExtResource("3_q7yq0")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
 shape = SubResource("CapsuleShape3D_cnhrr")
@@ -269,9 +275,15 @@ bus = &"VoiceLines"
 
 [node name="VFX" type="Node3D" parent="."]
 unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.75, 0.5)
 
 [node name="Blood_Particle_VFX" parent="VFX" instance=ExtResource("21_q7yq0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.75, 0.5)
+
+[node name="SlowVfx" parent="VFX" instance=ExtResource("22_2saaf")]
+visible = false
+
+[node name="FireVfx" parent="VFX" instance=ExtResource("23_q7bgo")]
+visible = false
 
 [editable path="A_Gnome_Torch"]
 [editable path="VFX/Blood_Particle_VFX"]

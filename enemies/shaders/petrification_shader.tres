@@ -1,0 +1,69 @@
+[gd_resource type="VisualShader" load_steps=6 format=3 uid="uid://bo56pivbcritw"]
+
+[ext_resource type="Texture2D" uid="uid://jji1o12fa76v" path="res://enemies/shaders/textures/T_VFX_Noi55.png" id="1_g53vp"]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_q41i5"]
+output_port_for_preview = 5
+expanded_output_ports = [0]
+texture = ExtResource("1_g53vp")
+texture_type = 1
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_5bpc5"]
+parameter_name = "PetrificationColor"
+
+[sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_g53vp"]
+parameter_name = "is_visible"
+
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_q41i5"]
+default_input_values = [0, false, 1, Vector3(1, 1, 1), 2, Vector3(0, 0, 0)]
+op_type = 4
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, depth_test_default, cull_back, diffuse_lambert, specular_schlick_ggx, unshaded;
+
+uniform bool is_visible;
+uniform vec4 PetrificationColor : source_color;
+uniform sampler2D tex_frg_2 : source_color;
+
+
+
+void fragment() {
+// BooleanParameter:4
+	bool n_out4p0 = is_visible;
+
+
+// ColorParameter:3
+	vec4 n_out3p0 = PetrificationColor;
+
+
+	vec3 n_out5p0;
+// Switch:5
+	vec3 n_in5p2 = vec3(0.00000, 0.00000, 0.00000);
+	n_out5p0 = mix(n_in5p2, vec3(n_out3p0.xyz), float(n_out4p0));
+
+
+// Texture2D:2
+	vec4 n_out2p0 = texture(tex_frg_2, UV);
+	float n_out2p1 = n_out2p0.r;
+
+
+// Output:0
+	ALBEDO = n_out5p0;
+	ALPHA = n_out2p1;
+
+
+}
+"
+flags/unshaded = true
+nodes/vertex/0/position = Vector2(400, 140)
+nodes/fragment/0/position = Vector2(520, 80)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_q41i5")
+nodes/fragment/2/position = Vector2(-80, 180)
+nodes/fragment/3/node = SubResource("VisualShaderNodeColorParameter_5bpc5")
+nodes/fragment/3/position = Vector2(-100, -40)
+nodes/fragment/4/node = SubResource("VisualShaderNodeBooleanParameter_g53vp")
+nodes/fragment/4/position = Vector2(-100, -220)
+nodes/fragment/5/node = SubResource("VisualShaderNodeSwitch_q41i5")
+nodes/fragment/5/position = Vector2(220, -100)
+nodes/fragment/connections = PackedInt32Array(5, 0, 0, 0, 3, 0, 5, 1, 4, 0, 5, 0, 2, 1, 0, 1)

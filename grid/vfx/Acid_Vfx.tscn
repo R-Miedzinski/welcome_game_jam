@@ -42,7 +42,7 @@ alpha_curve = SubResource("CurveTexture_07ueg")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q5axa"]
 render_priority = 0
 shader = ExtResource("2_w58x1")
-shader_parameter/Circle_Color = Color(0.7228218, 0.88969517, 0.10653583, 1)
+shader_parameter/Circle_Color = Color(0.048603557, 0.50526226, 9.62615e-08, 1)
 shader_parameter/Opacity = 0.5870000278825
 shader_parameter/SPEED = Vector2(0, -0.355)
 
@@ -109,7 +109,7 @@ alpha_curve = SubResource("CurveTexture_f6kmk")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_x63nk"]
 render_priority = 0
 shader = ExtResource("6_ncdga")
-shader_parameter/Circle_Color = Color(0.5028288, 0.46466398, 0.107818075, 1)
+shader_parameter/Circle_Color = Color(0.33491343, 0.5534345, 0.030347401, 1)
 shader_parameter/Trail_Speed = Vector2(0.11, 0)
 
 [node name="Acid_VFX" type="Node3D"]

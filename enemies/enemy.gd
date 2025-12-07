@@ -31,11 +31,20 @@ var death_sound_id: int = 0
 var attack_sound_id: int = 0
 var intro_sound_id: int = 0
 
+@onready var vfx_player: Node3D = %VFX
+@export var default_animation: String = "walk"
+
 signal deal_damage(damage: int)
 signal enemy_attacked_player(position_in_grid: Vector2i, idx: int)
 signal enemy_defeated(position_in_grid: Vector2i, idx: int)
 
 @abstract func take_damage(amount: float) -> void
+@abstract func _apply_petrify_vfx() -> void
+@abstract func _remove_petrify_vfx() -> void
+# @abstract func _apply_slow_vfx() -> void
+# @abstract func _remove_slow_vfx() -> void
+# @abstract func _apply_burn_vfx() -> void
+# @abstract func _remove_burn_vfx() -> void
 
 func attack_player() -> void:
   self.emit_signal("deal_damage", self.damage)
@@ -74,7 +83,7 @@ func move(delta: float, direction: Constants.MovementDirection) -> void:
   self.move_and_collide(delta * self.speed_modifier * self.speed * Vector3(direction * Constants.TILE_SIZE, 0, 0))
 
 func pause_movement() -> void:
-  if !self.is_paused and not self.stop_processing:
+  if not self.is_paused and not self.stop_processing:
     self.previous_speed = self.speed
     self.speed = 0
     self.is_paused = true
@@ -85,7 +94,7 @@ func resume_movement() -> void:
   if self.is_paused and not self.stop_processing:
     self.speed = self.previous_speed
     self.is_paused = false
-    self.animation_player.play("walk")
+    self.animation_player.play(self.default_animation)
 
 func play_effect_sound(effect_name: String) -> void:
   if Preloads.EFFECT_SFX.has(effect_name):
@@ -155,3 +164,15 @@ func _normalize_target_position_to_grid(target_position: Vector2i) -> Vector2i:
   var normalized_x: int = clamp(target_position.x, 0, Constants.GRID_SIZE.x - 1)
   var normalized_y: int = clamp(target_position.y, 0, Constants.GRID_SIZE.y)
   return Vector2i(normalized_x, normalized_y)
+
+func _apply_slow_vfx() -> void:
+    self.vfx_player.get_node("SlowVfx").visible = true
+
+func _remove_slow_vfx() -> void:
+    self.vfx_player.get_node("SlowVfx").visible = false
+
+func _apply_burn_vfx() -> void:
+    self.vfx_player.get_node("FireVfx").visible = true
+
+func _remove_burn_vfx() -> void:
+    self.vfx_player.get_node("FireVfx").visible = false

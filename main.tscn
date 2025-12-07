@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://pdaaoidt2yye"]
+[gd_scene load_steps=14 format=3 uid="uid://pdaaoidt2yye"]
 
 [ext_resource type="PackedScene" uid="uid://cdgtrm0yilnrn" path="res://ui/ui.tscn" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://do0mw5ytw15tt" path="res://level/level.tscn" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://weu5gfxeyjxt" path="res://controller.gd" id="2_0xm2m"]
 [ext_resource type="Texture2D" uid="uid://b4r78h5r3g264" path="res://splash.png" id="2_5vw27"]
+[ext_resource type="Texture2D" uid="uid://dm0p2w0dj1n2r" path="res://ui/T_Tutorial.png" id="3_kek77"]
 [ext_resource type="PackedScene" uid="uid://b4mysbhjv2bij" path="res://conveyor/conveyor.tscn" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://b6l6x8jcjo1w3" path="res://cauldron/cauldron.tscn" id="5_lquwl"]
 [ext_resource type="AudioStream" uid="uid://co4etvyads6d5" path="res://sfx/muzyka_do_mordowania_gnomów.wav" id="6_7mycd"]
@@ -21,6 +22,7 @@ font_color = Color(0.80049086, 0.80049074, 0.80049074, 1)
 font_size = 100
 
 [sub_resource type="Environment" id="Environment_7mycd"]
+glow_enabled = true
 
 [node name="Base" type="Node3D"]
 process_mode = 3
@@ -165,17 +167,36 @@ theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
 
 [node name="ColorRect" type="ColorRect" parent="Menu/HowToPlayOverlay/MarginContainer"]
+clip_contents = true
 layout_mode = 2
 color = Color(0.30692267, 0.3069227, 0.3069227, 1)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Menu/HowToPlayOverlay/MarginContainer/ColorRect"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Menu/HowToPlayOverlay/MarginContainer/ColorRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 896.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "hello there"
+scale = Vector2(0.9, 0.9)
+horizontal_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="Menu/HowToPlayOverlay/MarginContainer/ColorRect/ScrollContainer"]
+layout_direction = 3
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="TextureRect" type="TextureRect" parent="Menu/HowToPlayOverlay/MarginContainer/ColorRect/ScrollContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("3_kek77")
 
 [node name="Close" type="Button" parent="Menu/HowToPlayOverlay/MarginContainer/ColorRect"]
 layout_mode = 1
@@ -216,6 +237,44 @@ handle_input_locally = false
 size = Vector2i(1152, 429)
 render_target_update_mode = 4
 
+[node name="ColorRect" type="ColorRect" parent="UI/VBoxContainer/GameViewport/SubViewport"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -59.5
+offset_right = 59.5
+offset_bottom = 27.0
+grow_horizontal = 2
+color = Color(0, 0, 0, 0.6666667)
+
+[node name="Score" type="Label" parent="UI/VBoxContainer/GameViewport/SubViewport/ColorRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -0.5
+offset_right = 0.5
+offset_bottom = 23.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+
+[node name="ColorRect2" type="ColorRect" parent="UI/VBoxContainer/GameViewport/SubViewport"]
+offset_right = 197.0
+offset_bottom = 27.0
+color = Color(0, 0, 0, 0.6666667)
+
+[node name="SpawnTimer" type="Label" parent="UI/VBoxContainer/GameViewport/SubViewport/ColorRect2"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -0.5
+offset_right = 0.5
+offset_bottom = 23.0
+grow_horizontal = 2
+
 [node name="Pause" type="Button" parent="UI/VBoxContainer/GameViewport/SubViewport"]
 anchors_preset = 1
 anchor_left = 1.0
@@ -229,22 +288,6 @@ focus_mode = 0
 focus_behavior_recursive = 1
 text = "||"
 icon_alignment = 1
-
-[node name="SpawnTimer" type="Label" parent="UI/VBoxContainer/GameViewport/SubViewport"]
-unique_name_in_owner = true
-offset_right = 1.0
-offset_bottom = 23.0
-
-[node name="Score" type="Label" parent="UI/VBoxContainer/GameViewport/SubViewport"]
-unique_name_in_owner = true
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 23.0
-grow_horizontal = 2
-size_flags_horizontal = 4
 
 [node name="Level" parent="UI/VBoxContainer/GameViewport/SubViewport" instance=ExtResource("1_ig7tw")]
 unique_name_in_owner = true

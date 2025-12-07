@@ -6,8 +6,10 @@ func apply(target: Enemy, duration: float = 1.0) -> void:
     target.play_effect_sound(self.name)
     target.self_effects[self.id] = [duration, self]
     target.speed_modifier *= (1.0 - self.value)
+    target._apply_slow_vfx()
 
 func lift(target: Enemy) -> void:
     if target.self_effects.has(self.id):
       target.self_effects.erase(self.id)
       target.speed_modifier /= (1.0 - self.value)
+      target._remove_slow_vfx()

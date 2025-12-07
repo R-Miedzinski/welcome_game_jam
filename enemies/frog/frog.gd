@@ -1,4 +1,4 @@
-class_name JumpingEnemy
+class_name Frog
 extends Enemy
 
 @export var jump_height: float = 2.0
@@ -17,7 +17,6 @@ func take_damage(amount: float) -> void:
     animation_player.play("hurt")
     if self.health <= 0:
         self._on_death()
-
 
 func move(delta: float, direction: Constants.MovementDirection) -> void:
     if self.animation_player.current_animation == "attack" or self.animation_player.current_animation == "death" or self.is_paused:
@@ -54,13 +53,21 @@ func move(delta: float, direction: Constants.MovementDirection) -> void:
 
 func pause_movement() -> void:
     super ()
-    if !self.jump_timer.is_stopped():
+    if not self.jump_timer.is_stopped():
         self.jump_timer.stop()
 
 func resume_movement() -> void:
+    if self.jump_timer.is_stopped() and self.is_paused:
+        self.jump_timer.start(self.jump_cooldown)
     super ()
-    if self.jump_timer.is_stopped():
-        self.jump_timer.start(self.jump_cooldown / self.speed_modifier)
+
+func _process_animation(anim_name: String) -> void:
+    super (anim_name)
+    if anim_name == "walk":
+        self.animation_player.play("idle")
+    elif anim_name == "jump_land" and self.just_spawned:
+        self.just_spawned = false
+        self.animation_player.play("idle")
 
 func _process_animation(anim_name: String) -> void:
     super (anim_name)
@@ -77,3 +84,13 @@ func _ready() -> void:
 
 func _on_jump_cooldown_reset() -> void:
     self.is_moving = false
+
+func _apply_petrify_vfx() -> void:
+    var _material = self.get_node("A_FrogKnoight/RIG_FROG/Skeleton3D/frougue_retopo_001").material_overlay
+    if _material:
+        _material.set_shader_parameter("is_visible", true)
+
+func _remove_petrify_vfx() -> void:
+    var _material = self.get_node("A_FrogKnoight/RIG_FROG/Skeleton3D/frougue_retopo_001").material_overlay
+    if _material:
+        _material.set_shader_parameter("is_visible", false)
