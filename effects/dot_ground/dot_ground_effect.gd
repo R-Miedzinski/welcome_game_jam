@@ -6,4 +6,4 @@ func apply(target: Enemy, duration: float = Constants.EFFECT_TICK_DURATION) -> v
   target.take_damage(self.value * Constants.EFFECT_TICK_DURATION)
 
 func lift(target: Enemy) -> void:
-    pass
+	pass

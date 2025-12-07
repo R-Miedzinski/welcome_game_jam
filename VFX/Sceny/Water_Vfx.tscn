@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://xt6173awwvf4"]
+
+[ext_resource type="Shader" uid="uid://bcbcr06kas38b" path="res://VFX/Shader/S_Water_Vfx.tres" id="1_ghy3x"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_err5p"]
+render_priority = 0
+shader = ExtResource("1_ghy3x")
+shader_parameter/Cloud_Speed = Vector2(0.38, 0.155)
+shader_parameter/Cloud_Intensity = 0.08
+shader_parameter/ColorParameter = Color(0.5590472, 0.7767367, 0.95818526, 1)
+
+[sub_resource type="Curve" id="Curve_nd0jb"]
+_data = [Vector2(0, 0.17248452), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_016mk"]
+curve = SubResource("Curve_nd0jb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_navlf"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 90, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+gravity = Vector3(0, 1.4, 0)
+scale_curve = SubResource("CurveTexture_016mk")
+
+[sub_resource type="SphereMesh" id="SphereMesh_xd1f2"]
+
+[node name="WateVfx" type="Node3D"]
+
+[node name="Water_Particle" type="GPUParticles3D" parent="."]
+material_override = SubResource("ShaderMaterial_err5p")
+amount = 13
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_navlf")
+draw_pass_1 = SubResource("SphereMesh_xd1f2")

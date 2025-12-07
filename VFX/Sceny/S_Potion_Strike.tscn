@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3 uid="uid://cesjafke3ucmy"]
+
+[ext_resource type="Shader" uid="uid://c7niaaxtcwipc" path="res://VFX/Shader/S_Potion_Strike.tres" id="1_g6vop"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qvoh6"]
+render_priority = -1
+shader = ExtResource("1_g6vop")
+shader_parameter/Strieks_Color = Color(0.062035643, 0.7205391, 0.7912421, 1)
+
+[sub_resource type="Curve" id="Curve_im3pj"]
+_data = [Vector2(0, 0), 0.0, 2.44874, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_1jk53"]
+curve = SubResource("Curve_im3pj")
+
+[sub_resource type="Curve" id="Curve_n45e4"]
+_data = [Vector2(0, 0.4861396), 0.0, 1.2902119, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_q5axa"]
+curve = SubResource("Curve_n45e4")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_a0wd4"]
+particle_flag_align_y = true
+direction = Vector3(0, 1, 0)
+spread = 90.0
+initial_velocity_min = 0.5
+initial_velocity_max = 1.0
+gravity = Vector3(0, 0, 0)
+scale_min = 9.0
+scale_max = 12.0
+scale_curve = SubResource("CurveTexture_q5axa")
+alpha_curve = SubResource("CurveTexture_1jk53")
+hue_variation_min = -1.0
+hue_variation_max = 0.99999994
+
+[sub_resource type="QuadMesh" id="QuadMesh_pgcnn"]
+size = Vector2(0.25, 1)
+center_offset = Vector3(0, 0.4, 0)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Potion_Strieks_VFX" type="GPUParticles3D" parent="."]
+material_override = SubResource("ShaderMaterial_qvoh6")
+emitting = false
+amount = 30
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.9
+randomness = 1.0
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_a0wd4")
+draw_pass_1 = SubResource("QuadMesh_pgcnn")
