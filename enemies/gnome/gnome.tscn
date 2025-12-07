@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://bfx0rihfslwdn"]
+[gd_scene load_steps=28 format=3 uid="uid://bfx0rihfslwdn"]
 
 [ext_resource type="Script" uid="uid://75tlrxyqx1st" path="res://enemies/gnome/gnome.gd" id="1_lxi62"]
 [ext_resource type="Material" uid="uid://bs5dmughmvayo" path="res://enemies/shaders/petrification.tres" id="3_q7yq0"]

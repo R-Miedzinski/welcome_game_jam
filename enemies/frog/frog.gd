@@ -69,6 +69,14 @@ func _process_animation(anim_name: String) -> void:
         self.just_spawned = false
         self.animation_player.play("idle")
 
+func _process_animation(anim_name: String) -> void:
+    super (anim_name)
+    if anim_name == "walk":
+        self.animation_player.play("idle")
+    elif anim_name == "jump_land" and self.just_spawned:
+        self.just_spawned = false
+        self.animation_player.play("idle")
+
 func _ready() -> void:
     super ()
     self.jump_timer.wait_time = self.jump_cooldown
