@@ -1,4 +1,4 @@
-[gd_resource type="VisualShader" load_steps=23 format=3 uid="uid://jq8r51n4hnnp"]
+[gd_resource type="VisualShader" load_steps=23 format=3 uid="uid://dows6r2eehaeb"]
 
 [ext_resource type="Texture2D" uid="uid://0qrppdu0mjxv" path="res://VFX/Texture/T_Fire_Down.png" id="1_w6cco"]
 [ext_resource type="Texture2D" uid="uid://bkying7a42suk" path="res://VFX/Texture/T_Distortion_F.png" id="2_xklbf"]

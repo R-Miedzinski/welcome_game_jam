@@ -9,10 +9,10 @@ extends Node
 
 # Components
 @export var AVAILABLE_LIQUID_COMPONENTS = [
-    preload("res://components/liquid/fire.tres"),
-    preload("res://components/liquid/water.tres"),
-    preload("res://components/liquid/acid.tres"),
-    preload("res://components/liquid/ice.tres"),
+    # preload("res://components/liquid/fire.tres"),
+    # preload("res://components/liquid/water.tres"),
+    # preload("res://components/liquid/acid.tres"),
+    # preload("res://components/liquid/ice.tres"),
     preload("res://components/liquid/stone.tres"),
 ]
 

@@ -1,9 +1,18 @@
-[gd_scene load_steps=15 format=3 uid="uid://bd8hs0i08v081"]
+[gd_scene load_steps=19 format=3 uid="uid://bd8hs0i08v081"]
 
 [ext_resource type="Script" uid="uid://dsy56u3vxcw48" path="res://enemies/frog/frog.gd" id="1_72q3a"]
+[ext_resource type="Shader" uid="uid://bo56pivbcritw" path="res://enemies/shaders/petrification_shader.tres" id="3_6i1ca"]
 [ext_resource type="AudioStream" uid="uid://w1y4ou6248cc" path="res://enemies/frog/sfx/żaba.wav" id="4_nx4wd"]
 [ext_resource type="PackedScene" uid="uid://54k4y5ff1koh" path="res://VFX/Sceny/Blood_Particle_Vfx.tscn" id="5_rvg6b"]
+[ext_resource type="PackedScene" uid="uid://daie42vxcib3q" path="res://VFX/Sceny/Fire-VFX.tscn" id="5_s2lbv"]
+[ext_resource type="PackedScene" uid="uid://xt6173awwvf4" path="res://VFX/Sceny/Water_Vfx.tscn" id="6_6i1ca"]
 [ext_resource type="PackedScene" uid="uid://k3mblgqyhcoa" path="res://enemies/frog/asset/A_FrogKnoight.glb" id="6_s2lbv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1wfab"]
+render_priority = 0
+shader = ExtResource("3_6i1ca")
+shader_parameter/is_visible = false
+shader_parameter/PetrificationColor = Color(0.6313726, 0.62352943, 0.4, 1)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_jynoq"]
 height = 1.0
@@ -131,6 +140,7 @@ jump_cooldown = 6.0
 max_health = 20.0
 dimensions = Vector3(1.2, 1, 1.2)
 animation_time = 1.0
+default_animation = "idle"
 
 [node name="A_FrogKnoight" parent="." instance=ExtResource("6_s2lbv")]
 transform = Transform3D(-3.059797e-09, 0, -0.07, 0, 0.07, 0, 0.07, 0, -3.059797e-09, 0.6, -0.5, 0.6)
@@ -230,6 +240,9 @@ bones/83/rotation = Quaternion(1.18736e-08, -0.32022306, -4.0135415e-09, 0.94734
 bones/84/rotation = Quaternion(-1.9467445e-14, -0.767143, 3.4363275e-15, 0.64147615)
 bones/85/rotation = Quaternion(-3.440052e-08, -0.3042208, 1.09860565e-08, 0.95260155)
 bones/86/rotation = Quaternion(-6.1826383e-15, -0.5966941, -1.4779148e-14, 0.8024688)
+
+[node name="frougue_retopo_001" parent="A_FrogKnoight/RIG_FROG/Skeleton3D" index="0"]
+material_overlay = SubResource("ShaderMaterial_1wfab")
 
 [node name="Armature_Gnome_Rig" parent="A_FrogKnoight" index="1"]
 visible = false
@@ -331,9 +344,15 @@ bus = &"VoiceLines"
 
 [node name="VFX" type="Node3D" parent="."]
 unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, -0.5, 0.6)
 
 [node name="Blood_Particle_VFX" parent="VFX" instance=ExtResource("5_rvg6b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, -0.5, 0.6)
+
+[node name="FireVfx" parent="VFX" instance=ExtResource("5_s2lbv")]
+visible = false
+
+[node name="SlowVfx" parent="VFX" instance=ExtResource("6_6i1ca")]
+visible = false
 
 [connection signal="timeout" from="JumpTimer" to="." method="_on_jump_cooldown_reset"]
 

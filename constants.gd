@@ -58,9 +58,9 @@ enum EffectTypes {
 # Spawner Configuration
 @export var ENEMY_SPAWN_INTERVAL: float = 6.0
 @export var ENEMY_SPAWN_PROBABILITIES: Dictionary[int, int] = {
-    0: 6, # Gnome
+    # 0: 6, # Gnome
     1: 3, # Frog
-    2: 2 # Mushroom
+    # 2: 2 # Mushroom
 }
 
 # Conveyor Configuration

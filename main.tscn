@@ -21,6 +21,7 @@ font_color = Color(0.80049086, 0.80049074, 0.80049074, 1)
 font_size = 100
 
 [sub_resource type="Environment" id="Environment_7mycd"]
+glow_enabled = true
 
 [node name="Base" type="Node3D"]
 process_mode = 3

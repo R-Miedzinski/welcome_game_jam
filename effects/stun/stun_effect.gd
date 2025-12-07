@@ -6,8 +6,10 @@ func apply(target: Enemy, duration: float = 1.0) -> void:
     target.play_effect_sound(self.name)
     target.self_effects[self.id] = [duration + Constants.EFFECT_TICK_DURATION, self]
     target.pause_movement()
+    target._apply_petrify_vfx()
 
 func lift(target: Enemy) -> void:
     if target.self_effects.has(self.id):
       target.self_effects.erase(self.id)
       target.resume_movement()
+      target._remove_petrify_vfx()

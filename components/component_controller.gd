@@ -6,10 +6,10 @@ var _is_hovered: bool = false
 
 signal component_clicked(component: int)
 
-func set_overlay_color(color: Color) -> void:
+func set_overlay_color(_color: Color) -> void:
     var _material = self.get_node("TextureRect").material as ShaderMaterial
     if _material:
-        _material.set_shader_parameter("overlay_color", color)
+        _material.set_shader_parameter("overlay_color", _color)
 
 func set_component_texture(texture: Texture2D) -> void:
     self.get_node("TextureRect").texture = texture
