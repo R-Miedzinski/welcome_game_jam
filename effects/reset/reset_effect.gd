@@ -2,6 +2,7 @@ class_name ResetEffect
 extends Effect
 
 func apply(target: Enemy, duration: float = 1.0) -> void:
+  print("Applying ResetEffect to ", target)
   if not target.is_on_ground:
     return
 
@@ -9,4 +10,5 @@ func apply(target: Enemy, duration: float = 1.0) -> void:
   target.force_move(target_position, Constants.EFFECT_TICK_DURATION)
 
 func lift(target: Enemy) -> void:
-    pass
+  if target.health <= 0:
+      target._on_death()

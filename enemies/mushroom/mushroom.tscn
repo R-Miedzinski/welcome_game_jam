@@ -1,8 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://dxqjcm7r023bt"]
+[gd_scene load_steps=19 format=3 uid="uid://dxqjcm7r023bt"]
 
 [ext_resource type="Script" uid="uid://75tlrxyqx1st" path="res://enemies/gnome/gnome.gd" id="1_n3n6f"]
-[ext_resource type="Material" uid="uid://sirjghwctyid" path="res://enemies/gnome/base_enemy.tres" id="2_tl2ai"]
-[ext_resource type="Material" uid="uid://nghqt0ifsqwk" path="res://enemies/gnome/base_enemy_damage.tres" id="3_jy0jn"]
+[ext_resource type="PackedScene" uid="uid://d4ceqbuycvkfr" path="res://enemies/mushroom/asset/A_Shroom.glb" id="2_wmfb2"]
 [ext_resource type="AudioStream" uid="uid://cjcbk6hqsea8" path="res://enemies/mushroom/sfx/intro_grzyb1.wav" id="4_n3apw"]
 [ext_resource type="AudioStream" uid="uid://cosq88cvsfq6e" path="res://enemies/mushroom/sfx/intro_grzyb2.wav" id="5_ssx7o"]
 [ext_resource type="AudioStream" uid="uid://jrn5mk61uykk" path="res://enemies/mushroom/sfx/intro_grzyb3.wav" id="6_kjwgq"]
@@ -13,122 +12,67 @@
 [ext_resource type="AudioStream" uid="uid://56jvr5yxepvs" path="res://enemies/mushroom/sfx/attack_grzyb2.wav" id="11_kc6td"]
 [ext_resource type="PackedScene" uid="uid://54k4y5ff1koh" path="res://VFX/Sceny/Blood_Particle_Vfx.tscn" id="12_kc6td"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_cnhrr"]
-resource_local_to_scene = true
-material = ExtResource("2_tl2ai")
-radius = 0.9
-height = 3.0
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cnhrr"]
 radius = 0.9
-height = 3.0
 
 [sub_resource type="Animation" id="Animation_jc6ys"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:mesh:material")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("2_tl2ai")]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("MeshInstance3D:mesh:height")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [3.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("MeshInstance3D:mesh:radius")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.9]
-}
 
 [sub_resource type="Animation" id="Animation_eb1xl"]
 resource_name = "attack"
-
-[sub_resource type="Animation" id="Animation_8sayp"]
-resource_name = "death"
-length = 0.333
-tracks/0/type = "value"
+length = 3.5
+tracks/0/type = "animation"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:mesh:height")
+tracks/0/path = NodePath("A_Shroom/AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.16666667, 0.333),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [2.0, 1.0, 0.2]
+"clips": PackedStringArray("hit_onetime"),
+"times": PackedFloat32Array(0)
 }
-tracks/1/type = "value"
+
+[sub_resource type="Animation" id="Animation_8sayp"]
+resource_name = "death"
+length = 3.0
+tracks/0/type = "animation"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VFX/Blood_Particle_VFX/Blood_Anim_Play")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": PackedStringArray("Blood_Explosion"),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "animation"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("MeshInstance3D:mesh:radius")
+tracks/1/path = NodePath("A_Shroom/AnimationPlayer")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.16666667, 0.333),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.5, 0.1]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("MeshInstance3D:mesh:material")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("3_jy0jn")]
-}
-tracks/3/type = "animation"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("VFX/Blood_Particle_VFX/Blood_Anim_Play")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"clips": PackedStringArray("Blood_Explosion"),
+"clips": PackedStringArray("death"),
 "times": PackedFloat32Array(0)
 }
 
 [sub_resource type="Animation" id="Animation_02xms"]
 resource_name = "hurt"
 length = 0.15
-tracks/0/type = "value"
+
+[sub_resource type="Animation" id="Animation_wmfb2"]
+resource_name = "walk"
+length = 2.52
+loop_mode = 1
+tracks/0/type = "animation"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:mesh:material")
+tracks/0/path = NodePath("A_Shroom/AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [ExtResource("2_tl2ai"), ExtResource("3_jy0jn")]
+"clips": PackedStringArray("walk"),
+"times": PackedFloat32Array(0)
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jc6ys"]
@@ -136,7 +80,8 @@ _data = {
 &"RESET": SubResource("Animation_jc6ys"),
 &"attack": SubResource("Animation_eb1xl"),
 &"death": SubResource("Animation_8sayp"),
-&"hurt": SubResource("Animation_02xms")
+&"hurt": SubResource("Animation_02xms"),
+&"walk": SubResource("Animation_wmfb2")
 }
 
 [node name="Mushroom" type="AnimatableBody3D"]
@@ -146,12 +91,47 @@ sync_to_physics = false
 script = ExtResource("1_n3n6f")
 max_speed = 0.05
 max_health = 80.0
-dimensions = Vector3(2, 3, 1.9)
+dimensions = Vector3(2, 2, 1.9)
 animation_time = 3.0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0, 0.9)
-mesh = SubResource("CapsuleMesh_cnhrr")
+[node name="A_Shroom" parent="." instance=ExtResource("2_wmfb2")]
+transform = Transform3D(-2.6226832e-09, 0, -0.06, 0, 0.06, 0, 0.06, 0, -2.6226832e-09, 0.9, -1, 0.9)
+
+[node name="Skeleton3D" parent="A_Shroom/Armature_Shroom_Rig" index="0"]
+bones/0/position = Vector3(0.8716614, 10.262661, 0.6033474)
+bones/0/rotation = Quaternion(0.98419356, 0.038852822, 0.15920794, -0.067129366)
+bones/1/position = Vector3(5.8219266, 9.060672, 4.2397156)
+bones/1/rotation = Quaternion(0.5878579, -0.02852828, 0.8067086, -0.053202525)
+bones/1/scale = Vector3(1.0162811, 0.96821624, 1.016281)
+bones/2/rotation = Quaternion(0.10205917, -0.18478923, -0.60570055, 0.7671791)
+bones/2/scale = Vector3(1.029742, 0.9869686, 0.9842214)
+bones/3/position = Vector3(-5.125011, 8.42323, 0.5540613)
+bones/3/rotation = Quaternion(0.58708066, -0.19372407, 0.7807407, -0.090836525)
+bones/3/scale = Vector3(1.025213, 0.9514192, 1.025213)
+bones/4/rotation = Quaternion(0.06725873, 0.09744074, -0.7105507, 0.69361323)
+bones/4/scale = Vector3(1.0471298, 0.9754342, 0.9796002)
+bones/5/position = Vector3(1.6812475, 16.685192, -2.9120312)
+bones/5/rotation = Quaternion(0.3033555, -0.14506952, 0.076233454, 0.9386793)
+bones/6/rotation = Quaternion(0.47473875, 1.0387862e-06, 5.8869136e-07, 0.8801268)
+bones/7/position = Vector3(-4.2853293, 10.999762, -0.83679855)
+bones/7/rotation = Quaternion(0.026406983, -0.041060943, -0.18573914, 0.98138565)
+bones/8/position = Vector3(4.7237926, 10.33938, -1.4940195)
+bones/8/rotation = Quaternion(-0.009290228, -0.0020860785, -0.09751878, 0.9951882)
+bones/9/rotation = Quaternion(-0.16799423, -0.18207745, 0.7849494, -0.5678735)
+bones/10/rotation = Quaternion(0.45231664, 0.48753908, 0.48395908, 0.5687697)
+bones/11/rotation = Quaternion(-0.26091734, -0.09548378, -0.18886627, 0.94187814)
+bones/12/rotation = Quaternion(0.7433645, -0.49294725, -0.15356602, -0.42524093)
+bones/13/rotation = Quaternion(-0.5251734, -0.41593075, 0.5619129, 0.4852304)
+bones/14/rotation = Quaternion(0.41182357, -0.16363056, 0.0722112, 0.89353895)
+bones/15/position = Vector3(2.9802317e-07, 7.700989e-07, -3.088345e-07)
+bones/15/rotation = Quaternion(0.6747833, 0.0025051793, 0.022927899, 0.7376555)
+bones/15/scale = Vector3(1, 0.9999998, 0.9999998)
+bones/16/position = Vector3(0, 10.609269, -7.4626064e-07)
+bones/16/rotation = Quaternion(-0.22891589, 0.0077862167, 0.026136622, 0.9730641)
+bones/17/position = Vector3(3.510243, 6.5974503, 11.531776)
+bones/17/rotation = Quaternion(0.79834116, -0.07225556, 0.1470916, 0.57947785)
+bones/18/position = Vector3(-7.4366946, 5.9600096, 7.846122)
+bones/18/rotation = Quaternion(0.79834116, -0.07225556, 0.1470916, 0.57947785)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0, 0.9)
@@ -213,6 +193,7 @@ bus = &"VoiceLines"
 unique_name_in_owner = true
 
 [node name="Blood_Particle_VFX" parent="VFX" instance=ExtResource("12_kc6td")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, -1.5, 0.9)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, -1, 0.9)
 
+[editable path="A_Shroom"]
 [editable path="VFX/Blood_Particle_VFX"]

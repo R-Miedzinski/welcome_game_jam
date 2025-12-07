@@ -1,8 +1,6 @@
-[gd_scene load_steps=31 format=3 uid="uid://bfx0rihfslwdn"]
+[gd_scene load_steps=28 format=3 uid="uid://bfx0rihfslwdn"]
 
 [ext_resource type="Script" uid="uid://75tlrxyqx1st" path="res://enemies/gnome/gnome.gd" id="1_lxi62"]
-[ext_resource type="Material" uid="uid://nghqt0ifsqwk" path="res://enemies/gnome/base_enemy_damage.tres" id="2_02xms"]
-[ext_resource type="Material" uid="uid://sirjghwctyid" path="res://enemies/gnome/base_enemy.tres" id="2_8sayp"]
 [ext_resource type="AudioStream" uid="uid://bhi5en4oi3sov" path="res://enemies/gnome/sfx/intro_gnom1.wav" id="4_jpjub"]
 [ext_resource type="AudioStream" uid="uid://emabc5cv3816" path="res://enemies/gnome/sfx/intro_gnom2.wav" id="5_kahdj"]
 [ext_resource type="AudioStream" uid="uid://b83wftctlurd5" path="res://enemies/gnome/sfx/intro_gnom3.wav" id="6_381xk"]
@@ -23,51 +21,11 @@
 [ext_resource type="AudioStream" uid="uid://64xtj6tpw2u5" path="res://enemies/gnome/sfx/attack_gnom3.wav" id="20_j783w"]
 [ext_resource type="PackedScene" uid="uid://54k4y5ff1koh" path="res://VFX/Sceny/Blood_Particle_Vfx.tscn" id="21_q7yq0"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_cnhrr"]
-resource_local_to_scene = true
-material = ExtResource("2_8sayp")
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cnhrr"]
 height = 1.0
 
 [sub_resource type="Animation" id="Animation_jc6ys"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:mesh:material")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("2_8sayp")]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("MeshInstance3D:mesh:height")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [2.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("MeshInstance3D:mesh:radius")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.5]
-}
 
 [sub_resource type="Animation" id="Animation_eb1xl"]
 resource_name = "attack"
@@ -85,59 +43,23 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_8sayp"]
 resource_name = "death"
 length = 1.25
-tracks/0/type = "value"
+tracks/0/type = "animation"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:mesh:height")
+tracks/0/path = NodePath("A_Gnome_Torch/AnimationPlayer")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.16666667, 0.333),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [2.0, 1.0, 0.2]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("MeshInstance3D:mesh:radius")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.16666667, 0.333),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.5, 0.1]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("MeshInstance3D:mesh:material")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("2_02xms")]
-}
-tracks/3/type = "animation"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("A_Gnome_Torch/AnimationPlayer")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "clips": PackedStringArray("Armature_Gnome_Death-Armature_Gnome_Death"),
 "times": PackedFloat32Array(0)
 }
-tracks/4/type = "animation"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("VFX/Blood_Particle_VFX/Blood_Anim_Play")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
+tracks/1/type = "animation"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VFX/Blood_Particle_VFX/Blood_Anim_Play")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "clips": PackedStringArray("Blood_Explosion"),
 "times": PackedFloat32Array(0)
 }
@@ -145,18 +67,6 @@ tracks/4/keys = {
 [sub_resource type="Animation" id="Animation_02xms"]
 resource_name = "hurt"
 length = 0.15
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:mesh:material")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [ExtResource("2_8sayp"), ExtResource("2_02xms")]
-}
 
 [sub_resource type="Animation" id="Animation_thlj3"]
 resource_name = "walk"
@@ -265,11 +175,6 @@ bones/63/position = Vector3(-2.777037, -2.283111, 4.0736012)
 bones/63/rotation = Quaternion(0.3604931, -0.29413602, 0.86676276, -0.179586)
 bones/64/position = Vector3(3.820748, -1.4135113, 8.036697)
 bones/64/rotation = Quaternion(0.40729737, 0.094321616, 0.32099572, 0.8498082)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
-visible = false
-mesh = SubResource("CapsuleMesh_cnhrr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
