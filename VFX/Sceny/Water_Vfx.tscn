@@ -24,6 +24,8 @@ emission_ring_radius = 1.0
 emission_ring_inner_radius = 0.0
 emission_ring_cone_angle = 90.0
 gravity = Vector3(0, 1.4, 0)
+scale_min = 0.19999999
+scale_max = 0.29999998
 scale_curve = SubResource("CurveTexture_016mk")
 
 [sub_resource type="SphereMesh" id="SphereMesh_xd1f2"]
