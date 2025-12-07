@@ -42,8 +42,10 @@ center_offset = Vector3(0, 0.4, 0)
 
 [node name="Potion_Strieks_VFX" type="GPUParticles3D" parent="."]
 material_override = SubResource("ShaderMaterial_qvoh6")
+emitting = false
 amount = 30
 lifetime = 0.4
+one_shot = true
 explosiveness = 0.9
 randomness = 1.0
 fixed_fps = 60
